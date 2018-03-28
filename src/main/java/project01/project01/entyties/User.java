@@ -12,6 +12,8 @@ public class User {
     private Integer telegramChatId;
     @OneToOne(cascade = CascadeType.ALL)
     private UserData userData;
+    @OneToOne
+    private Subsribe subsribe;
 
     public User() {
     }
@@ -26,6 +28,7 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", telegramChatId=" + telegramChatId +
                 '}';
     }
 
@@ -67,5 +70,13 @@ public class User {
 
     public void setUserData(UserData userData) {
         this.userData = userData;
+    }
+
+    public Subsribe getSubsribe() {
+        return subsribe;
+    }
+
+    public void setSubsribe(Subsribe subsribe) {
+        this.subsribe = subsribe;
     }
 }

@@ -1,5 +1,14 @@
 package project01.project01.telegram;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,11 +17,13 @@ import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.User;
 import project01.project01.entyties.UserData;
 import project01.project01.exceptions.DublicateUsersInDb;
-import project01.project01.telegram.bottons.MainCommand;
+import project01.project01.telegram.commands.MainCommand;
 import project01.project01.telegram.tx_objects.*;
 import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,7 +31,7 @@ import java.util.regex.Pattern;
 
 @RestController
 public class WebhookController {
-    private static  Logger
+    //private static Logger logger = LogManager.getLogger(WebhookController.class);
     final UserRepository userRepository;
 
     public WebhookController(UserRepository userRepository) {
@@ -47,17 +58,35 @@ public class WebhookController {
             if (user==null){
                 botMessage = startContext(userMessage);
             }else {
-                botMessage = mainContext(userMessage);
+                botMessage = mainContext(user, userMessage);
             }
-            //if (botMessage!=null)
-            // sendMessage(botMessage);
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+            //return botMessage;
         }
         return null;
     }
 
-    private SendMessage mainContext(Message userMessage) {
-        return null;
+    private SendMessage mainContext(User user, Message userMessage) {
+        MainCommand command = MainCommand.getTYPE(userMessage.getText());
+        SendMessage botMessage = new SendMessage(userMessage.getChat().getId(),"Неизвестная команда");
+        switch (command){
+            case BOTTOM011:
+                break;
+            case BOTOOM012:
+                break;
+            case BOTTOM021:
+                break;
+            case BOTTOM022:
+                break;
+            case BOTTOM031:
+                break;
+            case START:
+                botMessage.setText("Главное меню:");
+                botMessage.setReplyMarkup(createMainKeyBoard());
+                break;
+        }
+        return botMessage;
     }
 
     private SendMessage startContext(Message userMessage) {
@@ -70,6 +99,7 @@ public class WebhookController {
             userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
             user.setUserData(userData);
             userRepository.save(user);
+           // logger.info("В базу добавлен новый пользователь "+ user);
             answer = new SendMessage(user.getTelegramChatId(), "Добро пожаловать!");
             answer.setReplyMarkup(createMainKeyBoard());
         }else {
@@ -89,10 +119,10 @@ public class WebhookController {
                     validName = name;
                 }
             } catch (Exception e) {
-                log.info("Не прошло проверку имя "+name);
+              //  logger.info("Не прошло проверку имя "+name);
             }
         }
-        return name;
+        return validName;
     }
 
     private KeyboardMarkup createMainKeyBoard() {
@@ -113,7 +143,7 @@ public class WebhookController {
         restTemplate.postForObject("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/sendMessage", sendMessage,SendMessage.class);
     }
 
-/*    @PostConstruct
+    @PostConstruct
     public void init(){
         System.out.println("PostConstruct start");
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -126,5 +156,5 @@ public class WebhookController {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
         System.out.println("setwebhook");
-    }*/
+    }
 }

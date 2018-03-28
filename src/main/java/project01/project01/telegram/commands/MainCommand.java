@@ -1,10 +1,13 @@
-package project01.project01.telegram.bottons;
+package project01.project01.telegram.commands;
 
 public enum MainCommand {
+    START("/start"),
+
     BOTTOM011("кнопка 1.1"),
     BOTOOM012("конка 1.2"),
     BOTTOM021("кнопка 2.1"),
     BOTTOM022("кнопка 2.2"),
+    BOTTOM031("Кнопка 3.1"),
     //mainmenu
     SIGNALS("Сигналы"),
     NEWS("Новости"),
