@@ -8,8 +8,17 @@ public class User {
     private Integer id;
     private String login;
     private String password;
+    @Column(unique = true)
+    private Integer telegramChatId;
     @OneToOne(cascade = CascadeType.ALL)
     private UserData userData;
+
+    public User() {
+    }
+
+    public User(Integer telegramChatId) {
+        this.telegramChatId=telegramChatId;
+    }
 
     @Override
     public String toString() {
@@ -42,5 +51,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getTelegramChatId() {
+        return telegramChatId;
+    }
+
+    public void setTelegramChatId(Integer telegramChatId) {
+        this.telegramChatId = telegramChatId;
+    }
+
+    public UserData getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }
