@@ -1,6 +1,7 @@
 package project01.project01.entyties;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -12,14 +13,18 @@ public class User {
     private Integer telegramChatId;
     @OneToOne(cascade = CascadeType.ALL)
     private UserData userData;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Subsribe subsribe;
+    private LocalDateTime startDate;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Referal referal;
 
     public User() {
     }
 
     public User(Integer telegramChatId) {
         this.telegramChatId=telegramChatId;
+        this.startDate = LocalDateTime.now();
     }
 
     @Override
@@ -78,5 +83,23 @@ public class User {
 
     public void setSubsribe(Subsribe subsribe) {
         this.subsribe = subsribe;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public Referal getReferal() {
+        if (this.referal==null)
+            this.referal=new Referal();
+        return referal;
+    }
+
+    public void setReferal(Referal referal) {
+        this.referal = referal;
     }
 }

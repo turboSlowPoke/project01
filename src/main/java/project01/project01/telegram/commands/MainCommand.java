@@ -3,21 +3,13 @@ package project01.project01.telegram.commands;
 public enum MainCommand {
     START("/start"),
 
-    BOTTOM011("кнопка 1.1"),
-    BOTOOM012("конка 1.2"),
-    BOTTOM021("кнопка 2.1"),
-    BOTTOM022("кнопка 2.2"),
-    BOTTOM031("Кнопка 3.1"),
-    //mainmenu
     SIGNALS("Сигналы"),
-    NEWS("Новости"),
-    CHAT("Чат"),
-    SUBSCRIBE("Подписка"),
-    REFERALPROG("Реферальная программа"),
-    //подписка
-    SUBSCRIPTION1("Месяц 50$"),
-    SUBSCRIPTION2("Три месяца 120$"),
-    SUBSCRIPTION3("Шесть месяцев 200$"),
+    TRAINING("Обучение"),
+    REFERALS_PROG("Реферальная программа"),
+    SUBSCRIPTIONS("Подписка"),
+    ACCAUNT("Аккаунт"),
+    //mainmenu
+
 
     FAIL("Неизвестная команда");
 

@@ -10,7 +10,7 @@ public class UserData {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String email;
-    private String telegram;
+    private String telegramNikcName;
     private String firstName;
     private String lastName;
 
@@ -19,7 +19,7 @@ public class UserData {
         return "UserData{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", telegram='" + telegram + '\'' +
+                ", telegramNikcName='" + telegramNikcName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
@@ -41,12 +41,12 @@ public class UserData {
         this.email = email;
     }
 
-    public String getTelegram() {
-        return telegram;
+    public String getTelegramNikcName() {
+        return telegramNikcName;
     }
 
-    public void setTelegram(String telegram) {
-        this.telegram = telegram;
+    public void setTelegramNikcName(String telegramNikcName) {
+        this.telegramNikcName = telegramNikcName;
     }
 
     public String getFirstName() {

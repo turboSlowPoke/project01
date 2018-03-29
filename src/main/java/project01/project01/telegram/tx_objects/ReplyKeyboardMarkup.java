@@ -9,7 +9,7 @@ public class ReplyKeyboardMarkup extends KeyboardMarkup {
     @JsonProperty("keyboard")
     private List<List<KeyboardButton>> buttonList;
     @JsonProperty("resize_keyboard")
-    private Boolean resize;
+    private Boolean resize=true;
     @JsonProperty("one_time_keyboard")
     private Boolean oneTime;
     private Boolean selective;

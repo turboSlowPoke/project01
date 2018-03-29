@@ -22,16 +22,19 @@ sourceCompatibility = 9
 repositories {
 	mavenCentral()
 }
+//иначе конфликт, переполняется стек https://stackoverflow.com/questions/14024756/slf4j-class-path-contains-multiple-slf4j-bindings
+configurations.all {
+	exclude module: 'slf4j-log4j12'
 
+}
 
 dependencies {
 	compileJava.options.encoding = 'UTF-8'
 	compile('org.springframework.boot:spring-boot-starter-freemarker')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.0.0.RELEASE'
-	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: '2.0.0.RELEASE'
 	compile("com.h2database:h2")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	//иначе у hibernate проблема https://stackoverflow.com/questions/48986999/classnotfoundexception-for-javax-xml-bind-jaxbexception-with-spring-boot-when-sw
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 }
