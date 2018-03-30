@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static project01.project01.telegram.commands.MainCommand.ACCAUNT;
+
 @RestController
 public class WebhookController {
     private static final Logger log = LoggerFactory.getLogger(WebhookController.class);
@@ -119,11 +121,28 @@ public class WebhookController {
                 }else {
                     textMessage = "У вас нет рефералов.\n ";
                 }
-                textMessage=textMessage+"Чтобы пригласить реферала, отправьте ему эту <a href=\"https://t.me/tradebeepbot?start="+user.getId()+">ссылку</a>\n";
+                textMessage=textMessage+"Чтобы пригласить реферала, отправьте ему эту <a href=\"https://t.me/tradebeepbot?start="+user.getId()+"\">ссылку</a>\n";
                 botMessage.setText(textMessage);
                 botMessage.setParseMode("HTML");
                 break;
             case SUBSCRIPTIONS:
+                Subscribe subscribe = user.getSubsribe();
+                String signalsString;
+                String trainingString;
+                String resultString;
+                if (subscribe!=null&&subscribe.getEndOfSignal()!=null&&subscribe.getEndOfSignal().isAfter(LocalDate.now())) {
+                    signalsString = "Подписка на сигналы активна до " + subscribe.getEndOfSignal() + "\n";
+                }else {
+                    signalsString="Подписка на сигналы не активна\n";
+                }
+                if (subscribe!=null&&subscribe.getEndOfTraining()!=null&&subscribe.getEndOfTraining().isAfter(LocalDate.now())){
+                    trainingString="Подписка на обучение активна до "+subscribe.getEndOfTraining()+"\n";
+                }else {
+                    trainingString="Подписка на обучение не активна\n";
+                }
+                resultString=signalsString+trainingString+"Купить подписку:\n";
+                botMessage.setText(resultString);
+                botMessage.setReplyMarkup(createSubsribtionMenu());
                 break;
             case ACCAUNT:
                 break;
@@ -133,6 +152,10 @@ public class WebhookController {
                 break;
         }
         return botMessage;
+    }
+
+    private InlineKeyboardMarkup createSubsribtionMenu() {
+        return null;
     }
 
     private SendMessage startContext(Message userMessage) {
@@ -146,7 +169,7 @@ public class WebhookController {
             userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
             user.setUserData(userData);
 
-            Subsribe subsribe = new Subsribe(LocalDate.now().plusMonths(1),LocalDate.now().plusMonths(1));
+            Subscribe subsribe = new Subscribe(LocalDate.now().plusMonths(1),LocalDate.now().plusMonths(1));
             user.setSubsribe(subsribe);
 
             userRepository.save(user);
@@ -169,6 +192,7 @@ public class WebhookController {
                 user.setReferal(new Referal(parenUserId));
                 userRepository.save(user);
                 log.info("Сохранён приглашенный пользователь");
+                sendMessage(new SendMessage(parentUser.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
                 answer.setText("Добро пожаловать");
             } catch (Exception e) {
                 log.error("Зашел юзер по кривой реф ссылке");

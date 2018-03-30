@@ -14,7 +14,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private UserData userData;
     @OneToOne(cascade = CascadeType.ALL)
-    private Subsribe subsribe;
+    private Subscribe subsribe;
     private LocalDateTime startDate;
     @OneToOne(cascade = CascadeType.ALL)
     private Referal referal;
@@ -77,11 +77,11 @@ public class User {
         this.userData = userData;
     }
 
-    public Subsribe getSubsribe() {
+    public Subscribe getSubsribe() {
         return subsribe;
     }
 
-    public void setSubsribe(Subsribe subsribe) {
+    public void setSubsribe(Subscribe subsribe) {
         this.subsribe = subsribe;
     }
 
