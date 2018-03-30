@@ -155,6 +155,7 @@ public class WebhookController {
     }
 
     private InlineKeyboardMarkup createSubsribtionMenu() {
+        //
         return null;
     }
 
