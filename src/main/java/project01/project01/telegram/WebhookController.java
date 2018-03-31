@@ -2,6 +2,12 @@ package project01.project01.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +24,7 @@ import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -63,9 +70,9 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-            /*if (botMessage!=null)
-             sendMessage(botMessage);*/
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+            //return botMessage;
         }
         return null;
     }
@@ -155,8 +162,18 @@ public class WebhookController {
     }
 
     private InlineKeyboardMarkup createSubsribtionMenu() {
-        //
-        return null;
+        List<List<InlineKeyboardButton>> lines = new ArrayList<>();
+        List<InlineKeyboardButton> line1 = new ArrayList<>();
+        line1.add(new InlineKeyboardButton("bottom11","https://93.170.123.172/"));
+        line1.add(new InlineKeyboardButton("bottom12","https://93.170.123.172/"));
+        line1.add(new InlineKeyboardButton("bottom13","https://93.170.123.172/"));
+        List<InlineKeyboardButton> line2 = new ArrayList<>();
+        line2.add(new InlineKeyboardButton("bottom21","https://93.170.123.172/"));
+        line2.add(new InlineKeyboardButton("bottom22","https://93.170.123.172/"));
+        line2.add(new InlineKeyboardButton("bottom23","https://93.170.123.172/"));
+        lines.add(line1);
+        lines.add(line2);
+        return new InlineKeyboardMarkup(lines);
     }
 
     private SendMessage startContext(Message userMessage) {
@@ -248,7 +265,7 @@ public class WebhookController {
         signalRepository.save(new Signal("signal-2","body2",LocalDateTime.now().minusDays(3)));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(2),"webinar 1","www.lalal"));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(5),"webinar 2","www.lalal"));
-    /*    System.out.println("PostConstruct start");
+        System.out.println("PostConstruct start");
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
         map.add("certificate", value);
@@ -258,6 +275,6 @@ public class WebhookController {
         HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
-        System.out.println("setwebhook");*/
+        System.out.println("setwebhook");
     }
 }
