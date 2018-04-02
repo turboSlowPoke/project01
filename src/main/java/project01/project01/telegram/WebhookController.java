@@ -2,12 +2,6 @@ package project01.project01.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,23 +10,22 @@ import project01.project01.db_services.SignalRepository;
 import project01.project01.db_services.TrainingRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
+import project01.project01.enums.Global;
 import project01.project01.exceptions.DublicateUsersInDb;
 import project01.project01.exceptions.NoUserInDbException;
+import project01.project01.enums.PaidServices;
 import project01.project01.telegram.commands.MainCommand;
 import project01.project01.telegram.tx_objects.*;
 import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static project01.project01.telegram.commands.MainCommand.ACCAUNT;
 
 @RestController
 public class WebhookController {
@@ -70,9 +63,9 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-            if (botMessage!=null)
-             sendMessage(botMessage);
-            //return botMessage;
+           // if (botMessage!=null)
+           //  sendMessage(botMessage);
+            return botMessage;
         }
         return null;
     }
@@ -128,7 +121,7 @@ public class WebhookController {
                 }else {
                     textMessage = "У вас нет рефералов.\n ";
                 }
-                textMessage=textMessage+"Чтобы пригласить реферала, отправьте ему эту <a href=\"https://t.me/tradebeepbot?start="+user.getId()+"\">ссылку</a>\n";
+                textMessage=textMessage+"Чтобы пригласить реферала, отправьте ему эту <a href=\""+Global.BOT_LINK.getText()+"?start="+user.getId()+"\">ссылку</a>\n";
                 botMessage.setText(textMessage);
                 botMessage.setParseMode("HTML");
                 break;
@@ -149,7 +142,7 @@ public class WebhookController {
                 }
                 resultString=signalsString+trainingString+"Купить подписку:\n";
                 botMessage.setText(resultString);
-                botMessage.setReplyMarkup(createSubsribtionMenu());
+                botMessage.setReplyMarkup(createSubsribtionMenu(user));
                 break;
             case ACCAUNT:
                 break;
@@ -161,16 +154,16 @@ public class WebhookController {
         return botMessage;
     }
 
-    private InlineKeyboardMarkup createSubsribtionMenu() {
+    private InlineKeyboardMarkup createSubsribtionMenu(User user) {
         List<List<InlineKeyboardButton>> lines = new ArrayList<>();
         List<InlineKeyboardButton> line1 = new ArrayList<>();
-        line1.add(new InlineKeyboardButton("bottom11","https://93.170.123.172/"));
-        line1.add(new InlineKeyboardButton("bottom12","https://93.170.123.172/"));
-        line1.add(new InlineKeyboardButton("bottom13","https://93.170.123.172/"));
+        line1.add(new InlineKeyboardButton(Global.SIGNALS01.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.SIGNALS01.getText()));
+        line1.add(new InlineKeyboardButton(Global.SIGNALS02.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.SIGNALS02.getText()));
+        line1.add(new InlineKeyboardButton(Global.SIGNALS03.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.SIGNALS03.getText()));
         List<InlineKeyboardButton> line2 = new ArrayList<>();
-        line2.add(new InlineKeyboardButton("bottom21","https://93.170.123.172/"));
-        line2.add(new InlineKeyboardButton("bottom22","https://93.170.123.172/"));
-        line2.add(new InlineKeyboardButton("bottom23","https://93.170.123.172/"));
+        line2.add(new InlineKeyboardButton(Global.TRAINING01.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.TRAINING01.getText()));
+        line2.add(new InlineKeyboardButton(Global.TRAINING02.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.TRAINING02.getText()));
+        line2.add(new InlineKeyboardButton(Global.TRAINING03.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+PaidServices.TRAINING03.getText()));
         lines.add(line1);
         lines.add(line2);
         return new InlineKeyboardMarkup(lines);
@@ -187,8 +180,8 @@ public class WebhookController {
             userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
             user.setUserData(userData);
 
-            Subscribe subsribe = new Subscribe(LocalDate.now().plusMonths(1),LocalDate.now().plusMonths(1));
-            user.setSubsribe(subsribe);
+            //Subscribe subsribe = new Subscribe(LocalDate.now().plusMonths(1),LocalDate.now().plusMonths(1));
+            //user.setSubsribe(subsribe);
 
             userRepository.save(user);
             log.info("В базу добавлен новый root пользователь "+ user);
@@ -265,16 +258,16 @@ public class WebhookController {
         signalRepository.save(new Signal("signal-2","body2",LocalDateTime.now().minusDays(3)));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(2),"webinar 1","www.lalal"));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(5),"webinar 2","www.lalal"));
-        System.out.println("PostConstruct start");
-        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
-        map.add("certificate", value);
-        map.add("url","https://93.170.123.172:443/mybot");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
-        System.out.println("setwebhook");
+//        System.out.println("PostConstruct start");
+//        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+//        FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
+//        map.add("certificate", value);
+//        map.add("url","https://93.170.123.172:443/mybot");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
+//        System.out.println("setwebhook");
     }
 }
