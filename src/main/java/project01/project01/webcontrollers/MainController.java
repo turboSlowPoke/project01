@@ -1,14 +1,19 @@
 package project01.project01.webcontrollers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import project01.project01.db_services.CustomUserDetails;
 import project01.project01.db_services.UserRepository;
+import project01.project01.entyties.Role;
+import project01.project01.entyties.User;
 import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -62,5 +67,33 @@ public class MainController {
         }
         model.put("closeLink",Global.BOT_LINK.getText());
         return new ModelAndView("pay", model);
+    }
+
+    @GetMapping(value = "/login")
+    public ModelAndView login(@RequestParam Optional<String> error){
+        if (!error.isPresent())
+            error=null;
+        return new ModelAndView("login","error",error);
+    }
+
+    @GetMapping("/lk")
+    public ModelAndView lk(){
+        CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Map<String,String> model = new HashMap<>();
+        model.put("username", userDetails.getUser().getLogin());
+        return new ModelAndView("lk",model);
+    }
+
+    @PostConstruct
+    public void addUser(){
+        User user = new User();
+        user.setLogin("user01");
+        String password = new BCryptPasswordEncoder().encode("123456");
+        user.setPassword(password);
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role());
+        user.setRoles(roles);
+        userRepository.save(user);
+        System.out.println("юзер " +user +" добавлен");
     }
 }

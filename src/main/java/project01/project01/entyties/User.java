@@ -2,6 +2,7 @@ package project01.project01.entyties;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -18,6 +19,9 @@ public class User {
     private LocalDateTime startDate;
     @OneToOne(cascade = CascadeType.ALL)
     private Referal referal;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public User() {
     }
@@ -101,5 +105,13 @@ public class User {
 
     public void setReferal(Referal referal) {
         this.referal = referal;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
