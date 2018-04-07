@@ -1,7 +1,9 @@
 package project01.project01.webcontrollers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +28,7 @@ public class MainController {
     @GetMapping("/")
     public ModelAndView index(){
         Map<String, String> model = new HashMap<>();
-        return new ModelAndView("index", model);
+        return new ModelAndView("/index", model);
     }
 
     @GetMapping(value = "/pay")
@@ -83,6 +85,8 @@ public class MainController {
         model.put("username", userDetails.getUser().getLogin());
         return new ModelAndView("lk",model);
     }
+
+
 
     @PostConstruct
     public void addUser(){

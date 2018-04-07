@@ -49,6 +49,7 @@
       </div>
     </div>
   </nav>
+  <!-- Navbar -->
   <div <div class="modal fade" id="basicModal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -57,19 +58,20 @@
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
               </div>
               <div class="modal-body">
-                  <form>
+                  <form action="/login" method="post">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                       <div class="form-group">
                           <label for="exampleInputLogin">Логин</label>
-                          <input type="first_name" class="form-control" id="exampleInputLogin" placeholder="логин">
+                          <input type="text" name="username" class="form-control" id="exampleInputLogin" placeholder="login">
                       </div>
                       <div class="form-group">
                           <label for="exampleInputPassword1">Пароль</label>
-                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="пароль">
+                          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
                       </div>
-                      <div class="form-check">
-                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                      </div>
+                  <#--<div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  </div>-->
                       <button type="submit" class="btn btn-primary">Submit</button>
                       <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
                   </form>
@@ -77,7 +79,6 @@
           </div>
       </div>
   </div>
-  <!-- Navbar -->
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
     <!--Indicators-->
@@ -148,8 +149,8 @@
     </div>
     <!--/.Slides-->
     <!--Controls-->
-    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
-    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+   <#-- <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>-->
     <!--/.Controls-->
   </div>
   <!--/.Carousel Wrapper-->
@@ -543,9 +544,6 @@
     // Animations initialization
     new WOW().init();
   </script>
-  <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:180px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo&nbsp;&nbsp;
-    <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
-  </pingendo>
 </body>
 
 </html>
