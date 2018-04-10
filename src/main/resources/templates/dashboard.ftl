@@ -292,7 +292,7 @@
                 <tbody>
                 <tr>
                   <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">Подписка истекает ${endTime}</td>
+                  <td class="lead">Подписка истекает endTime</td>
                 </tr>
                 </tbody>
               </table>
@@ -310,7 +310,7 @@
                 <tbody>
                 <tr>
                   <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">Подписка истекает ${endTime}</td>
+                  <td class="lead">Подписка истекает endTime</td>
                 </tr>
                 </tbody>
               </table>
@@ -336,27 +336,27 @@
                 <tbody >
                   <tr>
                     <th scope="row">Имя</th>
-                    <td>${Имя}</td>
+                    <td>Имя</td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileFirstName">Изменить</button></td>
                   </tr>
                   <tr>
                     <th scope="row">Фамилия</th>
-                    <td>${Фамилия}</td>
+                    <td>Фамилия</td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileLastName">Изменить</button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-lock mr-1" aria-hidden="true"></i>Пароль</th>
-                    <td>${password}</td>
+                    <td>*******</td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfilePassword">Изменить</button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-envelope-o mr-1" aria-hidden="true"></i>email</th>
-                    <td>${email}</td>
+                    <td>email@email</td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail">Изменить</button></td>
                   </tr>
                   <tr>
-                    <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> @telegram</th>
-                    <td>${telegramusername}</td>
+                    <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
+                    <td>@telegramusername</td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#">Изменить</button></td>
                   </tr>
                 </tbody>
@@ -382,11 +382,11 @@
                 <tbody>
                 <tr>
                   <th scope="row">Количество рефералов</th>
-                  <td>${refCount}</td>
+                  <td>....</td>
                 </tr>
                 <tr>
                   <th scope="row">Количество оплат</th>
-                  <td>${payCount}</td>
+                  <td>....</td>
                 </tr>
                 </tbody>
               </table>
@@ -412,7 +412,7 @@
                 <tbody>
                 <tr>
                   <td><i class="fa fa-university fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">На вашем счету ${bonus} бонусов</td>
+                  <td class="lead">На вашем счету $$$ бонусов</td>
                 </tr>
                 </tbody>
               </table>

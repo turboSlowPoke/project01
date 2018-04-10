@@ -83,7 +83,7 @@ public class MainController {
         CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String,String> model = new HashMap<>();
         model.put("username", userDetails.getUser().getLogin());
-        return new ModelAndView("lk",model);
+        return new ModelAndView("dashboard",model);
     }
 
 
