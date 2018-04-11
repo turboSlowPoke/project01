@@ -28,6 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/lk").authenticated()
                     .anyRequest().permitAll()
                 .and()
+                    .oauth2Login().loginPage("login")
+                .and()
                     .formLogin()
                     .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/lk")

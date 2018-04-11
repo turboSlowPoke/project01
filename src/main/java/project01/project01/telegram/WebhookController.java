@@ -72,7 +72,7 @@ public class WebhookController {
             }
             if (botMessage!=null)
              sendMessage(botMessage);
-            return botMessage;
+            //return botMessage;
         }
         return null;
     }
@@ -265,16 +265,16 @@ public class WebhookController {
         signalRepository.save(new Signal("signal-2","body2",LocalDateTime.now().minusDays(3)));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(2),"webinar 1","www.lalal"));
         trainingRepository.save(new Training(LocalDateTime.now().plusDays(5),"webinar 2","www.lalal"));
-        System.out.println("PostConstruct start");
-        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
-        map.add("certificate", value);
-        map.add("url","https://93.170.123.172:443/mybot");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
-        System.out.println("setwebhook");
+//        System.out.println("PostConstruct start");
+//        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+//        FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
+//        map.add("certificate", value);
+//        map.add("url","https://93.170.123.172:443/mybot");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
+//        System.out.println("setwebhook");
     }
 }
