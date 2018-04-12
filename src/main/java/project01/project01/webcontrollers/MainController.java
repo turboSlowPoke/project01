@@ -3,6 +3,7 @@ package project01.project01.webcontrollers;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
+import java.awt.image.renderable.ContextualRenderedImageFactory;
 import java.util.*;
 
 @Controller
@@ -79,14 +82,14 @@ public class MainController {
     }
 
     @GetMapping("/lk")
-    public ModelAndView lk(){
+    public ModelAndView lk(@RequestParam Optional<OAuth2AuthenticationToken> authentication){
         CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (authentication.isPresent())
+            System.out.print("есть authentication");
         Map<String,String> model = new HashMap<>();
-        model.put("username", userDetails.getUser().getLogin());
+        model.put("username", "user");
         return new ModelAndView("dashboard",model);
     }
-
-
 
     @PostConstruct
     public void addUser(){
@@ -100,4 +103,5 @@ public class MainController {
         userRepository.save(user);
         System.out.println("юзер " +user +" добавлен");
     }
+
 }

@@ -75,6 +75,7 @@
                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button type="submit" class="btn btn-primary">Войти</button>
+                        <a text="Google" href="oauth2/authorization/google">Google</a>
                     </form>
                 </div>
                 <div class="col-md-4"></div>

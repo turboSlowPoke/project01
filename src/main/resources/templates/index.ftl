@@ -74,6 +74,7 @@
                   </div>-->
                       <button type="submit" class="btn btn-primary">Submit</button>
                       <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                      <a text="Google" href="oauth2/authorization/google">Google</a>
                   </form>
               </div>
           </div>
