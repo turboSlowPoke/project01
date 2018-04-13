@@ -1,14 +1,10 @@
 package project01.project01.webcontrollers;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import project01.project01.db_services.CustomUserDetails;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Role;
 import project01.project01.entyties.User;
@@ -16,20 +12,21 @@ import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
-import java.awt.image.renderable.ContextualRenderedImageFactory;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
 public class MainController {
     private final UserRepository userRepository;
 
+
     public MainController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @GetMapping("/")
-    public ModelAndView index(){
+    public ModelAndView index(HttpServletRequest request){
+        request.getSession().setAttribute("test","test");
         Map<String, String> model = new HashMap<>();
         return new ModelAndView("/index", model);
     }
@@ -79,16 +76,6 @@ public class MainController {
         if (!error.isPresent())
             error=null;
         return new ModelAndView("login","error",error);
-    }
-
-    @GetMapping("/lk")
-    public ModelAndView lk(@RequestParam Optional<OAuth2AuthenticationToken> authentication){
-        CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (authentication.isPresent())
-            System.out.print("есть authentication");
-        Map<String,String> model = new HashMap<>();
-        model.put("username", "user");
-        return new ModelAndView("dashboard",model);
     }
 
     @PostConstruct
