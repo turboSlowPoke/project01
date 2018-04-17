@@ -74,8 +74,9 @@ public class PrivatePageController {
                     //если не нашли создаем нового
                     if (users==null||users.isEmpty()){
                         user = createNewUserWithGoogleAuth(authentication);
+                    }else {
+                        user=users.get(0);
                     }
-                    user=users.get(0);
                 }else {
                     //если не гугл, то name содержит поле login User-а
                     CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

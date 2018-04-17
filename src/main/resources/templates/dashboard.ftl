@@ -297,13 +297,18 @@
                 <tbody>
                 <tr>
                   <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">Подписка истекает endTime</td>
+                  <td class="lead">
+                  <#assign subscribeBotton="Продлить">
+                  <#if (user.subsribe??&&user.subsribe.endOfSignal?date>.now)>Подписка истекает endTime
+                  <#elseif (user.subsribe??&&user.subsribe.endOfSignal<=.now)>Подписка истекла ${user.subsribe.endOfSignal}
+                  <#else>Вы еще не оформили подписку <#assign subscribeBotton="Купить подписку">
+                  </#if></td>
                 </tr>
                 </tbody>
               </table>
             </div>
             <div class="card-footer text-center ">
-              <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#signalsWindow">Продлить </button>
+              <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#signalsWindow">${subscribeBotton} </button>
             </div>
           </div>
         </div>
@@ -356,8 +361,8 @@
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-envelope-o mr-1" aria-hidden="true"></i>email</th>
-                    <td>email@email</td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail">Изменить</button></td>
+                    <td><#if user.userData.email??>${user.userData.email}</#if></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail"><#if user.userData.email??>Изменить<#else>Указать</#if></button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
