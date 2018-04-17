@@ -62,6 +62,7 @@ public class PrivatePageController {
     @GetMapping("/lk")
     public ModelAndView lk(HttpServletRequest request, Authentication authentication) {
         HttpSession session = request.getSession(false);
+        //authentication.getAuthorities().stream().map()
         User user = null;
         //user как атрибут
         if (session.getAttribute("user")==null) {
@@ -74,6 +75,7 @@ public class PrivatePageController {
                     if (users==null||users.isEmpty()){
                         user = createNewUserWithGoogleAuth(authentication);
                     }
+                    user=users.get(0);
                 }else {
                     //если не гугл, то name содержит поле login User-а
                     CustomUserDetails userDetails =  (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -109,7 +111,7 @@ public class PrivatePageController {
             String name = userAttributes.get("name").toString();
             String firstName = name.substring(0,name.indexOf(" "));
             String lastName = name.substring(name.indexOf(" "));
-            String login = email.substring(0,name.indexOf("@"));
+            String login = email.substring(0,email.indexOf("@"));
             User user = new User(login);
             user.setGoogleId(authentication.getName());
             Set<Role> roles = new HashSet<>();
