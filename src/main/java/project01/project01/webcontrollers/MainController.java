@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Role;
 import project01.project01.entyties.User;
+import project01.project01.entyties.UserData;
 import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
 
@@ -18,8 +19,6 @@ import java.util.*;
 @Controller
 public class MainController {
     private final UserRepository userRepository;
-
-
     public MainController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -80,8 +79,11 @@ public class MainController {
 
     @PostConstruct
     public void addUser(){
-        User user = new User();
-        user.setLogin("user01");
+        User user = new User("user01");
+        UserData userData = new UserData();
+        userData.setFirstName("суперимя");
+        userData.setLastName("суперфамилия");
+        user.setUserData(userData);
         String password = new BCryptPasswordEncoder().encode("123456");
         user.setPassword(password);
         Set<Role> roles = new HashSet<>();

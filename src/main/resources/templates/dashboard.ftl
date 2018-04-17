@@ -32,28 +32,33 @@
           <!-- Left -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link waves-effect" href="#">Home <span class="sr-only">(current)</span> </a>
+              <a class="nav-link waves-effect" href="#">Главная <span class="sr-only">(current)</span> </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">About MDB</a>
+              <a class="nav-link waves-effect" href="#" target="_blank">О нас</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">Free download</a>
+              <a class="nav-link waves-effect" href="#" target="_blank">Контакты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">Free tutorials</a>
+              <a class="nav-link waves-effect" href="#" target="_blank">FAQ</a>
             </li>
           </ul>
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
             <li class="nav-item">
-              <a href="#" class="nav-link waves-effect" target="_blank"> <i class="fa fa-facebook"></i> </a>
+              <b class="nav-link waves-effect" ">
+                  <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                  <#if user.login??>${user.login}
+                  <#elseif user.userData??&&user.userData.telegramNikcName??>
+                    ${user.userData.telegramNikcName}
+                  <#elseif user.userData.firstName??>${user.userData.firstName}
+                  </#if>
+              </b>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link waves-effect" target="_blank"> <i class="fa fa-twitter"></i> </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link border border-light rounded waves-effect" target="_blank"> <i class="fa fa-github mr-2"></i>MDB GitHub </a>
+              <a href="/logout" class="nav-link border border-light rounded waves-effect">
+                  <i class="fa fa-sign-out orange-text mr-1" aria-hidden="true"></i>Выйти</a>
             </li>
           </ul>
         </div>
@@ -336,12 +341,12 @@
                 <tbody >
                   <tr>
                     <th scope="row">Имя</th>
-                    <td>Имя</td>
+                    <td><#if user.userData??&&user.userData.firstName??>${user.userData.firstName}</#if></td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileFirstName">Изменить</button></td>
                   </tr>
                   <tr>
                     <th scope="row">Фамилия</th>
-                    <td>Фамилия</td>
+                    <td><#if user.userData??&&user.userData.lastName??>${user.userData.lastName}</#if></td>
                     <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileLastName">Изменить</button></td>
                   </tr>
                   <tr>

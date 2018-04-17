@@ -23,13 +23,18 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    private String googleAuthId;
+    private String googleId;
 
     public User() {
     }
 
     public User(Integer telegramChatId) {
         this.telegramChatId=telegramChatId;
+        this.startDate = LocalDateTime.now();
+    }
+
+    public User(String login) {
+        this.login = login;
         this.startDate = LocalDateTime.now();
     }
 
@@ -117,11 +122,11 @@ public class User {
         this.roles = roles;
     }
 
-    public String getGoogleAuthId() {
-        return googleAuthId;
+    public String getGoogleId() {
+        return googleId;
     }
 
-    public void setGoogleAuthId(String googleAuthId) {
-        this.googleAuthId = googleAuthId;
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }
