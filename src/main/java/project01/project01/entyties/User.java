@@ -23,6 +23,10 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID")
+    private TrainingGroup trainingGroup;
+
     private String googleId;
 
     public User() {
@@ -128,5 +132,13 @@ public class User {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+    }
+
+    public TrainingGroup getTrainingGroup() {
+        return trainingGroup;
+    }
+
+    public void setTrainingGroup(TrainingGroup trainingGroup) {
+        this.trainingGroup = trainingGroup;
     }
 }

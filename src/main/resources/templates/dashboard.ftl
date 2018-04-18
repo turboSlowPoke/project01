@@ -299,10 +299,13 @@
                   <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
                   <td class="lead">
                   <#assign subscribeBotton="Продлить">
-                  <#if (user.subsribe??&&user.subsribe.endOfSignal?date>.now)>Подписка истекает endTime
-                  <#elseif (user.subsribe??&&user.subsribe.endOfSignal<=.now)>Подписка истекла ${user.subsribe.endOfSignal}
+                  <#if user.subsribe??&&user.subsribe.endOfSignal??>
+                    <#assign curentDate=.now?date temp=""+user.subsribe.endOfSignal endDate = temp?date("yyyy-MM-dd")>
+                    <#if (curentDate<=endDate)>Ваша подписка истекает ${endDate}</#if>
+                    <#if (curentDate>endDate)>Подписка истекла ${endDate}</#if>
                   <#else>Вы еще не оформили подписку <#assign subscribeBotton="Купить подписку">
-                  </#if></td>
+                  </#if>
+                  </td>
                 </tr>
                 </tbody>
               </table>
@@ -319,14 +322,28 @@
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">Подписка истекает endTime</td>
+                  <td><i class="fa fa-calendar fa-5x" aria-hidden="true"></i></td>
+                  <td class="lead">
+                    <#assign trainingBotton="Изменить">
+                    <#if user.trainingGroup??>
+                      <#assign
+                      curentDate=.now?date
+                      endTraining=""+user.trainingGroup.endTraining endTraining = endTraining?date("yyyy-MM-dd")
+                      startTraining=""+user.trainingGroup.startTraining startTraining=startTraining?date("yyyy-MM-dd")>
+                      <#if (curentDate<=endTraining)>
+                        Начало вашего курса: ${startTraining}<br>
+                        Конец курса: ${endTraining}</#if>
+                      <#if (curentDate>endDate)>
+                          Ваш курс обучения был завершен ${endTraining} ${endDate}
+                          <#assign trainingBotton="Пройти еще раз"></#if>
+                    <#else>Вы еще не проходили наше обучение<#assign trainingBotton="Записаться"></#if>
+                  </td>
                 </tr>
                 </tbody>
               </table>
               </div>
             <div class="card-footer text-center ">
-              <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Продлить </button>
+              <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">${trainingBotton} </button>
             </div>
           </div>
           </div>

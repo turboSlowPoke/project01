@@ -2,23 +2,20 @@ package project01.project01.entyties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Training {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+public class TrainingGroup {
+    @Id @GeneratedValue
     private Integer id;
-   // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //private List<User> students;
+    private String name;
     private LocalDate startTraining;
     private LocalDate endTraining;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TRAINING_GROUP_ID")
     private List<Webinar> webinars;
-    private Boolean active;
-
-    public Training() {
-    }
+    @OneToMany(mappedBy = "trainingGroup")
+    private List<User> users;
 
     public Integer getId() {
         return id;
@@ -28,14 +25,13 @@ public class Training {
         this.id = id;
     }
 
-    public Boolean getActive() {
-        return active;
+    public String getName() {
+        return name;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setName(String name) {
+        this.name = name;
     }
-
 
     public LocalDate getStartTraining() {
         return startTraining;
@@ -59,5 +55,13 @@ public class Training {
 
     public void setWebinars(List<Webinar> webinars) {
         this.webinars = webinars;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

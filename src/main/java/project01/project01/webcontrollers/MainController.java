@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Role;
+import project01.project01.entyties.Subscribe;
 import project01.project01.entyties.User;
 import project01.project01.entyties.UserData;
 import project01.project01.enums.Global;
@@ -14,6 +15,7 @@ import project01.project01.enums.PaidServices;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -89,6 +91,9 @@ public class MainController {
         Set<Role> roles = new HashSet<>();
         roles.add(new Role());
         user.setRoles(roles);
+        Subscribe subscribe = new Subscribe();
+        subscribe.setEndOfSignal(LocalDate.now().plusMonths(1));
+        user.setSubsribe(subscribe);
         userRepository.save(user);
         System.out.println("юзер " +user +" добавлен");
     }

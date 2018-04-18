@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Controller
 public class PrivatePageController {
@@ -62,7 +64,9 @@ public class PrivatePageController {
     @GetMapping("/lk")
     public ModelAndView lk(HttpServletRequest request, Authentication authentication) {
         HttpSession session = request.getSession(false);
-        //authentication.getAuthorities().stream().map()
+//        authentication.getAuthorities().stream().map(res -> {
+//            String key1 =  ((GrantedAuthority) res).getAuthority().
+//        }).collect(Collectors.to)
         User user = null;
         //user как атрибут
         if (session.getAttribute("user")==null) {
@@ -87,7 +91,6 @@ public class PrivatePageController {
         } else {
             user = (User) session.getAttribute("user");
         }
-
 
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);

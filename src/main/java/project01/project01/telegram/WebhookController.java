@@ -2,18 +2,12 @@ package project01.project01.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import project01.project01.db_services.SignalRepository;
-import project01.project01.db_services.TrainingRepository;
+import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
@@ -26,7 +20,6 @@ import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,9 +32,9 @@ public class WebhookController {
     private static final Logger log = LoggerFactory.getLogger(WebhookController.class);
     private final UserRepository userRepository;
     private final SignalRepository signalRepository;
-    private final TrainingRepository trainingRepository;
+    private final TrainingGroupRepository trainingRepository;
 
-    public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingRepository trainingRepository) {
+    public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
         this.userRepository = userRepository;
         this.signalRepository = signalRepository;
         this.trainingRepository = trainingRepository;
@@ -102,23 +95,27 @@ public class WebhookController {
                 }
                 break;
             case TRAINING:
-                if (user.getSubsribe()!=null&&
-                        user.getSubsribe().getEndOfTraining()!=null&&
-                        user.getSubsribe().getEndOfTraining().isAfter(LocalDate.now())){
-                    List<Training> trainings = trainingRepository.findTrainingByActive(true);
-                    if (trainings!=null&&trainings.size()>0){
-                        String stringWithTrainings ="";
-                        for (Training training: trainings){
-                            stringWithTrainings=stringWithTrainings+
-                                    "Время проведения вебинара:"+training.getWebinarDate().toLocalDate().toString()+"\n "+
-                                    training.getHeader()+"\n "+
-                                    training.getUrlWebinarRoom()+"\n ";
-                        }
-                        botMessage.setText(stringWithTrainings);
-                    }
-                }else {
-                    botMessage.setText("Здесь будут отображаться приглашения на вебинар. Вам нужно оформить подписку.");
-                }
+                //если есть подписка на обучение, обучение активно
+//                if (user.getSubsribe()!=null&&
+//                        user.getSubsribe().getTraining()!=null&&
+//                        user.getSubsribe().getTraining().getActive()){
+//                    List<Webinar> webinars = user.getSubsribe().getTraining().getWebinars();
+//                    String webinarString="дата и место вебинара пока не определены";
+//                    if (webinars!=null&&!webinars.isEmpty()) {
+//                        for (Webinar webinar : webinars) {
+//                            if (webinar.getDateTime().isAfter(LocalDateTime.now())) {
+//                                webinarString = webinar.getName() + " начнется " + webinar.getDateTime();
+//                                if (webinar.getUrlWebinarRoom() != null && !webinar.getUrlWebinarRoom().isEmpty())
+//                                    webinarString = webinarString + ", <a href=\"" + webinar.getUrlWebinarRoom() + "\">ссылка на вебинар</a>";
+//                            }
+//                        }
+//                    }
+//                    botMessage.setText("Ближайший вебинар: "+webinarString);
+//
+//                }else {
+//                    botMessage.setText("Здесь будут отображаться приглашения на вебинар. Вам нужно оформить подписку.");
+//                }
+                botMessage.setText("Здесь будут отображаться приглашения на вебинар");
                 break;
             case REFERALS_PROG:
                 String textMessage = "";
@@ -134,22 +131,24 @@ public class WebhookController {
                 botMessage.setParseMode("HTML");
                 break;
             case SUBSCRIPTIONS:
-                Subscribe subscribe = user.getSubsribe();
-                String signalsString;
-                String trainingString;
-                String resultString;
-                if (subscribe!=null&&subscribe.getEndOfSignal()!=null&&subscribe.getEndOfSignal().isAfter(LocalDate.now())) {
-                    signalsString = "Подписка на сигналы активна до " + subscribe.getEndOfSignal() + "\n";
-                }else {
-                    signalsString="Подписка на сигналы не активна\n";
-                }
-                if (subscribe!=null&&subscribe.getEndOfTraining()!=null&&subscribe.getEndOfTraining().isAfter(LocalDate.now())){
-                    trainingString="Подписка на обучение активна до "+subscribe.getEndOfTraining()+"\n";
-                }else {
-                    trainingString="Подписка на обучение не активна\n";
-                }
-                resultString=signalsString+trainingString+"Купить подписку:\n";
-                botMessage.setText(resultString);
+//                Subscribe subscribe = user.getSubsribe();
+//                String signalsString;
+//                String trainingString;
+//                String resultString;
+//                if (subscribe!=null&&subscribe.getEndOfSignal()!=null&&subscribe.getEndOfSignal().isAfter(LocalDate.now())) {
+//                    signalsString = "Подписка на сигналы активна до " + subscribe.getEndOfSignal() + "\n";
+//                }else {
+//                    signalsString="Подписка на сигналы не активна\n";
+//                }
+//                if (subscribe!=null&&subscribe.getTraining()!=null&&subscribe.getTraining().getEndTraining().isAfter(LocalDate.now())){
+//                    trainingString="Дата начала курса "+subscribe.getTraining().getStartTraining()+"\n"
+//                            +"Дата конца курса "+subscribe.getTraining().getEndTraining();
+//                }else {
+//                    trainingString="Подписка на обучение не активна\n";
+//                }
+//                resultString=signalsString+trainingString+"Купить подписку:\n";
+//                botMessage.setText(resultString);
+                botMessage.setText("Подписки");
                 botMessage.setReplyMarkup(createSubsribtionMenu(user));
                 break;
             case ACCAUNT:
@@ -264,8 +263,8 @@ public class WebhookController {
     public void init(){
         signalRepository.save(new Signal("signal-1","body-1",LocalDateTime.now().minusDays(4)));
         signalRepository.save(new Signal("signal-2","body2",LocalDateTime.now().minusDays(3)));
-        trainingRepository.save(new Training(LocalDateTime.now().plusDays(2),"webinar 1","www.lalal"));
-        trainingRepository.save(new Training(LocalDateTime.now().plusDays(5),"webinar 2","www.lalal"));
+//        trainingRepository.save(new Training(LocalDateTime.now().plusDays(2),"webinar 1","www.lalal"));
+//        trainingRepository.save(new Training(LocalDateTime.now().plusDays(5),"webinar 2","www.lalal"));
 //        System.out.println("PostConstruct start");
 //        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 //        FileSystemResource value = new FileSystemResource(new File("./public_cert.pem"));
