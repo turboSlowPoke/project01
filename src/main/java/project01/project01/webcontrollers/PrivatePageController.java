@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import project01.project01.db_services.CustomUserDetails;
+import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Role;
+import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
 import project01.project01.entyties.UserData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +40,8 @@ public class PrivatePageController {
     private static final Logger log = LoggerFactory.getLogger(PrivatePageController.class);
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
+    @Autowired
+    private TrainingGroupRepository trainingGroupRepository;
 
     private final UserRepository userRepository;
 
@@ -45,7 +50,7 @@ public class PrivatePageController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/login_google_succes")
+    /*@GetMapping("/login_google_succes")
     public ModelAndView loginWithGoogleSucces(HttpServletRequest request, OAuth2AuthenticationToken authentication){
         System.out.println("login_google_succes");
         String googleAuthId = authentication.getName();
@@ -57,7 +62,7 @@ public class PrivatePageController {
         request.getSession(false).setAttribute("user",user);
         return new ModelAndView("redirect:"+"/lk");
 
-    }
+    }*/
 
 
 
@@ -91,9 +96,10 @@ public class PrivatePageController {
         } else {
             user = (User) session.getAttribute("user");
         }
-
+        List<TrainingGroup> trainingGroups = trainingGroupRepository.findTrainingGroupsByEndSetIsAfter(LocalDate.now().minusDays(1));
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
+        model.put("trainingGroups",trainingGroups);
         return new ModelAndView("dashboard", model);
 
     }

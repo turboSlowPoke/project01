@@ -2,6 +2,7 @@ package project01.project01.entyties;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,11 +23,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private TrainingGroup trainingGroup;
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<TrainingGroup> trainingGroups;
     private String googleId;
 
     public User() {
@@ -134,11 +132,11 @@ public class User {
         this.googleId = googleId;
     }
 
-    public TrainingGroup getTrainingGroup() {
-        return trainingGroup;
+    public List<TrainingGroup> getTrainingGroups() {
+        return trainingGroups;
     }
 
-    public void setTrainingGroup(TrainingGroup trainingGroup) {
-        this.trainingGroup = trainingGroup;
+    public void setTrainingGroups(List<TrainingGroup> trainingGroups) {
+        this.trainingGroups = trainingGroups;
     }
 }

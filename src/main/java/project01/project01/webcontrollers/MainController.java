@@ -1,26 +1,29 @@
 package project01.project01.webcontrollers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
-import project01.project01.entyties.Role;
-import project01.project01.entyties.Subscribe;
-import project01.project01.entyties.User;
-import project01.project01.entyties.UserData;
+import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 @Controller
 public class MainController {
     private final UserRepository userRepository;
+    @Autowired
+    private TrainingGroupRepository trainingGroupRepository;
     public MainController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -28,6 +31,10 @@ public class MainController {
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
         request.getSession().setAttribute("test","test");
+        String telegramId = request.getParameter("hr");
+        String hash = request.getParameter("hs");
+        BCrypt.hashpw()
+
         Map<String, String> model = new HashMap<>();
         return new ModelAndView("/index", model);
     }
@@ -96,6 +103,14 @@ public class MainController {
         user.setSubsribe(subscribe);
         userRepository.save(user);
         System.out.println("юзер " +user +" добавлен");
+        TrainingGroup trainingGroup = new TrainingGroup();
+        Course course = new Course();
+        course.setName("Супер курс");
+        course.setAmount(new BigDecimal("100"));
+        trainingGroup.setCourse(course);
+        trainingGroup.setStartSet(LocalDate.now());
+        trainingGroup.setEndSet(LocalDate.now().plusMonths(1));
+        trainingGroupRepository.save(trainingGroup);
     }
 
 }

@@ -9,13 +9,15 @@ public class TrainingGroup {
     @Id @GeneratedValue
     private Integer id;
     private String name;
-    private LocalDate startTraining;
-    private LocalDate endTraining;
+    private LocalDate startSet;
+    private LocalDate endSet;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "TRAINING_GROUP_ID")
     private List<Webinar> webinars;
-    @OneToMany(mappedBy = "trainingGroup")
+    @ManyToMany
     private List<User> users;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Course course;
 
     public Integer getId() {
         return id;
@@ -33,20 +35,28 @@ public class TrainingGroup {
         this.name = name;
     }
 
-    public LocalDate getStartTraining() {
-        return startTraining;
+    public LocalDate getStartSet() {
+        return startSet;
     }
 
-    public void setStartTraining(LocalDate startTraining) {
-        this.startTraining = startTraining;
+    public void setStartSet(LocalDate startSet) {
+        this.startSet = startSet;
     }
 
-    public LocalDate getEndTraining() {
-        return endTraining;
+    public LocalDate getEndSet() {
+        return endSet;
     }
 
-    public void setEndTraining(LocalDate endTraining) {
-        this.endTraining = endTraining;
+    public void setEndSet(LocalDate endSet) {
+        this.endSet = endSet;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public List<Webinar> getWebinars() {

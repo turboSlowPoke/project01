@@ -80,6 +80,33 @@
   <!--Main Navigation-->
   <!--Main layout-->
   <main class="pt-5 mx-lg-5 m-lg-5">
+      <#if user.telegramChatId??>
+      <#else >
+      <div class="container container-fluid">
+          <div class="row wow fadeIn">
+              <div class="col-md-1"></div>
+              <div class="col-md-7">
+                  <div class="card">
+                      <div class="card-header text-center"><i class="fa fa-money text-success mr-3" aria-hidden="true"></i>Бонусы</div>
+                      <div class="card-body text-center green lighten-5">
+                          <table class="table">
+                              <tbody>
+                              <tr>
+                                  <td><i class="fa fa-university fa-5x" aria-hidden="true"></i></td>
+                                  <td class="lead">На вашем счету $$$ бонусов</td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="card-footer text-center text-success">
+                          Чуть позже вы сможете их выгодно потратить!
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4"></div>
+          </div>
+      </div>
+      </#if>
 
     <div class="modal fade" id="signalsWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
@@ -140,39 +167,35 @@
           <form class="form-group" action="/sendadvcash" method="post">
             <!--Body-->
             <div class="modal-body text-center">
-              <table class="table">
-                <tbody>
-                <tr>
-                  <td>
-                    <i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text fa-5x"></i></i>
-                  </td>
-                  <td class="lead">
-                    <div class="form-check">
-                    <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="service" id="exampleRadios11" value="signals01" checked>
-                      Один месяц
-                    </label>
-                  </div>
-                    <div class="form-check">
-                      <label class="form-check-label lead">
-                        <input class="form-check-input" type="radio" name="service" id="exampleRadios12" value="signals02">
-                        Два месяца
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label lead">
-                        <input class="form-check-input" type="radio" name="service" id="exampleRadios13" value="signals03" >
-                        Три месяца
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+                <#if (trainingGroups??&&trainingGroups?size>0)>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text fa-5x"></i></i>
+                            </td>
+                            <td class="lead">
+                                <#list trainingGroups as group>
+                                    <div class="form-check">
+                                        <label class="form-check-label lead">
+                                            <input class="form-check-input" type="radio" name="trainingid_${group.id}" id="exampleRadios11" value="true" checked>
+                                            ${group.course.name} набор закроется  ${group.endSet}
+                                        </label>
+                                    </div>
+                                </#list>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                <#else>
+                <p class="lead ">На данный момент нет доступных курсов для записи</p>
+                </#if>
             </div>
             <!--Footer-->
             <div class="modal-footer text-center">
+              <#if (trainingGroups??&&trainingGroups?size>0)>
               <button class="btn btn-purple waves-effect focus" type="submit">Продолжить</button>
+              </#if>
               <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
             </div>
           </form>
@@ -289,6 +312,7 @@
     <section id="subscription"></section>
     <div class="container container-fluid mt-5">
       <div class="row wow fadeIn">
+          <#--сигналы-->
         <div class="col-md-6 mb-4">
           <div class="card ">
             <div class="card-header text-center "><i class="fa fa-bell faa-ring animated mr-3 pink-text" ></i>Сигналы</div>
@@ -315,6 +339,7 @@
             </div>
           </div>
         </div>
+            <#--обучение-->
         <div class="col-md-6 mb-4">
           <div class="card ">
             <div class="card-header text-center "><i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text"></i>Обучение</div>
@@ -322,21 +347,17 @@
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-calendar fa-5x" aria-hidden="true"></i></td>
+                  <td>
+                      <#if user.trainingGroup??><i class="fa fa-check-square fa-5x green-text" aria-hidden="true"></i></i>
+                      <#else><i class="fa fa-exclamation-triangle fa-5x orange-text" aria-hidden="true"></i></#if>
+                  </td>
                   <td class="lead">
-                    <#assign trainingBotton="Изменить">
+                    <#assign trainingBotton="Записаться">
                     <#if user.trainingGroup??>
-                      <#assign
-                      curentDate=.now?date
-                      endTraining=""+user.trainingGroup.endTraining endTraining = endTraining?date("yyyy-MM-dd")
-                      startTraining=""+user.trainingGroup.startTraining startTraining=startTraining?date("yyyy-MM-dd")>
-                      <#if (curentDate<=endTraining)>
-                        Начало вашего курса: ${startTraining}<br>
-                        Конец курса: ${endTraining}</#if>
-                      <#if (curentDate>endDate)>
-                          Ваш курс обучения был завершен ${endTraining} ${endDate}
-                          <#assign trainingBotton="Пройти еще раз"></#if>
-                    <#else>Вы еще не проходили наше обучение<#assign trainingBotton="Записаться"></#if>
+                      <#list user.trainingGroups as training>
+                          Вы записаны на курс: ${training.course.name}
+                      </#list>
+                    <#else>Запишитесь на курс<#assign trainingBotton="Записаться"></#if>
                   </td>
                 </tr>
                 </tbody>
