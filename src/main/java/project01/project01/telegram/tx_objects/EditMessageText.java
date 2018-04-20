@@ -1,7 +1,9 @@
 package project01.project01.telegram.tx_objects;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EditMessageText extends ResponseForTelegram {
     @JsonProperty("chat_id")
     private Integer chatId;
@@ -20,8 +22,9 @@ public class EditMessageText extends ResponseForTelegram {
     public EditMessageText() {
     }
 
-    public EditMessageText(String inlineMessageId, String text) {
-        this.inlineMessageId = inlineMessageId;
+    public EditMessageText(Integer chatId, Integer messageId, String text) {
+        this.chatId = chatId;
+        this.messageId = messageId;
         this.text = text;
     }
 

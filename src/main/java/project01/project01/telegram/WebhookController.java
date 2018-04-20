@@ -76,19 +76,26 @@ public class WebhookController {
         String data = callbackQuery.getData();
         Integer chatId = callbackQuery.getMessage().getChat().getId();
         if (data.equals("Обновить username")){
+            System.out.println("search user...");
             List<User> users = userRepository.findUserByTelegramChatId(chatId);
-            if (!users.isEmpty()){
+            if (users!=null&&!users.isEmpty()){
                 User user = users.get(0);
                 user.getUserData().setTelegramNikcName("@"+callbackQuery.getMessage().getChat().getUserName());
                 if (!user.getUserData().getTelegramNikcName().equals("@null")){
                     userRepository.save(user);
                     log.info("обновлен @telgranusername "+user);
-                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getInlineMessageId(),"Ваш username "+user.getUserData().getTelegramNikcName()+" сохранён");
+                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getMessage().getChat().getId(),
+                            callbackQuery.getMessage().getId(),
+                            "Ваш username "+user.getUserData().getTelegramNikcName()+" сохранён");
+                    System.out.println("sending endMessage good username....");
                     sendEditMessageText(editMessageText);
                    // return editMessageText;
                 }else {
-                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getInlineMessageId(),"Сначала настройте username");
+                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getMessage().getChat().getId(),
+                            callbackQuery.getMessage().getId(),
+                            "Сначала настройте username");
                     editMessageText.setReplyMarkup(createUpdateBottom());
+                    System.out.println("sending message bad username...");
                     sendEditMessageText(editMessageText);
                    // return editMessageText;
                 }
@@ -225,7 +232,7 @@ public class WebhookController {
             answer.setText("<b>Добро пожаловать!</b>");
             if (user.getUserData().getTelegramNikcName().equals("@null")){
                 System.out.println("send answer1...");
-                sendMessage(answer);
+               // sendMessage(answer);
                 answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
                 answer.setReplyMarkup(createUpdateBottom());
             }
