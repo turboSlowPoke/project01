@@ -1,7 +1,9 @@
 package project01.project01.telegram.rx_objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+@JsonRootName(value = "User")
 public class TelegramUser {
     private Integer id;
     @JsonProperty("is_bot")

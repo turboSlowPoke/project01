@@ -15,6 +15,7 @@ import project01.project01.exceptions.DublicateUsersInDb;
 import project01.project01.exceptions.NoUserInDbException;
 import project01.project01.enums.PaidServices;
 import project01.project01.telegram.commands.MainCommand;
+import project01.project01.telegram.rx_objects.CallbackQuery;
 import project01.project01.telegram.tx_objects.*;
 import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
@@ -33,6 +34,7 @@ public class WebhookController {
     private final UserRepository userRepository;
     private final SignalRepository signalRepository;
     private final TrainingGroupRepository trainingRepository;
+    private final String botURL ="https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M";
 
     public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
         this.userRepository = userRepository;
@@ -43,32 +45,62 @@ public class WebhookController {
 
     @RequestMapping("/mybot")
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
-        System.out.println("Пришел update");
+        System.out.println("recive update");
         if (update.getCallbackQuery()!=null){
-           // CallbackQueryAnswer answer = contextCallBackQuery(update.getCallbackQuery());
-           // answerCallbackQuery(answer);
+             return contextCallBackQuery(update.getCallbackQuery());
         }
         else {
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
             Integer chatId = userMessage.getChat().getId();
+            System.out.println("search user....");
             List<User> users = userRepository.findUserByTelegramChatId(chatId);
             User user = null;
-            if (users != null && users.size()!= 1&&users.size()!=0) {
-                throw new DublicateUsersInDb();
-            } else if (users != null && users.size() == 1) {
-                user = users.get(0);
-            }
+            if (users!=null&&!users.isEmpty())
+                 user = users.get(0);
+            System.out.println(user);
             if (user==null){
                 botMessage = startContext(userMessage);
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-//            if (botMessage!=null)
-//             sendMessage(botMessage);
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+          //  return botMessage;
         }
         return null;
+    }
+
+    private EditMessageText contextCallBackQuery(CallbackQuery callbackQuery) {
+        String id = callbackQuery.getId();
+        String data = callbackQuery.getData();
+        Integer chatId = callbackQuery.getMessage().getChat().getId();
+        if (data.equals("Обновить username")){
+            List<User> users = userRepository.findUserByTelegramChatId(chatId);
+            if (!users.isEmpty()){
+                User user = users.get(0);
+                user.getUserData().setTelegramNikcName("@"+callbackQuery.getMessage().getChat().getUserName());
+                if (!user.getUserData().getTelegramNikcName().equals("@null")){
+                    userRepository.save(user);
+                    log.info("обновлен @telgranusername "+user);
+                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getInlineMessageId(),"Ваш username "+user.getUserData().getTelegramNikcName()+" сохранён");
+                    sendEditMessageText(editMessageText);
+                   // return editMessageText;
+                }else {
+                    EditMessageText editMessageText = new EditMessageText(callbackQuery.getInlineMessageId(),"Сначала настройте username");
+                    editMessageText.setReplyMarkup(createUpdateBottom());
+                    sendEditMessageText(editMessageText);
+                   // return editMessageText;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    private void sendEditMessageText(EditMessageText editMessageText) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForObject(botURL+"/editMessageText", editMessageText,EditMessageText.class);
     }
 
     private SendMessage mainContext(User user, Message userMessage) {
@@ -179,25 +211,30 @@ public class WebhookController {
     private SendMessage startContext(Message userMessage) {
         SendMessage answer = new SendMessage(userMessage.getChat().getId(),"");
         answer.setReplyMarkup(createMainKeyBoard());
+        answer.setParseMode("HTML");
         String text = userMessage.getText();
         if (text.equals("/start")) {
             User user = new User(userMessage.getChat().getId());
             UserData userData = new UserData();
             userData.setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
             userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
+            userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
             user.setUserData(userData);
-
-            //Subscribe subsribe = new Subscribe(LocalDate.now().plusMonths(1),LocalDate.now().plusMonths(1));
-            //user.setSubsribe(subsribe);
-
             userRepository.save(user);
             log.info("В базу добавлен новый root пользователь "+ user);
-            answer.setText("Добро пожаловать!");
+            answer.setText("<b>Добро пожаловать!</b>");
+            if (user.getUserData().getTelegramNikcName().equals("@null")){
+                System.out.println("send answer1...");
+                sendMessage(answer);
+                answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
+                answer.setReplyMarkup(createUpdateBottom());
+            }
         }else if(text.startsWith("/start")){
             User user = new User(userMessage.getChat().getId());
             UserData userData = new UserData();
             userData.setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
             userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
+            userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
             user.setUserData(userData);
             try {
                 Integer parenUserId = Integer.parseInt(text.substring(7));
@@ -211,17 +248,31 @@ public class WebhookController {
                 userRepository.save(user);
                 log.info("Сохранён приглашенный пользователь");
                 sendMessage(new SendMessage(parentUser.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
-                answer.setText("Добро пожаловать");
+                answer.setText("<b>Добро пожаловать</b>");
             } catch (Exception e) {
                 log.error("Зашел юзер по кривой реф ссылке");
                 userRepository.save(user);
-                answer.setText("Добро пожаловать.\n Внимание, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
+                answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
+            }
+
+            if (user.getUserData().getTelegramNikcName().equals("@null")){
+                sendMessage(answer);
+                answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
+                answer.setReplyMarkup(createUpdateBottom());
             }
         }
         else {
             answer = new SendMessage(userMessage.getChat().getId(),"Ошибка: Вас нет в базе. Нажмите /start");
         }
         return answer;
+    }
+
+    private InlineKeyboardMarkup createUpdateBottom() {
+        List<List<InlineKeyboardButton>> lines = new ArrayList<>();
+        List<InlineKeyboardButton> line1 = new ArrayList<>();
+        line1.add(new InlineKeyboardButton("Обновить username"));
+        lines.add(line1);
+        return new InlineKeyboardMarkup(lines);
     }
 
     private String getValidPartName(String name) {
@@ -256,7 +307,8 @@ public class WebhookController {
 
     private void sendMessage(SendMessage sendMessage) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/sendMessage", sendMessage,SendMessage.class);
+        System.out.println("rest zapros");
+        restTemplate.postForObject(botURL+"/sendMessage", sendMessage,SendMessage.class);
     }
 
     @PostConstruct

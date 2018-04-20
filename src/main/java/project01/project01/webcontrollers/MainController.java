@@ -17,6 +17,8 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -30,10 +32,18 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
-        request.getSession().setAttribute("test","test");
+
         String telegramId = request.getParameter("hr");
-        String hash = request.getParameter("hs");
-        BCrypt.hashpw()
+        if(telegramId!=null) {
+            String  parameter = telegramId+"MegaP0kem0n";
+            //String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
+            //System.out.println(generatedSecuredPasswordHash);
+            //System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
+            if (request.getParameter("hs")!=null) {
+                System.out.println(BCrypt.checkpw(parameter, request.getParameter("hs")));
+            }
+
+        }
 
         Map<String, String> model = new HashMap<>();
         return new ModelAndView("/index", model);

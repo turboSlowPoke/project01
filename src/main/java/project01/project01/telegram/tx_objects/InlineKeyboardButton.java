@@ -23,6 +23,11 @@ public class InlineKeyboardButton {
         this.url = url;
     }
 
+    public InlineKeyboardButton(String text) {
+        this.callbackData = text;
+        this.text = text;
+    }
+
     public String getText() {
         return text;
     }
