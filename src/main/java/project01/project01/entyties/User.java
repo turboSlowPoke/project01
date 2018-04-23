@@ -26,6 +26,7 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<TrainingGroup> trainingGroups;
     private String googleId;
+    private String hash;
 
     public User() {
     }
@@ -140,5 +141,13 @@ public class User {
 
     public void setTrainingGroups(List<TrainingGroup> trainingGroups) {
         this.trainingGroups = trainingGroups;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

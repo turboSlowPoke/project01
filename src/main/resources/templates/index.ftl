@@ -16,6 +16,37 @@
   <link href="css/style.min.css" rel="stylesheet"> </head>
 
 <body>
+<div <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Авторизация</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+            </div>
+            <div class="modal-body">
+                <form action="/login" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <div class="form-group">
+                        <label for="exampleInputLogin">Логин</label>
+                        <input type="text" name="username" class="form-control" id="exampleInputLogin" placeholder="login">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Пароль</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+                    </div>
+                <#--<div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>-->
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
+                    <a text="Google" href="oauth2/authorization/google">Google</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
   <!-- Navbar -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container">
@@ -43,43 +74,14 @@
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
           <li class="nav-item">
-            <a href="#" class="nav-link border border-light rounded" target="_blank" data-toggle="modal" data-target="#basicModal"> <i class="fa fa-sign-in"></i>Войти </a>
+            <a href="#" class="nav-link border border-light rounded" target="_blank" data-toggle="modal" data-target="#loginModal"> <i class="fa fa-sign-in"></i>Войти </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
   <!-- Navbar -->
-  <div <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabel">Авторизация</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-              </div>
-              <div class="modal-body">
-                  <form action="/login" method="post">
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <div class="form-group">
-                          <label for="exampleInputLogin">Логин</label>
-                          <input type="text" name="username" class="form-control" id="exampleInputLogin" placeholder="login">
-                      </div>
-                      <div class="form-group">
-                          <label for="exampleInputPassword1">Пароль</label>
-                          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
-                      </div>
-                  <#--<div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>-->
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                      <button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button>
-                      <a text="Google" href="oauth2/authorization/google">Google</a>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
+
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
     <!--Indicators-->

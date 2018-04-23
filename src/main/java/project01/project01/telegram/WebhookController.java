@@ -2,6 +2,7 @@ package project01.project01.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import project01.project01.db_services.SignalRepository;
 import project01.project01.db_services.TrainingGroupRepository;
+import project01.project01.db_services.UserDataRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
@@ -35,6 +37,8 @@ public class WebhookController {
     private final UserRepository userRepository;
     private final SignalRepository signalRepository;
     private final TrainingGroupRepository trainingRepository;
+    @Autowired
+    private  UserDataRepository userDataRepository;
     private final String botURL ="https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M";
 
     public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
@@ -46,7 +50,7 @@ public class WebhookController {
 
     @RequestMapping("/mybot")
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
-        System.out.println("recive update");
+        System.out.println("recive update " + update.getMessage().getText());
         if (update.getCallbackQuery()!=null){
              return contextCallBackQuery(update.getCallbackQuery());
         }
@@ -65,11 +69,11 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-          //  if (botMessage!=null)
-          //   sendMessage(botMessage);
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+            //return botMessage;
         }
-        //return null;
+        return null;
     }
 
     private EditMessageText contextCallBackQuery(CallbackQuery callbackQuery) {
@@ -268,22 +272,20 @@ public class WebhookController {
                 userRepository.save(user);
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
             }
-        }else if (text.startsWith("/start=un")){// start=un123456789_WF<!@#E
-            try {
-                String parametrUserId = text.substring(9,text.indexOf("_"));
-                String hash = text.substring(text.indexOf("_")+1);
-                if (hash==null||parametrUserId==null)
-                    throw new Exception();
-                if (!BCrypt.checkpw(parametrUserId+Global.COD_WORD, hash))
-                    throw new Exception();
-                Integer userId = Integer.parseInt(parametrUserId);
-                List<User> users = userRepository.findUserById(userId);
-                if (users==null||users.isEmpty())
-                    throw  new Exception();
+        }else if (text.startsWith("/start=")&&text.substring(6).length()==64){// /start=123456789,,,
+            List<User> users = userRepository.findUserByHash(text.substring(6));
+            if (users!=null&&!users.isEmpty()){
                 User user = users.get(0);
                 user.setTelegramChatId(userMessage.getChat().getId());
+                user.getUserData().setTelegramNikcName("@"+userMessage.getChat().getUserName());
+                if (user.getUserData().getFirstName()==null)
+                    user.getUserData().setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
+                if (user.getUserData().getLastName()==null)
+                    user.getUserData().setLastName(getValidPartName(userMessage.getChat().getLastName()));
                 userRepository.save(user);
-            }catch (Exception e){
+                userDataRepository.save(user.getUserData());
+                log.info("Юзеру выполнена привязка телеграм "+user);
+            }else{
                 log.warn("Юзер перешел по кривой ссылке из личного кабинета: " +text);
                 System.out.println("Юзер перешел по кривой ссылке из личного кабинета: " +text);
                 answer.setText("<<b>Вниманией!</b> В ссылке по которой вы перешли ошибка, бот не может привязать вашу учетку в telegram к личному кабинету");

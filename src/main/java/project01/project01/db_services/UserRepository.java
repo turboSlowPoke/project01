@@ -13,4 +13,5 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     Optional<User> findUserByLogin(String login);
     List<User> findUserByTelegramChatId(Integer id);
     List<User> findUserByGoogleId(String googleAuthId);
+    List<User> findUserByHash(String hash);
 }
