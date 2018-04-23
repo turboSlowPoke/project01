@@ -191,7 +191,19 @@ public class WebhookController {
                 botMessage.setText("Подписки");
                 botMessage.setReplyMarkup(createSubsribtionMenu(user));
                 break;
-            case ACCAUNT:
+            case PRIVATE_PAGE:
+                String privatePageText = "";
+                if (user.getGoogleId()==null&&user.getLogin()==null){
+                    String  parameterUserId = user.getId().toString();
+                    String hashUserId = BCrypt.hashpw(parameterUserId+Global.COD_WORD, BCrypt.gensalt(12));
+                    privatePageText = "К боту не привязан линый кабинет!\n";
+                    privatePageText=privatePageText+"Чтобы устанновить логин отправьте /login <i>ваш логин</i>";
+                    privatePageText=privatePageText+"Чтобы установить пароль отправьте /pass <i>ваш пароль</i>";
+                    privatePageText=privatePageText+"Также доступна авторизация через гугл\n";
+                    privatePageText= privatePageText+"Перейти в личный кабинет нужно по этой " +
+                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?un="+parameterUserId+"&hs="+hashUserId+">ссылке</a>";
+                }
+                botMessage.setText(privatePageText);
                 break;
             case START:
                 botMessage.setText("Главное меню:");
@@ -322,8 +334,11 @@ public class WebhookController {
         List<KeyboardButton> line2 = new ArrayList<>();
         line2.add(new KeyboardButton(MainCommand.REFERALS_PROG.getText()));
         line2.add(new KeyboardButton(MainCommand.SUBSCRIPTIONS.getText()));
+        List<KeyboardButton> line3 = new ArrayList<>();
+        line3.add(new KeyboardButton(MainCommand.PRIVATE_PAGE.getText()));
         buttonList.add(line1);
         buttonList.add(line2);
+        buttonList.add(line3);
         return new ReplyKeyboardMarkup(buttonList);
     }
 

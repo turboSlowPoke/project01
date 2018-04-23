@@ -50,7 +50,7 @@
     </div>
   </nav>
   <!-- Navbar -->
-  <div <div class="modal fade" id="basicModal" tabindex="-1" role="dialog">
+  <div <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
@@ -545,6 +545,14 @@
     // Animations initialization
     new WOW().init();
   </script>
+
+  <#if loginModalIsActive??>
+      <script type="text/javascript">
+          $(window).on('load',function(){
+              $('#loginModal').modal('show');
+          });
+      </script>
+  </#if>
 </body>
 
 </html>

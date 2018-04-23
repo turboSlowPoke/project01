@@ -75,6 +75,7 @@ public class PrivatePageController {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
 //        }).collect(Collectors.to)
         User user = null;
+        String userIdFromTelegramLink = (String) session.getAttribute("userIdFromTelegramLink");
         //user как атрибут
         if (session.getAttribute("user")==null) {
             //проверяем какого типа авторизация, если через гугл то name содержит только цифры google id
@@ -84,7 +85,11 @@ public class PrivatePageController {
                     List<User> users = userRepository.findUserByGoogleId(currentPrincipalName);
                     //если не нашли создаем нового
                     if (users==null||users.isEmpty()){
-                        user = createNewUserWithGoogleAuth(authentication);
+                        if (userIdFromTelegramLink==null) {
+                            user = createNewUserWithGoogleAuth(authentication);
+                        }else {
+                            user = addGoogleIdToUser(authentication,userIdFromTelegramLink);
+                        }
                     }else {
                         user=users.get(0);
                     }
@@ -110,6 +115,38 @@ public class PrivatePageController {
         }
         return new ModelAndView("dashboard", model);
 
+    }
+
+    private User addGoogleIdToUser(Authentication authentication, String userIdFromTelegramLink) {
+        OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient("google", authentication.getName());
+        String userInfoEndpointUri = authorizedClient.getClientRegistration()
+                .getProviderDetails().getUserInfoEndpoint().getUri();
+        if (!StringUtils.isEmpty(userInfoEndpointUri)) {
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + authorizedClient.getAccessToken()
+                    .getTokenValue());
+            HttpEntity entity = new HttpEntity("", headers);
+            ResponseEntity<Map> response = restTemplate
+                    .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
+            Map userAttributes = response.getBody();
+            String email = userAttributes.get("email").toString();
+            String name = userAttributes.get("name").toString();
+            String firstName = name.substring(0,name.indexOf(" "));
+            String lastName = name.substring(name.indexOf(" "));
+            String login = email.substring(0,email.indexOf("@"));
+            User user = userRepository.findUserById(Integer.parseInt(userIdFromTelegramLink)).get(0);
+            user.setGoogleId(authentication.getName());
+            UserData userData = user.getUserData();
+            userData.setEmail(email);
+            userData.setFirstName(firstName);
+            userData.setLastName(lastName);
+            userRepository.save(user);
+            log.info("Сохранён пользователь, перешедший по ссылке из телеграм "+user);
+            return user;
+        }
+
+        return null;
     }
 
     private User createNewUserWithGoogleAuth(Authentication authentication) {

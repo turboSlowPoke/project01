@@ -7,7 +7,7 @@ public enum MainCommand {
     TRAINING("Обучение"),
     REFERALS_PROG("Реферальная программа"),
     SUBSCRIPTIONS("Подписка"),
-    ACCAUNT("Аккаунт"),
+    PRIVATE_PAGE("Личный кабинет"),
     //mainmenu
 
 

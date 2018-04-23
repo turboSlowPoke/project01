@@ -83,6 +83,8 @@ public class User {
     }
 
     public UserData getUserData() {
+        if (this.userData==null)
+            this.userData= new UserData();
         return userData;
     }
 

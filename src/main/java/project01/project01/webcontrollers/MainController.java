@@ -1,5 +1,7 @@
 package project01.project01.webcontrollers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,9 +14,11 @@ import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.enums.PaidServices;
+import project01.project01.telegram.WebhookController;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +27,7 @@ import java.util.*;
 
 @Controller
 public class MainController {
+    private static final Logger log = LoggerFactory.getLogger(WebhookController.class);
     private final UserRepository userRepository;
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
@@ -32,19 +37,30 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
-        String telegramId = request.getParameter("hr");
-        if(telegramId!=null) {
-            String  parameter = telegramId+"MegaP0kem0n";
-            String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
-            System.out.println(generatedSecuredPasswordHash);
-            System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
-            if (request.getParameter("hs")!=null) {
-                System.out.println(BCrypt.checkpw(parameter, request.getParameter("hs")));
-            }
-
-        }
-
+//        String telegramId = request.getParameter("hr");
+//        if(telegramId!=null) {
+//            String  parameter = telegramId+"MegaP0kem0n";
+//            String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
+//            System.out.println(generatedSecuredPasswordHash);
+//            System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
+//            if (request.getParameter("hs")!=null) {
+//                System.out.println(BCrypt.checkpw(parameter, request.getParameter("hs")));
+//            }
+//
+//        }
+        HttpSession session = request.getSession();
         Map<String, String> model = new HashMap<>();
+        String parametrUserId = request.getParameter("un");
+        String hash = request.getParameter("hs");
+        if (parametrUserId!=null &&hash!=null){
+            if (BCrypt.checkpw(parametrUserId+Global.COD_WORD, hash)){
+                log.info("Юзер перешел по сылке из телеграм");
+                session.setAttribute("userIdFromTelegramLink",parametrUserId);
+                model.put("loginModalIsActive","active");
+            }else {
+                log.warn("Юзер перешел по кривой ссылке из телеграм");
+            }
+        }
         return new ModelAndView("/index", model);
     }
 
