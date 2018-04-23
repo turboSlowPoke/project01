@@ -80,31 +80,19 @@
   <!--Main Navigation-->
   <!--Main layout-->
   <main class="pt-5 mx-lg-5 m-lg-5">
-      <#if user.telegramChatId??>
-      <#else >
+      <#if botLink??>
       <div class="container container-fluid">
           <div class="row wow fadeIn">
-              <div class="col-md-1"></div>
-              <div class="col-md-7">
+              <div class="col-md-12">
                   <div class="card">
-                      <div class="card-header text-center"><i class="fa fa-money text-success mr-3" aria-hidden="true"></i>Бонусы</div>
+                      <div class="card-header text-center"><i class="fa fa-exclamation-circle text-danger mr-3" aria-hidden="true"></i> Внимание</div>
                       <div class="card-body text-center green lighten-5">
-                          <table class="table">
-                              <tbody>
-                              <tr>
-                                  <td><i class="fa fa-university fa-5x" aria-hidden="true"></i></td>
-                                  <td class="lead">На вашем счету $$$ бонусов</td>
-                              </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="card-footer text-center text-success">
-                          Чуть позже вы сможете их выгодно потратить!
-                      </div>
+                         Присоедитесь к нашему боту в telegram <i class="fa fa-telegram" aria-hidden="true"></i>
+                          , перейдя по <a href="${botLink}"> ссылке </a>.
                   </div>
               </div>
-              <div class="col-md-4"></div>
           </div>
+      </div>
       </div>
       </#if>
 

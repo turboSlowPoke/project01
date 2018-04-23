@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -26,6 +27,7 @@ import project01.project01.entyties.Role;
 import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
 import project01.project01.entyties.UserData;
+import project01.project01.enums.Global;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -96,10 +98,16 @@ public class PrivatePageController {
         } else {
             user = (User) session.getAttribute("user");
         }
+
         List<TrainingGroup> trainingGroups = trainingGroupRepository.findTrainingGroupsByEndSetIsAfter(LocalDate.now().minusDays(1));
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("trainingGroups",trainingGroups);
+        if (user.getTelegramChatId()==null) {
+            String  parameterUserId = user.getId().toString();
+            String hashUserId = BCrypt.hashpw(parameterUserId+Global.COD_WORD, BCrypt.gensalt(12));
+            model.put("botLink",Global.BOT_LINK.getText()+"?start=un"+parameterUserId+"_"+hashUserId);
+        }
         return new ModelAndView("dashboard", model);
 
     }

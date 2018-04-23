@@ -32,13 +32,12 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
-
         String telegramId = request.getParameter("hr");
         if(telegramId!=null) {
             String  parameter = telegramId+"MegaP0kem0n";
-            //String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
-            //System.out.println(generatedSecuredPasswordHash);
-            //System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
+            String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
+            System.out.println(generatedSecuredPasswordHash);
+            System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
             if (request.getParameter("hs")!=null) {
                 System.out.println(BCrypt.checkpw(parameter, request.getParameter("hs")));
             }

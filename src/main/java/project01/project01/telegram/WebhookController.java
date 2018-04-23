@@ -2,6 +2,7 @@ package project01.project01.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,11 +65,11 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-            if (botMessage!=null)
-             sendMessage(botMessage);
-          //  return botMessage;
+          //  if (botMessage!=null)
+          //   sendMessage(botMessage);
+            return botMessage;
         }
-        return null;
+        //return null;
     }
 
     private EditMessageText contextCallBackQuery(CallbackQuery callbackQuery) {
@@ -217,6 +218,7 @@ public class WebhookController {
 
     private SendMessage startContext(Message userMessage) {
         SendMessage answer = new SendMessage(userMessage.getChat().getId(),"");
+        answer.setText("<b>Добро пожаловать!</b>");
         answer.setReplyMarkup(createMainKeyBoard());
         answer.setParseMode("HTML");
         String text = userMessage.getText();
@@ -228,15 +230,8 @@ public class WebhookController {
             userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
             user.setUserData(userData);
             userRepository.save(user);
-            log.info("В базу добавлен новый root пользователь "+ user);
-            answer.setText("<b>Добро пожаловать!</b>");
-            if (user.getUserData().getTelegramNikcName().equals("@null")){
-                System.out.println("send answer1...");
-               // sendMessage(answer);
-                answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
-                answer.setReplyMarkup(createUpdateBottom());
-            }
-        }else if(text.startsWith("/start")){
+            log.info("В базу добавлен новый root пользователь... "+ user);
+        }else if(text.startsWith("/start=ref_")){
             User user = new User(userMessage.getChat().getId());
             UserData userData = new UserData();
             userData.setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
@@ -244,7 +239,7 @@ public class WebhookController {
             userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
             user.setUserData(userData);
             try {
-                Integer parenUserId = Integer.parseInt(text.substring(7));
+                Integer parenUserId = Integer.parseInt(text.substring(11));
                 User parentUser = userRepository.findUserById(parenUserId).get(0);
                 if (parentUser==null)
                     throw new NoUserInDbException();
@@ -261,15 +256,35 @@ public class WebhookController {
                 userRepository.save(user);
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
             }
-
-            if (user.getUserData().getTelegramNikcName().equals("@null")){
-                sendMessage(answer);
-                answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
-                answer.setReplyMarkup(createUpdateBottom());
+        }else if (text.startsWith("/start=un")){// start=un123456789_WF<!@#E
+            try {
+                String parametrUserId = text.substring(9,text.indexOf("_"));
+                String hash = text.substring(text.indexOf("_")+1);
+                if (hash==null||parametrUserId==null)
+                    throw new Exception();
+                if (!BCrypt.checkpw(parametrUserId+Global.COD_WORD, hash))
+                    throw new Exception();
+                Integer userId = Integer.parseInt(parametrUserId);
+                List<User> users = userRepository.findUserById(userId);
+                if (users==null||users.isEmpty())
+                    throw  new Exception();
+                User user = users.get(0);
+                user.setTelegramChatId(userMessage.getChat().getId());
+                userRepository.save(user);
+            }catch (Exception e){
+                log.warn("Юзер перешел по кривой ссылке из личного кабинета: " +text);
+                System.out.println("Юзер перешел по кривой ссылке из личного кабинета: " +text);
+                answer.setText("<<b>Вниманией!</b> В ссылке по которой вы перешли ошибка, бот не может привязать вашу учетку в telegram к личному кабинету");
+                answer.setReplyMarkup(null);
             }
-        }
-        else {
+        } else {
             answer = new SendMessage(userMessage.getChat().getId(),"Ошибка: Вас нет в базе. Нажмите /start");
+        }
+
+        if (!answer.getText().equals("Ошибка: Вас нет в базе. Нажмите /start")&&userMessage.getChat().getUserName()==null){
+            sendMessage(answer);
+            answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
+            answer.setReplyMarkup(createUpdateBottom());
         }
         return answer;
     }
