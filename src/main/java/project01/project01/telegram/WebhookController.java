@@ -24,9 +24,15 @@ import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,11 +75,11 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-            if (botMessage!=null)
-             sendMessage(botMessage);
-            //return botMessage;
+           // if (botMessage!=null)
+           //  sendMessage(botMessage);
+            return botMessage;
         }
-        return null;
+        //return null;
     }
 
     private EditMessageText contextCallBackQuery(CallbackQuery callbackQuery) {
@@ -232,33 +238,26 @@ public class WebhookController {
         return new InlineKeyboardMarkup(lines);
     }
 
-    private SendMessage startContext(Message userMessage) {
-        SendMessage answer = new SendMessage(userMessage.getChat().getId(),"");
+    private SendMessage startContext(Message incomingMessage) {
+        SendMessage answer = new SendMessage(incomingMessage.getChat().getId(),"");
         answer.setText("<b>Добро пожаловать!</b>");
         answer.setReplyMarkup(createMainKeyBoard());
         answer.setParseMode("HTML");
-        String text = userMessage.getText();
+        String text = incomingMessage.getText();
+        User user;
+        String t = text.substring(6);
+        Integer len = text.substring(6).length();
         if (text.equals("/start")) {
-            User user = new User(userMessage.getChat().getId());
-            UserData userData = new UserData();
-            userData.setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
-            userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
-            userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
-            user.setUserData(userData);
-            userRepository.save(user);
-            log.info("В базу добавлен новый root пользователь... "+ user);
-        }else if(text.startsWith("/start=ref_")){
-            User user = new User(userMessage.getChat().getId());
-            UserData userData = new UserData();
-            userData.setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
-            userData.setLastName(getValidPartName(userMessage.getChat().getLastName()));
-            userData.setTelegramNikcName("@"+userMessage.getChat().getUserName());
-            user.setUserData(userData);
+            user = createNewUser(incomingMessage);
+            log.info("В базу добавлен новый root пользователь");
+        }else if(text.startsWith("/start=ref")){
+            user = createNewUser(incomingMessage);
             try {
-                Integer parenUserId = Integer.parseInt(text.substring(11));
-                User parentUser = userRepository.findUserById(parenUserId).get(0);
-                if (parentUser==null)
-                    throw new NoUserInDbException();
+                Integer parenUserId = Integer.parseInt(text.substring(9));
+                List<User> users = userRepository.findUserById(parenUserId);
+                if (users==null||users.isEmpty())
+                    throw new Exception();
+                User parentUser= users.get(0);
                 parentUser.getReferal().plusOneReferal();
                 userRepository.save(parentUser);
                 log.info("Юзеру добавлен реферал "+parentUser);
@@ -272,16 +271,16 @@ public class WebhookController {
                 userRepository.save(user);
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
             }
-        }else if (text.startsWith("/start=")&&text.substring(6).length()==64){// /start=123456789,,,
-            List<User> users = userRepository.findUserByHash(text.substring(6));
+        }else if (text.startsWith("/start=")&&text.substring(7).length()==64){// /start=123456789,,,
+            List<User> users = userRepository.findUserByHash(text.substring(7));
             if (users!=null&&!users.isEmpty()){
-                User user = users.get(0);
-                user.setTelegramChatId(userMessage.getChat().getId());
-                user.getUserData().setTelegramNikcName("@"+userMessage.getChat().getUserName());
+                user = users.get(0);
+                user.setTelegramChatId(incomingMessage.getChat().getId());
+                user.getUserData().setTelegramNikcName("@"+incomingMessage.getChat().getUserName());
                 if (user.getUserData().getFirstName()==null)
-                    user.getUserData().setFirstName(getValidPartName(userMessage.getChat().getFirstName()));
+                    user.getUserData().setFirstName(getValidPartName(incomingMessage.getChat().getFirstName()));
                 if (user.getUserData().getLastName()==null)
-                    user.getUserData().setLastName(getValidPartName(userMessage.getChat().getLastName()));
+                    user.getUserData().setLastName(getValidPartName(incomingMessage.getChat().getLastName()));
                 userRepository.save(user);
                 userDataRepository.save(user.getUserData());
                 log.info("Юзеру выполнена привязка телеграм "+user);
@@ -292,15 +291,42 @@ public class WebhookController {
                 answer.setReplyMarkup(null);
             }
         } else {
-            answer = new SendMessage(userMessage.getChat().getId(),"Ошибка: Вас нет в базе. Нажмите /start");
+            answer = new SendMessage(incomingMessage.getChat().getId(),"Ошибка: Вас нет в базе. Нажмите /start");
         }
 
-        if (!answer.getText().equals("Ошибка: Вас нет в базе. Нажмите /start")&&userMessage.getChat().getUserName()==null){
+        if (!answer.getText().equals("Ошибка: Вас нет в базе. Нажмите /start")&&incomingMessage.getChat().getUserName()==null){
             sendMessage(answer);
             answer.setText("<b>Внимание!</b> Для взаимодействия с вами при обучении, нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить");
             answer.setReplyMarkup(createUpdateBottom());
         }
         return answer;
+    }
+
+    private User createNewUser(Message incomingMessage) {
+        UserData userData = new UserData();
+        userData.setFirstName(getValidPartName(incomingMessage.getChat().getFirstName()));
+        userData.setLastName(getValidPartName(incomingMessage.getChat().getLastName()));
+        userData.setTelegramNikcName("@"+incomingMessage.getChat().getUserName());
+        User user = new User();
+        user.setStartDate(LocalDateTime.now());
+        user.setTelegramChatId(incomingMessage.getChat().getId());
+        user.setRoles(new HashSet<Role>(Arrays.asList(new Role())));
+        user.setLogin(incomingMessage.getChat().getUserName());
+        userRepository.save(user);
+        String stringForHash = user.getId().toString()+user.getStartDate().toString()+Global.COD_WORD;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(stringForHash.getBytes(StandardCharsets.UTF_8));
+        byte[] digest = md.digest();
+        String hash = String.format("%064x", new BigInteger( 1, digest ) );
+        user.setHash(hash);
+        userRepository.save(user);
+        log.info("Сохранён новый юзер: "+user);
+        return user;
     }
 
     private InlineKeyboardMarkup createUpdateBottom() {

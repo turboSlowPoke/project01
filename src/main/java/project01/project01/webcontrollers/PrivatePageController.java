@@ -114,19 +114,6 @@ public class PrivatePageController {
         model.put("user", user);
         model.put("trainingGroups",trainingGroups);
         if (user.getTelegramChatId()==null) {
-//            String  parameterUserId = user.getId().toString();
-//            String hashUserId = BCrypt.hashpw(parameterUserId+Global.COD_WORD, BCrypt.gensalt(12));
-//            model.put("botLink",Global.BOT_LINK.getText()+"?start=un"+parameterUserId+"_"+hashUserId);
-//            String checkString = user.getId().toString()+Global.COD_WORD.getText();
-//            MessageDigest md = null;
-//            try {
-//                md = MessageDigest.getInstance("SHA-256");
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            }
-//            md.update(checkString.getBytes(StandardCharsets.UTF_8));
-//            byte[] digest = md.digest();
-//            String hash = String.format("%064x", new BigInteger( 1, digest ) );
             model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
         }
         return new ModelAndView("dashboard", model);
@@ -180,7 +167,6 @@ public class PrivatePageController {
                     .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
 
-
             String email = userAttributes.get("email").toString();
             String name = userAttributes.get("name").toString();
             String firstName = name.substring(0,name.indexOf(" "));
@@ -190,9 +176,11 @@ public class PrivatePageController {
             User user = new User();
             userRepository.save(user);
             user.setLogin(login);
-
+            user.setStartDate(LocalDateTime.now());
+            user.setGoogleId(authentication.getName());
+            user.setRoles(new HashSet<Role>(Arrays.asList(new Role())));
             //create hash
-            String checkString = user.getId().toString()+Global.COD_WORD.getText();
+            String checkString = user.getId().toString()+user.getStartDate()+Global.COD_WORD.getText();
             MessageDigest md = null;
             try {
                 md = MessageDigest.getInstance("SHA-256");
@@ -202,14 +190,7 @@ public class PrivatePageController {
             md.update(checkString.getBytes(StandardCharsets.UTF_8));
             byte[] digest = md.digest();
             String hash = String.format("%064x", new BigInteger( 1, digest ) );
-
             user.setHash(hash);
-            user.setStartDate(LocalDateTime.now());
-            user.setGoogleId(authentication.getName());
-
-            Set<Role> roles = new HashSet<>();
-            roles.add(new Role());
-            user.setRoles(roles);
 
             UserData userData = new UserData();
             userData.setEmail(email);

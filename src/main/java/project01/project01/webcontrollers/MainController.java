@@ -20,6 +20,10 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -114,6 +118,19 @@ public class MainController {
     @PostConstruct
     public void addUser(){
         User user = new User("user01");
+        userRepository.save(user);
+        user.setStartDate(LocalDateTime.now());
+        String checkString = user.getId().toString()+user.getStartDate()+Global.COD_WORD.getText();
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(checkString.getBytes(StandardCharsets.UTF_8));
+        byte[] digest = md.digest();
+        String hash = String.format("%064x", new BigInteger( 1, digest ) );
+        user.setHash(hash);
         UserData userData = new UserData();
         userData.setFirstName("суперимя");
         userData.setLastName("суперфамилия");
