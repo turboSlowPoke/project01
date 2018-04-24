@@ -41,29 +41,12 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
-//        String telegramId = request.getParameter("hr");
-//        if(telegramId!=null) {
-//            String  parameter = telegramId+"MegaP0kem0n";
-//            String generatedSecuredPasswordHash = BCrypt.hashpw(parameter, BCrypt.gensalt(12));
-//            System.out.println(generatedSecuredPasswordHash);
-//            System.out.println( BCrypt.checkpw(parameter, generatedSecuredPasswordHash));
-//            if (request.getParameter("hs")!=null) {
-//                System.out.println(BCrypt.checkpw(parameter, request.getParameter("hs")));
-//            }
-//
-//        }
         HttpSession session = request.getSession();
         Map<String, String> model = new HashMap<>();
-        String parametrUserId = request.getParameter("un");
-        String hash = request.getParameter("hs");
-        if (parametrUserId!=null &&hash!=null){
-            if (BCrypt.checkpw(parametrUserId+Global.COD_WORD, hash)){
-                log.info("Юзер перешел по сылке из телеграм");
-                session.setAttribute("userIdFromTelegramLink",parametrUserId);
-                model.put("loginModalIsActive","active");
-            }else {
-                log.warn("Юзер перешел по кривой ссылке из телеграм");
-            }
+        String userHash = request.getParameter("uh");
+        if (userHash!=null){
+            session.setAttribute("userHashFromTelegramLink",userHash);
+            model.put("loginModalIsActive","active");
         }
         return new ModelAndView("/index", model);
     }

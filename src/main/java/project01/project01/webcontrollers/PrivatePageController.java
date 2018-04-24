@@ -191,7 +191,6 @@ public class PrivatePageController {
             byte[] digest = md.digest();
             String hash = String.format("%064x", new BigInteger( 1, digest ) );
             user.setHash(hash);
-
             UserData userData = new UserData();
             userData.setEmail(email);
             userData.setFirstName(firstName);

@@ -56,9 +56,9 @@ public class WebhookController {
 
     @RequestMapping("/mybot")
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
-        System.out.println("recive update " + update.getMessage().getText());
+        //System.out.println("recive update " + update.getMessage().getText());
         if (update.getCallbackQuery()!=null){
-             return contextCallBackQuery(update.getCallbackQuery());
+              contextCallBackQuery(update.getCallbackQuery());
         }
         else {
             SendMessage botMessage = null;
@@ -75,14 +75,15 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-           // if (botMessage!=null)
-           //  sendMessage(botMessage);
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+           // return botMessage;
         }
-        //return null;
+        return null;
     }
 
     private EditMessageText contextCallBackQuery(CallbackQuery callbackQuery) {
+        System.out.println("CallBackContext");
         String id = callbackQuery.getId();
         String data = callbackQuery.getData();
         Integer chatId = callbackQuery.getMessage().getChat().getId();
@@ -95,6 +96,7 @@ public class WebhookController {
                 if (!user.getUserData().getTelegramNikcName().equals("@null")){
                     userRepository.save(user);
                     log.info("обновлен @telgranusername "+user);
+                    System.out.println("updated @telgranusername "+user);
                     EditMessageText editMessageText = new EditMessageText(callbackQuery.getMessage().getChat().getId(),
                             callbackQuery.getMessage().getId(),
                             "Ваш username "+user.getUserData().getTelegramNikcName()+" сохранён");
@@ -202,18 +204,27 @@ public class WebhookController {
                 botMessage.setReplyMarkup(createSubsribtionMenu(user));
                 break;
             case PRIVATE_PAGE:
+                System.out.println("Вызвано меню личный кабинет");
                 String privatePageText = "";
-                if (user.getGoogleId()==null&&user.getLogin()==null){
-                    String  parameterUserId = user.getId().toString();
-                    String hashUserId = BCrypt.hashpw(parameterUserId+Global.COD_WORD, BCrypt.gensalt(12));
-                    privatePageText = "К боту не привязан линый кабинет!\n";
-                    privatePageText=privatePageText+"Чтобы устанновить логин отправьте /login <i>ваш логин</i>";
-                    privatePageText=privatePageText+"Чтобы установить пароль отправьте /pass <i>ваш пароль</i>";
-                    privatePageText=privatePageText+"Также доступна авторизация через гугл\n";
-                    privatePageText= privatePageText+"Перейти в личный кабинет нужно по этой " +
-                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?un="+parameterUserId+"&hs="+hashUserId+">ссылке</a>";
+                if (user.getGoogleId()==null&&user.getPassword()==null){
+                    privatePageText = "<b>К боту не привязан линый web-кабинет!</b>\n";
+                    privatePageText=privatePageText+"Устанновить логин: отправьте /login <i>ваш логин</i>\n";
+                    privatePageText=privatePageText+"Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
+                    privatePageText=privatePageText+"Доступна авторизация через <b>Google</b> аккаунт\n";
+                    privatePageText= privatePageText+"Перейти на сайт в личный кабинет нужно по этой " +
+                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?uh="+user.getHash()+"\">ссылке</a>";
+                }else {
+                    privatePageText = "<b>Перейти на сайт в личный кабинет нужно по этой</b> " +
+                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?uh="+user.getHash()+"\">ссылке</a>\n";
+                    if (user.getLogin()!=null)
+                        privatePageText=privatePageText+"Ваш логин "+user.getLogin()+"\n";
+                    if (user.getPassword()==null)
+                        privatePageText=privatePageText+"Пароль не установлен."+"\n";
+                    privatePageText=privatePageText+"Устанновить логин: отправьте /login <i>ваш логин</i>\n"+
+                            "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
                 }
                 botMessage.setText(privatePageText);
+                botMessage.setParseMode("HTML");
                 break;
             case START:
                 botMessage.setText("Главное меню:");
@@ -271,7 +282,7 @@ public class WebhookController {
                 userRepository.save(user);
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
             }
-        }else if (text.startsWith("/start=")&&text.substring(7).length()==64){// /start=123456789,,,
+        }else if (text.startsWith("/start ")&&text.substring(7).length()==64){// /start=123456789,,,
             List<User> users = userRepository.findUserByHash(text.substring(7));
             if (users!=null&&!users.isEmpty()){
                 user = users.get(0);
@@ -372,7 +383,7 @@ public class WebhookController {
 
     private void sendMessage(SendMessage sendMessage) {
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("rest zapros");
+        System.out.println("/sendMessage...");
         restTemplate.postForObject(botURL+"/sendMessage", sendMessage,SendMessage.class);
     }
 
