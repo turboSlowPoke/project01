@@ -64,20 +64,18 @@ public class WebhookController {
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
             Integer chatId = userMessage.getChat().getId();
-            System.out.println("search user....");
             List<User> users = userRepository.findUserByTelegramChatId(chatId);
             User user = null;
             if (users!=null&&!users.isEmpty())
                  user = users.get(0);
-            System.out.println(user);
             if (user==null){
                 botMessage = startContext(userMessage);
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-            if (botMessage!=null)
-             sendMessage(botMessage);
-           // return botMessage;
+          //  if (botMessage!=null)
+           //  sendMessage(botMessage);
+            return botMessage;
         }
         return null;
     }
@@ -124,30 +122,61 @@ public class WebhookController {
     }
 
     private SendMessage mainContext(User user, Message userMessage) {
-        MainCommand command = MainCommand.getTYPE(userMessage.getText());
+        String text = userMessage.getText();
         SendMessage botMessage = new SendMessage(userMessage.getChat().getId(),"Неизвестная команда");
-        switch (command){
-            case SIGNALS:
-                if (user.getSubsribe()!=null&&
-                        user.getSubsribe().getEndOfSignal()!=null&&
-                        user.getSubsribe().getEndOfSignal().isAfter(LocalDate.now())){
-                    List<Signal> signals = signalRepository.findSignalByDateTimeAfter(LocalDateTime.now().minusDays(7));
-                    if (signals!=null&&signals.size()>0){
-                        String stringWithSignals ="";
-                        for (Signal signal: signals){
-                            stringWithSignals=stringWithSignals+
-                                    signal.getDateTime().toLocalDate().toString()+"\n "+
-                                    signal.getHeader()+"\n "+
-                                    signal.getBody()+"\n ";
-                        }
-                        botMessage.setText(stringWithSignals);
+        if (userMessage.getText().startsWith("/start ")&&text.substring(7).length()==64){
+            System.out.println("Обновление юзера");
+            List<User> users = userRepository.findUserByHash(text.substring(7));
+            if (users!=null&&!users.isEmpty()){
+                User tempUser = users.get(0);
+                if (!tempUser.getHash().equals(user.getHash())
+                        &&tempUser.getTelegramChatId()==null){
+                    System.out.println("Удаляем пользователя "+user);
+                    userRepository.delete(user);
+                    System.out.println("Удален");
+                    System.out.println("Обновляем пользователя... "+tempUser);
+                    tempUser.setTelegramChatId(user.getTelegramChatId());
+                    if (user.getPassword()!=null){
+                        System.out.println("Обновляем пароль и логин...");
+                        tempUser.setPassword(user.getPassword());
+                        tempUser.setLogin(user.getLogin());
                     }
+                    tempUser.getUserData().setTelegramNikcName(user.getUserData().getTelegramNikcName());
+                    System.out.println("Обновлён");
+                    System.out.println("Сохраняем пользоватлея " +tempUser);
+                    userRepository.save(tempUser);
+                    userDataRepository.save(tempUser.getUserData());
+                    System.out.println("Сохранён");
+                    log.info("Обновлен юзер " +tempUser);
+                    botMessage.setText("Ваши данные были обновлены");
                 }else {
-                    botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку.");
+                    botMessage=null;
                 }
-                break;
-            case TRAINING:
-                //если есть подписка на обучение, обучение активно
+            }
+        } else {
+            MainCommand command = MainCommand.getTYPE(text);
+            switch (command) {
+                case SIGNALS:
+                    if (user.getSubsribe() != null &&
+                            user.getSubsribe().getEndOfSignal() != null &&
+                            user.getSubsribe().getEndOfSignal().isAfter(LocalDate.now())) {
+                        List<Signal> signals = signalRepository.findSignalByDateTimeAfter(LocalDateTime.now().minusDays(7));
+                        if (signals != null && signals.size() > 0) {
+                            String stringWithSignals = "";
+                            for (Signal signal : signals) {
+                                stringWithSignals = stringWithSignals +
+                                        signal.getDateTime().toLocalDate().toString() + "\n " +
+                                        signal.getHeader() + "\n " +
+                                        signal.getBody() + "\n ";
+                            }
+                            botMessage.setText(stringWithSignals);
+                        }
+                    } else {
+                        botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку.");
+                    }
+                    break;
+                case TRAINING:
+                    //если есть подписка на обучение, обучение активно
 //                if (user.getSubsribe()!=null&&
 //                        user.getSubsribe().getTraining()!=null&&
 //                        user.getSubsribe().getTraining().getActive()){
@@ -167,22 +196,22 @@ public class WebhookController {
 //                }else {
 //                    botMessage.setText("Здесь будут отображаться приглашения на вебинар. Вам нужно оформить подписку.");
 //                }
-                botMessage.setText("Здесь будут отображаться приглашения на вебинар");
-                break;
-            case REFERALS_PROG:
-                String textMessage = "";
-                Referal referal = user.getReferal();
-                if (referal!=null){
-                    textMessage=textMessage+"Количество ваших рефералов = "+referal.getNumberOfReferals()+"\n"
-                            +"Количесвто оплат ваших рефералов="+referal.getNumerOfReferalsPayments()+"\n";
-                }else {
-                    textMessage = "У вас нет рефералов.\n ";
-                }
-                textMessage=textMessage+"Чтобы пригласить реферала, отправьте ему эту <a href=\""+Global.BOT_LINK.getText()+"?start="+user.getId()+"\">ссылку</a>\n";
-                botMessage.setText(textMessage);
-                botMessage.setParseMode("HTML");
-                break;
-            case SUBSCRIPTIONS:
+                    botMessage.setText("Здесь будут отображаться приглашения на вебинар");
+                    break;
+                case REFERALS_PROG:
+                    String textMessage = "";
+                    Referal referal = user.getReferal();
+                    if (referal != null) {
+                        textMessage = textMessage + "Количество ваших рефералов = " + referal.getNumberOfReferals() + "\n"
+                                + "Количесвто оплат ваших рефералов=" + referal.getNumerOfReferalsPayments() + "\n";
+                    } else {
+                        textMessage = "У вас нет рефералов.\n ";
+                    }
+                    textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + Global.BOT_LINK.getText() + "?start=" + user.getId() + "\">ссылку</a>\n";
+                    botMessage.setText(textMessage);
+                    botMessage.setParseMode("HTML");
+                    break;
+                case SUBSCRIPTIONS:
 //                Subscribe subscribe = user.getSubsribe();
 //                String signalsString;
 //                String trainingString;
@@ -200,37 +229,39 @@ public class WebhookController {
 //                }
 //                resultString=signalsString+trainingString+"Купить подписку:\n";
 //                botMessage.setText(resultString);
-                botMessage.setText("Подписки");
-                botMessage.setReplyMarkup(createSubsribtionMenu(user));
-                break;
-            case PRIVATE_PAGE:
-                System.out.println("Вызвано меню личный кабинет");
-                String privatePageText = "";
-                if (user.getGoogleId()==null&&user.getPassword()==null){
-                    privatePageText = "<b>К боту не привязан линый web-кабинет!</b>\n";
-                    privatePageText=privatePageText+"Устанновить логин: отправьте /login <i>ваш логин</i>\n";
-                    privatePageText=privatePageText+"Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
-                    privatePageText=privatePageText+"Доступна авторизация через <b>Google</b> аккаунт\n";
-                    privatePageText= privatePageText+"Перейти на сайт в личный кабинет нужно по этой " +
-                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?uh="+user.getHash()+"\">ссылке</a>";
-                }else {
-                    privatePageText = "<b>Перейти на сайт в личный кабинет нужно по этой</b> " +
-                            "<a href=\""+Global.WEBSITE_LINK.getText()+"/?uh="+user.getHash()+"\">ссылке</a>\n";
-                    if (user.getLogin()!=null)
-                        privatePageText=privatePageText+"Ваш логин "+user.getLogin()+"\n";
-                    if (user.getPassword()==null)
-                        privatePageText=privatePageText+"Пароль не установлен."+"\n";
-                    privatePageText=privatePageText+"Устанновить логин: отправьте /login <i>ваш логин</i>\n"+
-                            "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
-                }
-                botMessage.setText(privatePageText);
-                botMessage.setParseMode("HTML");
-                break;
-            case START:
-                botMessage.setText("Главное меню:");
-                botMessage.setReplyMarkup(createMainKeyBoard());
-                break;
+                    botMessage.setText("Подписки");
+                    botMessage.setReplyMarkup(createSubsribtionMenu(user));
+                    break;
+                case PRIVATE_PAGE:
+                    System.out.println("Вызвано меню личный кабинет");
+                    String privatePageText = "";
+                    if (user.getGoogleId() == null && user.getPassword() == null) {
+                        privatePageText = "<b>К боту не привязан линый web-кабинет!</b>\n";
+                        privatePageText = privatePageText + "Устанновить логин: отправьте /login <i>ваш логин</i>\n";
+                        privatePageText = privatePageText + "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
+                        privatePageText = privatePageText + "Доступна авторизация через <b>Google</b> аккаунт\n";
+                        privatePageText = privatePageText + "Перейти на сайт в личный кабинет нужно по этой " +
+                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>";
+                    } else {
+                        privatePageText = "<b>Перейти на сайт в личный кабинет нужно по этой</b> " +
+                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n";
+                        if (user.getLogin() != null)
+                            privatePageText = privatePageText + "Ваш логин " + user.getLogin() + "\n";
+                        if (user.getPassword() == null)
+                            privatePageText = privatePageText + "Пароль не установлен." + "\n";
+                        privatePageText = privatePageText + "Устанновить логин: отправьте /login <i>ваш логин</i>\n" +
+                                "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
+                    }
+                    botMessage.setText(privatePageText);
+                    botMessage.setParseMode("HTML");
+                    break;
+                case START:
+                    botMessage.setText("Главное меню:");
+                    botMessage.setReplyMarkup(createMainKeyBoard());
+                    break;
+            }
         }
+
         return botMessage;
     }
 
@@ -261,10 +292,10 @@ public class WebhookController {
         if (text.equals("/start")) {
             user = createNewUser(incomingMessage);
             log.info("В базу добавлен новый root пользователь");
-        }else if(text.startsWith("/start=ref")){
+        }else if(text.startsWith("/start ref")){
             user = createNewUser(incomingMessage);
             try {
-                Integer parenUserId = Integer.parseInt(text.substring(9));
+                Integer parenUserId = Integer.parseInt(text.substring(10));
                 List<User> users = userRepository.findUserById(parenUserId);
                 if (users==null||users.isEmpty())
                     throw new Exception();
