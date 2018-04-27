@@ -121,7 +121,7 @@ public class MainController {
         String password = new BCryptPasswordEncoder().encode("123456");
         user.setPassword(password);
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role());
+        roles.add(new Role("ADMIN"));
         user.setRoles(roles);
         Subscribe subscribe = new Subscribe();
         subscribe.setEndOfSignal(LocalDate.now().plusMonths(1));

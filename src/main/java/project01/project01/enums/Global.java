@@ -4,6 +4,7 @@ public enum Global {
     BOT_LINK("https://t.me/tradebeepbot"),
     COD_WORD("C0d0v0eSl0v0"),
     WEBSITE_LINK("https://sandbox.dorado.su"),
+    BOT_URL("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M"),
     //текс в полях с услугами
     SIGNALS01("Сигналы 1 месяц"),
     SIGNALS02("Сигналы 2 месяца"),

@@ -118,7 +118,7 @@ public class WebhookController {
 
     private void sendEditMessageText(EditMessageText editMessageText) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(botURL+"/editMessageText", editMessageText,EditMessageText.class);
+        restTemplate.postForObject(Global.BOT_URL.getText()+"/editMessageText", editMessageText,EditMessageText.class);
     }
 
     private SendMessage mainContext(User user, Message userMessage) {
@@ -415,7 +415,7 @@ public class WebhookController {
     private void sendMessage(SendMessage sendMessage) {
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("/sendMessage...");
-        restTemplate.postForObject(botURL+"/sendMessage", sendMessage,SendMessage.class);
+        restTemplate.postForObject(Global.BOT_URL.getText()+"/sendMessage", sendMessage,SendMessage.class);
     }
 
     @PostConstruct

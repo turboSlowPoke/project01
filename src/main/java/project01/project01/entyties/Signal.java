@@ -27,6 +27,16 @@ public class Signal {
         this.body=body;
     }
 
+    @Override
+    public String toString() {
+        return "Signal{" +
+                "id=" + id +
+                ", dateTime=" + dateTime +
+                ", header='" + header + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
