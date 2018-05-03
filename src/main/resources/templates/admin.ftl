@@ -35,9 +35,10 @@
                 <#else><div class="card-header text-success"> Отправить сигнал </div>
                 </#if>
             <div class="card-body">
-              <form id="signalsForm" method="post" action="/admin/sendSignal">
+              <form id="signalsForm" method="post" action="/admin">
                 <div class="form-group"> <label for="exampleFormControlInput1">Заголовок</label>
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                  <input type="hidden" name="method" value="sendSignal"/>
                   <input name="header" type="text" class="form-control" id="signalHeader"> </div>
                 <div class="form-group"> <label for="exampleFormControlTextarea1">Текст сигнала</label>
                     <textarea name="body" class="form-control" id="signalBody" rows="7"></textarea> </div>

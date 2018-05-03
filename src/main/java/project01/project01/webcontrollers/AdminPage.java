@@ -33,25 +33,30 @@ public class AdminPage {
     @Autowired
     private SignalRepository signalRepository;
 
-    @GetMapping("/admin")
-    public ModelAndView adminPageGet(){
+//    @GetMapping("/admin")
+//    public ModelAndView adminPageGet(){
+//        Map<String,Object> model = new HashMap<>();
+//        model.put("countUsers",userRepository.count());
+//        model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
+//        model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
+//
+//        return new ModelAndView("admin",model);
+//
+//    }
+
+    @RequestMapping("/admin")
+    public ModelAndView adminPagePost(@RequestParam(required = false) String method,
+                                      @RequestParam(required = false) String header,
+                                      @RequestParam(required = false) String body){
+
         Map<String,Object> model = new HashMap<>();
-        model.put("countUsers",userRepository.count());
-        model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
-        model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
-
-        return new ModelAndView("admin",model);
-
-    }
-
-    @RequestMapping(value = "/admin/{method}",method =RequestMethod.POST)
-    public ModelAndView adminPagePost(@PathVariable String method,HttpServletRequest request){
-        Map<String,Object> model = new HashMap<>();
-        switch (method){
-            case "sendSignal":
-                Integer count = sendSignal(request.getParameter("header"),request.getParameter("body"));
-                model.put("signalsSended",count);
-                break;
+        if (method!=null) {
+            switch (method) {
+                case "sendSignal":
+                    Integer count = sendSignal(header, body);
+                    model.put("signalsSended", count);
+                    break;
+            }
         }
         model.put("countUsers",userRepository.count());
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
