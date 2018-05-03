@@ -67,7 +67,7 @@ public class AdminPage {
     private Integer sendSignal(String header, String body) {
         Signal signal = new Signal(header,body);
         signalRepository.save(signal);
-        List<User> users = userRepository.findUserForSendSignals(LocalDateTime.now());
+        List<User> users = userRepository.findUserForSendSignals(LocalDate.now());
         Integer count=0;
         if (users!=null&&!users.isEmpty()){
             System.out.println("Отправляем сигналы....");

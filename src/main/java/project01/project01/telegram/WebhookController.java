@@ -73,9 +73,9 @@ public class WebhookController {
             }else {
                 botMessage = mainContext(user, userMessage);
             }
-          //  if (botMessage!=null)
-           //  sendMessage(botMessage);
-            return botMessage;
+            if (botMessage!=null)
+             sendMessage(botMessage);
+            //return botMessage;
         }
         return null;
     }

@@ -2,11 +2,11 @@ package project01.project01.db_services;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import project01.project01.entyties.Role;
 import project01.project01.entyties.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +17,6 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     List<User> findUserByTelegramChatId(Integer id);
     List<User> findUserByGoogleId(String googleAuthId);
     List<User> findUserByHash(String hash);
-    @Query("SELECT  u FROM User u JOIN u.subsribe s WHERE s.endOfSignal>:dateTime")
-    List<User> findUserForSendSignals(LocalDateTime dateTime);
+    @Query("SELECT  u FROM User u JOIN u.subsribe s WHERE s.endOfSignal>:date")
+    List<User> findUserForSendSignals(@Param("date") LocalDate date);
 }
