@@ -8,6 +8,35 @@
   <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> </head>
 
 <body>
+<div class="modal" id="modal01">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Выполнено</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p >
+                    <#if signalsSended?? >
+                        Сигналы отправлены ${signalsSended} юзерам
+                    <#elseif trainingGroup??>
+                        Группа создана
+                        <p>Курс: ${trainingGroup.course.name}
+                        <p>Название: ${trainingGroup.name}</p>
+                        <p>Начало набора ${trainingGroup.startSet}</p>
+                        <p>Конец набора ${trainingGroup.endSet}</p>
+                    </#if>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="py-2">
     <div class="container">
       <div class="row">
@@ -50,11 +79,44 @@
       </div>
     </div>
   </div>
-
-
+  <div class="py-2">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card">
+                          <div class="card-header">Содать набор на курс</div>
+                          <div class="card-body">
+                              <form id="createTrainingGroup" method="post" action="/admin">
+                                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                  <input type="hidden" name="method" value="createTrainingGroup"/>
+                                  <div class="form-group">
+                                      <label for="exampleFormControlInput1">Название группы</label>
+                                      <input name="groupName" type="text" class="form-control"> </div>
+                                  <div class="form-group">
+                                      <label for="exampleFormControlInput1">Дата начала набора</label>
+                                      <input name="startSet" type="date" class="form-control"> </div>
+                                  <div class="form-group">
+                                      <label for="exampleFormControlInput1">Дата конца набора</label>
+                                      <input name="endSet" type="date" class="form-control"> </div>
+                                  <button type="submit">Отправить</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <#if trainingGroup?? || signalsSended??>
+      <script type="text/javascript">
+          $(window).on('load',function(){
+              $('#modal01').modal('show');
+          });
+      </script>
+      </#if>
 </body>
 
 </html>

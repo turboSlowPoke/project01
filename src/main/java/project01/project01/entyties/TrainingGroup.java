@@ -19,6 +19,16 @@ public class TrainingGroup {
     @OneToOne(cascade = CascadeType.ALL)
     private Course course;
 
+    @Override
+    public String toString() {
+        return "TrainingGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startSet=" + startSet +
+                ", endSet=" + endSet +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
