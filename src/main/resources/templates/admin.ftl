@@ -59,7 +59,7 @@
                                       <td>${group.startSet} - ${group.endSet}</td>
                                       <td><#if group.name??>${group.name}</#if></td>
                                       <td><#if group.users??>${group.users?size}</#if></td>
-                                      <th> Ссылка</th>
+                                      <th><a href="/admin/group?group=${group.id}">подробнее</a></th>
                                   </tr>
                                   </#list>
                                   </tbody>
@@ -71,6 +71,7 @@
           </div>
       </div>
 </#if>
+
   <div class="py-2">
     <div class="container">
         <div class="row">
@@ -103,21 +104,21 @@
       <div class="row">
         <div class="col-md-6">
               <div class="card">
-                  <div class="card-header">Содать набор на курс</div>
+                  <div class="card-header">Создать набор на курс</div>
                   <div class="card-body">
                       <form id="createTrainingGroup" method="post" action="/admin">
                           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                           <input type="hidden" name="method" value="createTrainingGroup"/>
                           <div class="form-group">
                               <label for="exampleFormControlInput1">Название группы</label>
-                              <input name="groupName" type="text" class="form-control"> </div>
+                              <input name="groupName" type="text" required="required" class="form-control"> </div>
                           <div class="form-group">
                               <label for="exampleFormControlInput1">Дата начала набора</label>
-                              <input name="startSet" type="date" class="form-control"> </div>
+                              <input name="startSet" type="date" class="form-control" required="required"> </div>
                           <div class="form-group">
                               <label for="exampleFormControlInput1">Дата конца набора</label>
-                              <input name="endSet" type="date" class="form-control"> </div>
-                          <button type="submit">Отправить</button>
+                              <input name="endSet" type="date" class="form-control" required="required"> </div>
+                          <button type="submit">Создать</button>
                       </form>
                   </div>
               </div>

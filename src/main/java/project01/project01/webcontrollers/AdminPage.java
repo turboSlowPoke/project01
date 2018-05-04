@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class AdminPage {
@@ -41,7 +42,7 @@ public class AdminPage {
 
 
     @RequestMapping("/admin")
-    public ModelAndView adminPagePost(@RequestParam(required = false) String method,
+    public ModelAndView admin(@RequestParam(required = false) String method,
                                       @RequestParam(required = false) String header,
                                       @RequestParam(required = false) String body,
                                       @RequestParam(required = false) String groupName,
@@ -116,4 +117,13 @@ public class AdminPage {
             Thread.sleep(20);
 
     }
+
+    @GetMapping("/admin/group")
+    public ModelAndView trainingGroup(@RequestParam String group){
+        Map<String, Object> model = new HashMap<>();
+        Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(group));
+        trainingGroup.ifPresent(tg -> model.put("group",tg));
+        return new ModelAndView("TrainingGroup",model);
+    }
+
 }

@@ -81,18 +81,24 @@
   <!--Main layout-->
   <main class="pt-5 mx-lg-5 m-lg-5">
       <#if botLink??>
-      <div class="container container-fluid">
-          <div class="row wow fadeIn">
-              <div class="col-md-12">
-                  <div class="card">
-                      <div class="card-header text-center"><i class="fa fa-exclamation-circle text-danger mr-3" aria-hidden="true"></i> Внимание</div>
-                      <div class="card-body text-center green lighten-5">
-                         Присоедитесь к нашему боту в telegram <i class="fa fa-telegram" aria-hidden="true"></i>
-                          , перейдя по <a href="${botLink}"> ссылке </a>.
+      <div class="modal fade" id="botLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header btn-pink">
+                      <p class="heading lead">Внимание!</p>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
+                      <div class="modal-body text-center green lighten-5">
+                          Присоедитесь к нашему боту в telegram <i class="fa fa-telegram" aria-hidden="true"></i>
+                          , перейдя по <a href="${botLink}"> ссылке </a>.
+                      </div>
+                      <div class="modal-footer text-center">
+                          <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                      </div>
+                  </form>
               </div>
+              <!--/.Content-->
           </div>
-      </div>
       </div>
       </#if>
 
@@ -508,7 +514,13 @@
         new WOW().init();
   </script>
   <!-- Charts -->
-
+<#if botLink??>
+      <script type="text/javascript">
+          $(window).on('load',function(){
+              $('#botLinkModal').modal('show');
+          });
+      </script>
+</#if>
 
 </body>
 
