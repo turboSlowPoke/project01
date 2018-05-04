@@ -39,16 +39,6 @@ public class AdminPage {
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
 
-//    @GetMapping("/admin")
-//    public ModelAndView adminPageGet(){
-//        Map<String,Object> model = new HashMap<>();
-//        model.put("countUsers",userRepository.count());
-//        model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
-//        model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
-//
-//        return new ModelAndView("admin",model);
-//
-//    }
 
     @RequestMapping("/admin")
     public ModelAndView adminPagePost(@RequestParam(required = false) String method,
@@ -73,9 +63,11 @@ public class AdminPage {
                     break;
             }
         }
+
         model.put("countUsers",userRepository.count());
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
+        model.put("trainingGroupList",trainingGroupRepository.findAll());
         return new ModelAndView("admin",model);
     }
 
