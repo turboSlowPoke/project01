@@ -158,7 +158,8 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
           </div>
 
-          <form class="form-group" action="/sendadvcash" method="post">
+          <form class="form-group" action="/lk" method="post">
+              <input type="hidden" name="method" value="subscribeTraining"/>
             <!--Body-->
             <div class="modal-body text-center">
                 <#if (trainingGroups??&&trainingGroups?size>0)>
@@ -169,10 +170,11 @@
                                 <i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text fa-5x"></i></i>
                             </td>
                             <td class="lead">
+
                                 <#list trainingGroups as group>
                                     <div class="form-check">
                                         <label class="form-check-label lead">
-                                            <input class="form-check-input" type="radio" name="trainingid_${group.id}" id="exampleRadios11" value="true" checked>
+                                            <input class="form-check-input" type="radio" name="groupId" id="exampleRadios11" value="${group.id}">
                                             ${group.course.name} набор закроется  ${group.endSet}
                                         </label>
                                     </div>
@@ -188,7 +190,7 @@
             <!--Footer-->
             <div class="modal-footer text-center">
               <#if (trainingGroups??&&trainingGroups?size>0)>
-              <button class="btn btn-purple waves-effect focus" type="submit">Продолжить</button>
+              <button class="btn btn-purple waves-effect focus" type="submit">Оплатить и записаться</button>
               </#if>
               <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
             </div>
@@ -351,7 +353,7 @@
                       <#list user.trainingGroups as training>
                           Вы записаны на курс: ${training.course.name}
                       </#list>
-                    <#else>Запишитесь на курс<#assign trainingBotton="Записаться"></#if>
+                    <#else>Запишитесь на курс <#assign trainingBotton="Записаться"></#if>
                   </td>
                 </tr>
                 </tbody>

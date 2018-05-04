@@ -15,22 +15,18 @@ import project01.project01.entyties.Course;
 import project01.project01.entyties.Signal;
 import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
-import project01.project01.enums.Global;
 import project01.project01.telegram.tx_objects.SendMessage;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
-public class AdminPage {
-    private static final Logger log = LoggerFactory.getLogger(AdminPage.class);
+public class AdminPageController {
+    private static final Logger log = LoggerFactory.getLogger(AdminPageController.class);
     @Autowired
     private UserRepository userRepository;
     @Autowired

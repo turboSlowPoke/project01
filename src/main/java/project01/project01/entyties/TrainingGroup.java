@@ -16,7 +16,7 @@ public class TrainingGroup {
     private List<Webinar> webinars;
     @ManyToMany
     private List<User> users;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL)
     private Course course;
 
     @Override

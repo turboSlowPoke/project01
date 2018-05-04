@@ -128,14 +128,6 @@ public class MainController {
         user.setSubsribe(subscribe);
         userRepository.save(user);
         System.out.println("юзер " +user +" добавлен");
-//        TrainingGroup trainingGroup = new TrainingGroup();
-//        Course course = new Course();
-//        course.setName("Супер курс");
-//        course.setAmount(new BigDecimal("100"));
-//        trainingGroup.setCourse(course);
-//        trainingGroup.setStartSet(LocalDate.now());
-//        trainingGroup.setEndSet(LocalDate.now().plusMonths(1));
-//        trainingGroupRepository.save(trainingGroup);
     }
 
 }
