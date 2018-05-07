@@ -3,7 +3,6 @@ package project01.project01.webcontrollers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +12,18 @@ import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
-import project01.project01.enums.PaidServices;
+import project01.project01.enums.Purchase;
 import project01.project01.telegram.WebhookController;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -59,9 +56,9 @@ public class MainController {
         }catch (Exception e){
             model.put("user",null);
         }
-        PaidServices paidServices = PaidServices.getTYPE(service);
+        Purchase paidServices = Purchase.getTYPE(service);
         String purchase;
-        if (paidServices!=PaidServices.FAIL) {
+        if (paidServices!=Purchase.FAIL) {
             switch (paidServices){
                 case SIGNALS01:
                     purchase=Global.SIGNALS01.getText();

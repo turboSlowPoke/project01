@@ -109,7 +109,8 @@
             <p class="heading lead">Выберите период подписки на сигналы</p>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
           </div>
-          <form class="form-group" action="/sendadvcash" method="post">
+          <form class="form-group" action="/payment" method="post">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="modal-body text-center">
             <table class="table">
               <tbody>
@@ -118,19 +119,19 @@
                 <td class="lead">
                   <div class="form-check">
                   <label class="form-check-label lead">
-                    <input class="form-check-input" type="radio" name="service" id="exampleRadios1" value="signals01" checked>
+                    <input class="form-check-input" type="radio" name="purchaseName" value="period1" checked>
                     Один месяц
                   </label>
                 </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="service" id="exampleRadios2" value="signals02">
+                      <input class="form-check-input" type="radio" name="purchaseName" value="period2">
                       Два месяца
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="service" id="exampleRadios3" value="signals03" >
+                      <input class="form-check-input" type="radio" name="purchaseName" value="period3" >
                       Три месяца
                     </label>
                   </div>
@@ -159,6 +160,7 @@
           </div>
 
           <form class="form-group" action="/lk" method="post">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
               <input type="hidden" name="method" value="subscribeTraining"/>
             <!--Body-->
             <div class="modal-body text-center">

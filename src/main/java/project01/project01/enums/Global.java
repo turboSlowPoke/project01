@@ -5,14 +5,7 @@ public enum Global {
     COD_WORD("C0d0v0eSl0v0"),
     WEBSITE_LINK("https://sandbox.dorado.su"),
     BOT_URL("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M"),
-    //текс в полях с услугами
-    SIGNALS01("Сигналы 1 месяц"),
-    SIGNALS02("Сигналы 2 месяца"),
-    SIGNALS03("Сигналы 3 месяца"),
-    TRAINING01("Обучение 1 месяц"),
-    TRAINING02("Обучение 2 месяца"),
-    TRAINING03("Обучение 3 месяца"),
-    //mainmenu
+    //nmenu
 
 
     FAIL("Неизвестная команда");

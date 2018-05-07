@@ -1,6 +1,6 @@
 package project01.project01.enums;
 
-public enum PaidServices {
+public enum Purchase {
     SIGNALS01("signals01"),
     SIGNALS02("signals02"),
     SIGNALS03("signals03"),
@@ -10,9 +10,9 @@ public enum PaidServices {
     //mainmenu
 
 
-    FAIL("Неизвестная команда");
+    FAIL("Неизвестная покупка");
 
-    PaidServices(String text) {
+    Purchase(String text) {
         this.text = text;
     }
 
@@ -22,9 +22,9 @@ public enum PaidServices {
         return text;
     }
 
-    public static PaidServices getTYPE(String s){
-        PaidServices type = FAIL;
-        for (PaidServices tempTYPE : PaidServices.values()){
+    public static Purchase getTYPE(String s){
+        Purchase type = FAIL;
+        for (Purchase tempTYPE : Purchase.values()){
             if (s.equals(tempTYPE.getText()))
                 type = tempTYPE;
         }

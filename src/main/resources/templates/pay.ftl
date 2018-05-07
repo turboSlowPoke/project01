@@ -51,42 +51,34 @@
   </nav>
   <div class="py-5"></div>
   <main>
-    <#if user?? && service!="fail">
-            <div class="py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <img class="card-img-top py-5 mx-auto w-25" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Ваша покупка: ${service} </h5>
-                                    <p class="card-text">Далее вы будете переадресованы на сайт Advcash, для проведения оплаты</p>
-                                    <button autofocus type="submit" class="btn btn-primary">Продолжить</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    <#else>
-              <div class="py-5">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-md-12">
-                              <div class="card">
-                                  <img class="card-img-top py-5 mx-auto w-25" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Ошибка: не корректные параметры!</h5>
-                                      <form action="${closeLink}">
-                                          <button type="submit" class="btn btn-secondary" data-dismiss="modal">Вернуться</button>
-                                      </form>
-                                  </div>
+
+          <div class="py-5">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="card">
+                              <i class="fa fa-shopping-basket fa-5x"></i>
+                              <div class="card-body">
+                                  <form method="post" action="https://wallet.advcash.com/sci/">
+                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                      <input type="hidden" name="ac_account_email" value="mega_pokemon@mail.ru" />
+                                      <input type="hidden" name="ac_sci_name" value="testBot" />
+                                      <input type="text" name="ac_amount" value="${order.amount}" />
+                                      <input type="text" name="ac_currency" value="USD" />
+                                      <input type="text" name="ac_order_id" value="${order.id}" />
+                                      <input type="text" name="ac_sign" value="${order.hash}" />
+                                      <!-- Optional Fields -->
+                                      <input type="hidden" name="ac_comments" value="${order.purchaseName}" />
+                                  <h5 class="card-title">Ваша покупка: ${order.purchaseName} на сумму ${order.amount} </h5>
+                                  <p class="card-text">Далее вы будете переадресованы на сайт Advcash, для проведения оплаты</p>
+                                  <button autofocus type="submit" class="btn btn-primary">Продолжить</button>
+                                  </form>
                               </div>
                           </div>
                       </div>
                   </div>
               </div>
-    </#if>
+          </div>
   </main>
   <footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
     <!--Call to action-->

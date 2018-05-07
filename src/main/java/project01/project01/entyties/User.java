@@ -2,6 +2,7 @@ package project01.project01.entyties;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,8 @@ public class User {
     private List<TrainingGroup> trainingGroups;
     private String googleId;
     private String hash;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     public User() {
     }
@@ -149,5 +152,18 @@ public class User {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+    public void addOrder(Order order){
+        if (orders==null)
+            orders= new ArrayList<>();
+        orders.add(order);
     }
 }
