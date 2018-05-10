@@ -12,9 +12,10 @@ public class Order {
     private Integer id;
     private LocalDateTime dateTime;
     private BigDecimal amount;
-    private String purchaseName;
+    private String comment;
     private Boolean isPaid = false;
     private String hash;
+    private Subscribe
 
     @Override
     public String toString() {
@@ -22,7 +23,7 @@ public class Order {
                 "id=" + id +
                 ", dateTime=" + dateTime +
                 ", amount=" + amount +
-                ", purchaseName='" + purchaseName + '\'' +
+                ", comment='" + comment + '\'' +
                 ", status='" + isPaid + '\'' +
                 '}';
     }
@@ -51,12 +52,12 @@ public class Order {
         this.amount = amount;
     }
 
-    public String getPurchaseName() {
-        return purchaseName;
+    public String getComment() {
+        return comment;
     }
 
-    public void setPurchaseName(String purchaseName) {
-        this.purchaseName = purchaseName;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Boolean getPaid() {

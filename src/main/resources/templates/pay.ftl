@@ -68,8 +68,8 @@
                                       <input type="text" name="ac_order_id" value="${order.id}" />
                                       <input type="text" name="ac_sign" value="${order.hash}" />
                                       <!-- Optional Fields -->
-                                      <input type="hidden" name="ac_comments" value="${order.purchaseName}" />
-                                  <h5 class="card-title">Ваша покупка: ${order.purchaseName} на сумму ${order.amount} </h5>
+                                      <input type="hidden" name="ac_comments" value="${order.comment}" />
+                                  <h5 class="card-title">Ваша покупка: ${order.comment} на сумму ${order.amount} </h5>
                                   <p class="card-text">Далее вы будете переадресованы на сайт Advcash, для проведения оплаты</p>
                                   <button autofocus type="submit" class="btn btn-primary">Продолжить</button>
                                   </form>

@@ -10,7 +10,6 @@ import project01.project01.db_services.OrderRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Order;
 import project01.project01.entyties.User;
-import project01.project01.enums.Global;
 import project01.project01.enums.Purchase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class PaymentPageController {
         if (purch!=Purchase.FAIL){
             Order order = new Order();
             order.setDateTime(LocalDateTime.now());
-            order.setPurchaseName(purch.getText());
+            order.setComment(purch.getText());
             switch (purch){
                 case SIGNALS01:
                     order.setAmount(new BigDecimal("10"));
