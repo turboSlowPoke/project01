@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class PaymentPageController {
             Order order = new Order();
             order.setDateTime(LocalDateTime.now());
             order.setComment(purch.getText());
+            order.setPurch(purch.getText());
             switch (purch){
                 case SIGNALS01:
                     order.setAmount(new BigDecimal("10"));
@@ -84,29 +86,53 @@ public class PaymentPageController {
     }
 
     @RequestMapping("/status")
-    public void status(@RequestParam("ac_transfer")String transferId,
-                               @RequestParam("ac_start_date")String acStartDate,
-                               @RequestParam("ac_sci_name") String sciName,
-                               @RequestParam("ac_src_wallet") String acSrcWallet,
-                               @RequestParam("ac_dest_wallet") String acDstWallet,
-                               @RequestParam("ac_order_id") String orderId,
-                               @RequestParam("ac_amount") String amount,
-                               @RequestParam("ac_merchant_currency") String currency,
-                               @RequestParam("ac_hash") String hash,
-                               @RequestParam("ac_transaction_status") String status
+    public void status(HttpServletRequest request,
+                       @RequestParam("ac_start_date")String acStartDate,
+                       @RequestParam("ac_sci_name") String sciName,
+                       @RequestParam("ac_src_wallet") String acSrcWallet,
+                       @RequestParam("ac_dest_wallet") String acDstWallet,
+                       @RequestParam("ac_order_id") String orderId,
+                       @RequestParam("ac_amount") String amount,
+                       @RequestParam("ac_merchant_currency") String currency,
+                       @RequestParam("ac_hash") String hash,
+                       @RequestParam("ac_transaction_status") String status
                                ){
-        switch (status){
-            case "COMPLETED":
+        User user = (User) request.getSession(false).getAttribute("user");
+        if (status.equals("COMPLETED")){
                 //считаем и сравниваем хеш
                 //ставим в ордере статус оплачено
-                Optional<Order> order = orderRepository.findById(Integer.parseInt(orderId));
-                if (order.isPresent()){
-                    order.get().setPaid(true);
+                Optional<Order> oOrder = orderRepository.findById(Integer.parseInt(orderId));
+                if (oOrder.isPresent()){
+                    Order order = oOrder.get();
+                    oOrder.get().setPaid(true);
+                    orderRepository.save(order);
 
+                    Purchase purchase = Purchase.getTYPE(order.getPurch());
+                    switch (purchase){
+                        case TRAINING01:
+                            break;
+                        case SIGNALS01:
+                            if (user.getSubsribe().getEndOfSignal()!=null)
+                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(1));
+                            else
+                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(1));
+                            break;
+                        case SIGNALS02:
+                            if (user.getSubsribe().getEndOfSignal()!=null)
+                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(2));
+                            else
+                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(2));
+                            break;
+                        case SIGNALS03:
+                            if (user.getSubsribe().getEndOfSignal()!=null)
+                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(3));
+                            else
+                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(3));
+                            break;
+                    }
+                    userRepository.save(user);
                 }
-                //продляем услугу
-                //расчитываем рефералку
-                break;
+                //рассчитываем рефералку
         }
     }
 }

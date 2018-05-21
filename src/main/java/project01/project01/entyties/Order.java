@@ -15,6 +15,7 @@ public class Order {
     private LocalDateTime dateTime;
     private BigDecimal amount;
     private String comment;
+    private String purch;
     private Boolean isPaid = false;
 
     @Override
@@ -68,4 +69,11 @@ public class Order {
         isPaid = paid;
     }
 
+    public String getPurch() {
+        return purch;
+    }
+
+    public void setPurch(String purch) {
+        this.purch = purch;
+    }
 }
