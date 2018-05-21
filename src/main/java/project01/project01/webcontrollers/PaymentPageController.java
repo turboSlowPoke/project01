@@ -2,6 +2,7 @@ package project01.project01.webcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public class PaymentPageController {
     @Autowired
     private OrderRepository orderRepository;
 
-    @RequestMapping("/payment")
+    @PostMapping("/payment")
     public ModelAndView payment(HttpServletRequest request,
                                 @RequestParam String purchase){
         Map<String,Object> model = new HashMap<>();
@@ -52,14 +53,8 @@ public class PaymentPageController {
                 case TRAINING01:
                     order.setAmount(new BigDecimal("100"));
                     break;
-                case TRAINING02:
-                    order.setAmount(new BigDecimal("200"));
-                    break;
-                case TRAINING03:
-                    order.setAmount(new BigDecimal("300"));
-                    break;
             }
-            User user = (User) request.getAttribute("user");
+            User user = (User) request.getSession(false).getAttribute("user");
             user.addOrder(order);
             userRepository.save(user);
             orderRepository.save(order);
@@ -81,7 +76,7 @@ public class PaymentPageController {
             byte[] digest = md.digest();
             String hash = String.format("%064x", new BigInteger( 1, digest ) );
 
-
+            model.put("hash",hash);
             model.put("order",order);
         }
 

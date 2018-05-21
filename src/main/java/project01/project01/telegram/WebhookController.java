@@ -271,8 +271,6 @@ public class WebhookController {
         line1.add(new InlineKeyboardButton(Purchase.SIGNALS03.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+Purchase.SIGNALS03.getText()));
         List<InlineKeyboardButton> line2 = new ArrayList<>();
         line2.add(new InlineKeyboardButton(Purchase.TRAINING01.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+Purchase.TRAINING01.getText()));
-        line2.add(new InlineKeyboardButton(Purchase.TRAINING02.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+Purchase.TRAINING02.getText()));
-        line2.add(new InlineKeyboardButton(Purchase.TRAINING03.getText(),"https://93.170.123.172/pay?userId="+user.getId()+"&service="+Purchase.TRAINING03.getText()));
         lines.add(line1);
         lines.add(line2);
         return new InlineKeyboardMarkup(lines);

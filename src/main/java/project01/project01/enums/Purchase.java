@@ -5,8 +5,6 @@ public enum Purchase {
     SIGNALS02("signals02"),
     SIGNALS03("signals03"),
     TRAINING01("training01"),
-    TRAINING02("training02"),
-    TRAINING03("training03"),
     //mainmenu
 
 

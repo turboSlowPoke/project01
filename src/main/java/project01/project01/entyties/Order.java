@@ -3,10 +3,12 @@ package project01.project01.entyties;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id @GeneratedValue
     private Integer id;
@@ -14,8 +16,6 @@ public class Order {
     private BigDecimal amount;
     private String comment;
     private Boolean isPaid = false;
-    private String hash;
-    private Subscribe
 
     @Override
     public String toString() {
@@ -68,11 +68,4 @@ public class Order {
         isPaid = paid;
     }
 
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 }

@@ -49,7 +49,8 @@ public class MainController {
     }
 
     @GetMapping(value = "/pay")
-    public ModelAndView sendRedirectToAdvcashPage(@RequestParam(value = "userId")String userId, @RequestParam(value = "service") String service){
+    public ModelAndView sendRedirectToAdvcashPage(@RequestParam(value = "userId")String userId,
+                                                  @RequestParam(value = "service") String service){
         Map<String, Object> model = new HashMap<>();
         try {
             model.put("user",userRepository.findUserById(Integer.parseInt(userId)).get(0));
@@ -57,31 +58,31 @@ public class MainController {
             model.put("user",null);
         }
         Purchase paidServices = Purchase.getTYPE(service);
-        String purchase;
+        String purchase=null;
         if (paidServices!=Purchase.FAIL) {
-            switch (paidServices){
-                case SIGNALS01:
-                    purchase=Global.SIGNALS01.getText();
-                    break;
-                case SIGNALS02:
-                    purchase=Global.SIGNALS02.getText();
-                    break;
-                case SIGNALS03:
-                    purchase=Global.SIGNALS03.getText();
-                    break;
-                case TRAINING01:
-                    purchase=Global.TRAINING01.getText();
-                    break;
-                case TRAINING02:
-                    purchase=Global.TRAINING02.getText();
-                    break;
-                case TRAINING03:
-                    purchase=Global.TRAINING03.getText();
-                    break;
-                default:
-                    purchase="fail";
-
-            }
+//            switch (paidServices){
+//                case SIGNALS01:
+//                    purchase=Global.SIGNALS01.getText();
+//                    break;
+//                case SIGNALS02:
+//                    purchase=Global.SIGNALS02.getText();
+//                    break;
+//                case SIGNALS03:
+//                    purchase=Global.SIGNALS03.getText();
+//                    break;
+//                case TRAINING01:
+//                    purchase=Global.TRAINING01.getText();
+//                    break;
+//                case TRAINING02:
+//                    purchase=Global.TRAINING02.getText();
+//                    break;
+//                case TRAINING03:
+//                    purchase=Global.TRAINING03.getText();
+//                    break;
+//                default:
+//                    purchase="fail";
+//
+//            }
             model.put("service",purchase);
         }
         model.put("closeLink",Global.BOT_LINK.getText());

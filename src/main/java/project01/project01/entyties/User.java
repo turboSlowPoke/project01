@@ -28,7 +28,7 @@ public class User {
     private List<TrainingGroup> trainingGroups;
     private String googleId;
     private String hash;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Order> orders;
 
     public User() {
@@ -161,6 +161,7 @@ public class User {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+
     public void addOrder(Order order){
         if (orders==null)
             orders= new ArrayList<>();

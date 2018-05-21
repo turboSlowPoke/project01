@@ -63,10 +63,10 @@
                                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                       <input type="hidden" name="ac_account_email" value="mega_pokemon@mail.ru" />
                                       <input type="hidden" name="ac_sci_name" value="testBot" />
-                                      <input type="text" name="ac_amount" value="${order.amount}" />
-                                      <input type="text" name="ac_currency" value="USD" />
-                                      <input type="text" name="ac_order_id" value="${order.id}" />
-                                      <input type="text" name="ac_sign" value="${order.hash}" />
+                                      <input type="hidden" name="ac_amount" value="${order.amount}" />
+                                      <input type="hidden" name="ac_currency" value="USD" />
+                                      <input type="hidden" name="ac_order_id" value="${order.id}" />
+                                      <input type="hidden" name="ac_sign" value="${hash}" />
                                       <!-- Optional Fields -->
                                       <input type="hidden" name="ac_comments" value="${order.comment}" />
                                   <h5 class="card-title">Ваша покупка: ${order.comment} на сумму ${order.amount} </h5>

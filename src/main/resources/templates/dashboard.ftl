@@ -119,19 +119,19 @@
                 <td class="lead">
                   <div class="form-check">
                   <label class="form-check-label lead">
-                    <input class="form-check-input" type="radio" name="comment" value="period1" checked>
+                    <input class="form-check-input" type="radio" name="purchase" value="signals01" checked>
                     Один месяц
                   </label>
                 </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="comment" value="period2">
+                      <input class="form-check-input" type="radio" name="purchase" value="signals02">
                       Два месяца
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="comment" value="period3" >
+                      <input class="form-check-input" type="radio" name="purchase" value="signals03" >
                       Три месяца
                     </label>
                   </div>
