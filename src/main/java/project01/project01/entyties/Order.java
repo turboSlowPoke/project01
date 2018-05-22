@@ -1,9 +1,6 @@
 package project01.project01.entyties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,6 +14,7 @@ public class Order {
     private String comment;
     private String purch;
     private Boolean isPaid = false;
+    private Integer trGroupid;
 
     @Override
     public String toString() {
@@ -75,5 +73,14 @@ public class Order {
 
     public void setPurch(String purch) {
         this.purch = purch;
+    }
+
+
+    public Integer getTrGroupid() {
+        return trGroupid;
+    }
+
+    public void setTrGroupid(Integer trGroupid) {
+        this.trGroupid = trGroupid;
     }
 }

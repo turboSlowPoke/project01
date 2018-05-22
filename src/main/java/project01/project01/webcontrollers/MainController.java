@@ -70,8 +70,8 @@ public class MainController {
 //                case SIGNALS03:
 //                    purchase=Global.SIGNALS03.getText();
 //                    break;
-//                case TRAINING01:
-//                    purchase=Global.TRAINING01.getText();
+//                case TRAINING:
+//                    purchase=Global.TRAINING.getText();
 //                    break;
 //                case TRAINING02:
 //                    purchase=Global.TRAINING02.getText();

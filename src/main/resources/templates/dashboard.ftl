@@ -101,6 +101,26 @@
           </div>
       </div>
       </#if>
+      <#if paidOrder??>
+      <div class="modal fade" id="paidOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header btn-pink">
+                      <p class="heading lead"></p>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                  </div>
+                  <div class="modal-body text-center green lighten-5">
+                      Ваш заказ ${paidOrder.comment} успешно оплачен.
+                  </div>
+                  <div class="modal-footer text-center">
+                      <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                  </div>
+                  </form>
+              </div>
+              <!--/.Content-->
+          </div>
+      </div>
+      </#if>
 
     <div class="modal fade" id="signalsWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
@@ -159,7 +179,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
           </div>
 
-          <form class="form-group" action="/lk" method="post">
+          <form class="form-group" action="/payment" method="post">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
               <input type="hidden" name="method" value="subscribeTraining"/>
             <!--Body-->
@@ -176,7 +196,8 @@
                                 <#list trainingGroups as group>
                                     <div class="form-check">
                                         <label class="form-check-label lead">
-                                            <input class="form-check-input" type="radio" name="groupId" id="exampleRadios11" value="${group.id}">
+                                            <input type="hidden" name="purchase" value="training">
+                                            <input class="form-check-input" type="radio" name="trainingGroupId" id="exampleRadios11" value="${group.id}">
                                             ${group.course.name} набор закроется  ${group.endSet}
                                         </label>
                                     </div>
@@ -346,23 +367,27 @@
                 <tbody>
                 <tr>
                   <td>
-                      <#if user.trainingGroup??><i class="fa fa-check-square fa-5x green-text" aria-hidden="true"></i></i>
+                      <#if (user.trainingGroups?? && user.trainingGroups?size>0)><i class="fa fa-check-square fa-5x green-text" aria-hidden="true"></i></i>
                       <#else><i class="fa fa-exclamation-triangle fa-5x orange-text" aria-hidden="true"></i></#if>
                   </td>
                   <td class="lead">
-                    <#assign trainingBotton="Записаться">
-                    <#if user.trainingGroup??>
+                    <#if (user.trainingGroups?? && user.trainingGroups?size>0)>
                       <#list user.trainingGroups as training>
                           Вы записаны на курс: ${training.course.name}
                       </#list>
-                    <#else>Запишитесь на курс <#assign trainingBotton="Записаться"></#if>
+                    <#else>Запишитесь на курс
+                    </#if>
                   </td>
                 </tr>
                 </tbody>
               </table>
               </div>
             <div class="card-footer text-center ">
-              <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">${trainingBotton} </button>
+                <#if (user.trainingGroups?? && user.trainingGroups?size>0)>
+                <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Отправить ДЗ </button>
+                <#else >
+                <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Записаться</button>
+                </#if>
             </div>
           </div>
           </div>
@@ -524,6 +549,12 @@
               $('#botLinkModal').modal('show');
           });
       </script>
+<#elseif paidOrder??>
+        <script type="text/javascript">
+            $(window).on('load',function(){
+                $('#paidOrderModal').modal('show');
+            });
+        </script>
 </#if>
 
 </body>

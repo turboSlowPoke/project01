@@ -28,7 +28,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/mybot","/admin/**");
         http.authorizeRequests()
-                    .antMatchers("/","/mybot","/login","/oauth_login","/css/*","/js/*","/scss/*","/font/roboto/*","login/oauth2/code/google","/logout","/admin/**").permitAll()
+                    .antMatchers("/",
+                            "/mybot",
+                            "/login",
+                            "/oauth_login",
+                            "/css/*",
+                            "/js/*",
+                            "/scss/*",
+                            "/font/roboto/*",
+                            "login/oauth2/code/google",
+                            "/logout",
+                            "/admin/**",
+                            "/status").permitAll()
                    // .anyRequest().permitAll()
                    // .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()

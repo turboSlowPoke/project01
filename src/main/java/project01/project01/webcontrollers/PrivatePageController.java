@@ -18,15 +18,14 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import project01.project01.db_services.CustomUserDetails;
+import project01.project01.db_services.OrderRepository;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
-import project01.project01.entyties.Role;
-import project01.project01.entyties.TrainingGroup;
-import project01.project01.entyties.User;
-import project01.project01.entyties.UserData;
+import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,12 +48,12 @@ public class PrivatePageController {
     private OAuth2AuthorizedClientService authorizedClientService;
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
-    private final UserRepository userRepository;
-
-    public PrivatePageController( UserRepository userRepository) {
-        this.authorizedClientService = authorizedClientService;
-        this.userRepository = userRepository;
+    public PrivatePageController( ) {
     }
 
     /*@GetMapping("/login_google_succes")
@@ -74,7 +73,9 @@ public class PrivatePageController {
 
 
     @GetMapping("/lk")
-    public ModelAndView lk(HttpServletRequest request, Authentication authentication) {
+    public ModelAndView lk(HttpServletRequest request,
+                           Authentication authentication,
+                           @RequestParam(required = false) String paidOrder) {
         HttpSession session = request.getSession(false);
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
@@ -108,17 +109,26 @@ public class PrivatePageController {
         } else {
             user = (User) session.getAttribute("user");
         }
-
         List<TrainingGroup> trainingGroups = trainingGroupRepository.findTrainingGroupsByEndSetIsAfter(LocalDate.now().minusDays(1));
         Map<String, Object> model = new HashMap<>();
-        model.put("user", user);
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        optionalUser.ifPresent(u->{
+            model.put("user", u);
+        });
         model.put("trainingGroups",trainingGroups);
         if (user.getTelegramChatId()==null) {
             model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
         }
+        if (paidOrder!=null&&!paidOrder.isEmpty()){
+            Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(paidOrder));
+            optionalOrder.ifPresent(order -> {
+                model.put("paidOrder",order);
+            });
+        }
         return new ModelAndView("dashboard", model);
 
     }
+
 
     private User addGoogleIdToUser(Authentication authentication, String userIdFromTelegramLink) {
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient("google", authentication.getName());

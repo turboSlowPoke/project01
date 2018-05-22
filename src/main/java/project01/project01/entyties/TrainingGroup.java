@@ -2,6 +2,7 @@ package project01.project01.entyties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,6 @@ public class TrainingGroup {
     private LocalDate startSet;
     private LocalDate endSet;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "TRAINING_GROUP_ID")
     private List<Webinar> webinars;
     @ManyToMany
     private List<User> users;
