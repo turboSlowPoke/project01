@@ -9,37 +9,43 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.CustomUserDetails;
 import project01.project01.db_services.OrderRepository;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
+import project01.project01.exceptions.StorageException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Controller
 public class PrivatePageController {
@@ -56,26 +62,12 @@ public class PrivatePageController {
     public PrivatePageController( ) {
     }
 
-    /*@GetMapping("/login_google_succes")
-    public ModelAndView loginWithGoogleSucces(HttpServletRequest request, OAuth2AuthenticationToken authentication){
-        System.out.println("login_google_succes");
-        String googleAuthId = authentication.getName();
-        List<User> users = userRepository.findUserByGoogleId(googleAuthId);
-        User user=null;
-        if (users==null||users.isEmpty()){
-             user = createNewUserWithGoogleAuth(authentication);
-        }
-        request.getSession(false).setAttribute("user",user);
-        return new ModelAndView("redirect:"+"/lk");
-
-    }*/
-
-
 
     @GetMapping("/lk")
     public ModelAndView lk(HttpServletRequest request,
                            Authentication authentication,
-                           @RequestParam(required = false) String paidOrder) {
+                           @RequestParam(required = false) String paidOrder,
+                           @RequestParam(required = false) String firstName) {
         HttpSession session = request.getSession(false);
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
@@ -105,6 +97,7 @@ public class PrivatePageController {
                     user = userDetails.getUser();
                 }
             // крепим атрибут к сессии
+            session.setAttribute("userId",user.getId());
             session.setAttribute("user",user);
         } else {
             user = (User) session.getAttribute("user");
@@ -125,10 +118,52 @@ public class PrivatePageController {
                 model.put("paidOrder",order);
             });
         }
+        if (firstName!=null)
+            optionalUser.ifPresent(u->{
+                u.getUserData().setFirstName(firstName);
+                userRepository.save(u);
+                session.setAttribute("user",u);
+            });
+
         return new ModelAndView("dashboard", model);
 
     }
 
+    @PostMapping("/lk")
+    public RedirectView uploadFile(HttpServletRequest request,
+                                   @RequestParam("image")MultipartFile[] files){
+        Integer userId = (Integer) request.getSession(false).getAttribute("userId");
+        Optional<User> optionalUser = userRepository.findById(userId);
+        optionalUser.ifPresent(user -> {
+            log.info("юзер "+user+"прислал дз");
+            List<String> filenames = new ArrayList<>();
+            for (MultipartFile file : files){
+                String filename =""+user.getId()+"_"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                        +"_"+StringUtils.cleanPath(file.getOriginalFilename());
+                if (file.isEmpty())
+                    throw new StorageException("Failed to store empty file " + filename);
+                if (filename.contains(".."))
+                    throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+                try (InputStream inputStream = file.getInputStream()) {
+                    Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                    filenames.add(filename);
+                    System.out.println("Сохранён файл " + filename);
+                    log.info("Сохранён файл " + filename);
+                }catch (IOException e){
+                    throw new StorageException("Failed to store empty file " + filename);
+                }
+            }
+            Homework homework = new Homework();
+            homework.setDateTimeOfCreation(LocalDateTime.now());
+            homework.setFiles(filenames);
+            if (user.getHomeworks()==null)
+                user.setHomeworks(new ArrayList<>());
+            user.getHomeworks().add(homework);
+            userRepository.save(user);
+            log.info("Сохранено дз "+homework);
+        });
+        return new RedirectView("/lk");
+    }
 
     private User addGoogleIdToUser(Authentication authentication, String userIdFromTelegramLink) {
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient("google", authentication.getName());

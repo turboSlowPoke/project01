@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <!--Main Navigation-->
+
   <header>
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
@@ -70,6 +70,7 @@
 
       <div class="list-group list-group-flush" id="mainNav">
         <a href="#subscription" class="list-group-item active waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки </a>
+        <a href="#homework" class="list-group-item active waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
         <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
         <a href="#bonus" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
@@ -77,8 +78,7 @@
     </div>
     <!-- Sidebar -->
   </header>
-  <!--Main Navigation-->
-  <!--Main layout-->
+
   <main class="pt-5 mx-lg-5 m-lg-5">
       <#if botLink??>
       <div class="modal fade" id="botLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -232,7 +232,7 @@
           <form action="/lk" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <input type="first_name" class="form-control" id="exampleInputLogin" placeholder="Введите имя">
+              <input type="text" name="firstName" class="form-control" id="exampleInputLogin" placeholder="Введите имя">
             </div>
           </div>
           <div class="modal-footer">
@@ -327,6 +327,38 @@
         </div>
       </div>
     </div>
+    <#if (user.trainingGroups?? && user.trainingGroups?size > 0)>
+      <div class="modal fade" id="homeworkWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header btn-pink">
+                      <p class="heading lead">Домашнее задание</p>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                  </div>
+                  <form class="form-group" action="/lk" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                      <div class="modal-body text-center">
+                          <table class="table">
+                              <tbody>
+                              <tr>
+                                  <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
+                                  <td class="lead">
+                                    <input type="file" multiple name="image" class="form-control-file">
+                                  </td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="modal-footer text-center">
+                          <button class="btn btn-pink waves-effect focus" type="submit">Отправить</button>
+                          <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
+                      </div>
+                  </form>
+              </div>
+              <!--/.Content-->
+          </div>
+      </div>
+    </#if>)
 
     <section id="subscription"></section>
     <div class="container container-fluid mt-5">
@@ -384,7 +416,7 @@
               </div>
             <div class="card-footer text-center ">
                 <#if (user.trainingGroups?? && user.trainingGroups?size>0)>
-                <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Отправить ДЗ </button>
+                <#--<button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Отправить ДЗ </button>-->
                 <#else >
                 <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Записаться</button>
                 </#if>
@@ -393,6 +425,45 @@
           </div>
         </div>
       </div>
+      <#--homework-->
+    <#if (user.trainingGroups?? && user.trainingGroups?size > 0)>
+    <section id="homework"></section>
+    <div class="container container-fluid">
+        <div class="row wow fadeIn">
+            <div class="col-md-12 mb-4">
+                <div class="card"  >
+                    <div class="card-header text-center "><i class="fa fa-file text-info mr-3 " aria-hidden="true"></i>Ваши работы</div>
+                    <div class="card-body blue lighten-5">
+                        <#if (user.homeworks?? && user.homeworks?size >0)>
+                            <table class="table table-hover">
+                                <thead>
+                                <th>id</th>
+                                <th>дата</th>
+                                <th>статус</th>
+                                </thead>
+                                <tbody >
+                                <#list user.homeworks as homework>
+                                <#assign homeworkDate=(""+homework.dateTimeOfCreation)?date("yyyy-MM-dd")>
+                                <tr>
+                                    <td>${homework.id}</td>
+                                    <td>${homeworkDate}</td>
+                                    <td><#if homework.verified??>Оценка ${homework.rating}><#else>не проверено</#if></td>
+                                </tr>
+                                </#list>
+                            </table>
+                        <#else> Вы пока не отправили ни однного задания
+                        </#if>
+                        <!-- Table  -->
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
+                    </div>
+                </div>
+                <!--/.Card-->
+            </div>
+        </div>
+    </div>
+    </#if>
 
     <section id="profile"></section>
     <div class="container container-fluid">
@@ -526,23 +597,16 @@
     </div>
     <!--/.Copyright-->
   </footer>
-  <!--/.Footer-->
-  <!-- SCRIPTS -->
-  <!-- JQuery -->
+
+
   <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-  <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="js/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
   <script type="text/javascript" src="js/mdb.min.js"></script>
+  <#--scrolling nav-->
   <script src="js/scrolling-nav.js"></script>
-  <!-- Initializations -->
-  <script type="text/javascript">
-    // Animations initialization
-        new WOW().init();
-  </script>
-  <!-- Charts -->
+  <#-- Animations initialization-->
+  <script type="text/javascript">new WOW().init();</script>
 <#if botLink??>
       <script type="text/javascript">
           $(window).on('load',function(){

@@ -30,6 +30,8 @@ public class User {
     private String hash;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Order> orders;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Homework> homeworks;
 
     public User() {
     }
@@ -165,5 +167,13 @@ public class User {
         if (orders==null)
             orders= new ArrayList<>();
         orders.add(order);
+    }
+
+    public List<Homework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(List<Homework> homeworks) {
+        this.homeworks = homeworks;
     }
 }
