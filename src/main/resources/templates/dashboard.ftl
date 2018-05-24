@@ -459,7 +459,6 @@
                         <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
                     </div>
                 </div>
-                <!--/.Card-->
             </div>
         </div>
     </div>

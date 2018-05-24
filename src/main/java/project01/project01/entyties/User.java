@@ -52,6 +52,7 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", telegramChatId=" + telegramChatId +
+                ", googleId='" + googleId + '\'' +
                 '}';
     }
 

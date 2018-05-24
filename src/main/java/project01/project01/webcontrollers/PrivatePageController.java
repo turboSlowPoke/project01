@@ -72,10 +72,11 @@ public class PrivatePageController {
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
 //        }).collect(Collectors.to)
-        User user = null;
         String userIdFromTelegramLink = (String) session.getAttribute("userIdFromTelegramLink");
-        //user как атрибут
-        if (session.getAttribute("user")==null) {
+
+        Integer userId=null;
+        if (session.getAttribute("userId")==null) {
+            User user = null;
             //проверяем какого типа авторизация, если через гугл то name содержит только цифры google id
             String currentPrincipalName = authentication.getName();
                 if (hasOnlyDigital(currentPrincipalName)) {
@@ -97,33 +98,36 @@ public class PrivatePageController {
                     user = userDetails.getUser();
                 }
             // крепим атрибут к сессии
+            userId=user.getId();
             session.setAttribute("userId",user.getId());
-            session.setAttribute("user",user);
+            //session.setAttribute("user",user);
         } else {
-            user = (User) session.getAttribute("user");
+            //user = (User) session.getAttribute("user");
+             userId = (Integer) session.getAttribute("userId");
         }
         List<TrainingGroup> trainingGroups = trainingGroupRepository.findTrainingGroupsByEndSetIsAfter(LocalDate.now().minusDays(1));
         Map<String, Object> model = new HashMap<>();
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        optionalUser.ifPresent(u->{
-            model.put("user", u);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        optionalUser.ifPresent(user->{
+            model.put("user", user);
+            if (user.getTelegramChatId()==null) {
+                model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
+            }
+            if (firstName!=null) {
+                user.getUserData().setFirstName(firstName);
+                userRepository.save(user);
+                session.setAttribute("user", user);
+            }
+
         });
         model.put("trainingGroups",trainingGroups);
-        if (user.getTelegramChatId()==null) {
-            model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
-        }
+        //редирект от удачного платежа
         if (paidOrder!=null&&!paidOrder.isEmpty()){
             Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(paidOrder));
             optionalOrder.ifPresent(order -> {
                 model.put("paidOrder",order);
             });
         }
-        if (firstName!=null)
-            optionalUser.ifPresent(u->{
-                u.getUserData().setFirstName(firstName);
-                userRepository.save(u);
-                session.setAttribute("user",u);
-            });
 
         return new ModelAndView("dashboard", model);
 
@@ -242,9 +246,10 @@ public class PrivatePageController {
             userData.setFirstName(firstName);
             userData.setLastName(lastName);
             user.setUserData(userData);
-
+            user.setSubsribe(new Subscribe());
             userRepository.save(user);
             log.info("Сохранён новый пользователь "+user);
+            System.out.println("Сохранён новый пользователь "+user);
             return user;
         }
         return null;

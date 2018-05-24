@@ -71,10 +71,14 @@ public class PaymentPageController {
                     });
                     break;
             }
-            User user = (User) request.getSession(false).getAttribute("user");
-            user.addOrder(order);
-            userRepository.save(user);
-            orderRepository.save(order);
+            Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
+            optionalUser.ifPresent(user ->{
+                user.addOrder(order);
+                userRepository.save(user);
+                orderRepository.save(order);
+                log.info("Сформирован заказ "+order+" для юзера " +user);
+                System.out.println("Сформирован заказ "+order+" для юзера " +user);
+            });
             //create hash  ac_account_email:ac_sci_name:ac_amount:ac_currency:secret:ac_order_id
             String string =
                     AdvcashCongig.acAccountEmail+":"+
@@ -114,29 +118,28 @@ public class PaymentPageController {
                                ){
         log.info("пришло подтверждение оплаты для заказа " +orderId);
         System.out.println("пришло подтверждение оплаты для заказа " + orderId);
-        User user = (User) request.getSession(false).getAttribute("user");
-        if (status.equals("COMPLETED")){
+        //User user = (User) request.getSession(false).getAttribute("user");
+        Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            if (status.equals("COMPLETED")){
                 //считаем и сравниваем хеш
-                //ставим в ордере статус оплачено
-                Optional<Order> oOrder = orderRepository.findById(Integer.parseInt(orderId));
-                if (oOrder.isPresent()){
-                    Order order = oOrder.get();
-                    oOrder.get().setPaid(true);
+                Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(orderId));
+                optionalOrder.ifPresent(order -> {
+                    order.setPaid(true);
                     orderRepository.save(order);
-
                     Purchase purchase = Purchase.getTYPE(order.getPurch());
                     switch (purchase){
                         case TRAINING:
                             Optional<TrainingGroup> group = trainingGroupRepository.findById(order.getTrGroupid());
                             group.ifPresent(gr -> {
-                                Optional<User> userOptional = userRepository.findById(user.getId());
-                                userOptional.ifPresent(u-> {
-                                    if (u.getTrainingGroups()==null)
-                                        u.setTrainingGroups(new ArrayList<TrainingGroup>());
-                                    u.getTrainingGroups().add(gr);
-                                    userRepository.save(u);
-                                    request.getSession(false).setAttribute("user",u);
-                                });
+//                                Optional<User> userOptional = userRepository.findById(user.getId());
+//                                userOptional.ifPresent(u-> {
+                                    if (user.getTrainingGroups()==null)
+                                        user.setTrainingGroups(new ArrayList<TrainingGroup>());
+                                    user.getTrainingGroups().add(gr);
+                                    userRepository.save(user);
+                                    request.getSession(false).setAttribute("user",user);
+//                                });
                                 if (gr.getUsers()==null)
                                     gr.setUsers(new ArrayList<User>());
                                 gr.getUsers().add(user);
@@ -170,10 +173,11 @@ public class PaymentPageController {
                             break;
                     }
                     userRepository.save(user);
-
-                }
+                });
                 //рассчитываем рефералку
-        }
+            }
+
+        });
         redirectAttributes.addAttribute("paidOrder",orderId);
         return new RedirectView("/lk");
     }

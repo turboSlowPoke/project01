@@ -362,6 +362,7 @@ public class WebhookController {
         byte[] digest = md.digest();
         String hash = String.format("%064x", new BigInteger( 1, digest ) );
         user.setHash(hash);
+        user.setSubsribe(new Subscribe());
         userRepository.save(user);
         log.info("Сохранён новый юзер: "+user);
         return user;
