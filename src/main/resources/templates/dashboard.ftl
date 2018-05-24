@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 
 <head>
   <meta charset="utf-8">
@@ -121,6 +121,27 @@
           </div>
       </div>
       </#if>
+      <#if succes??>
+         <div class="modal fade" id="succesWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header btn-pink">
+                                <p class="heading lead"></p>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                            </div>
+                            <div class="modal-body text-center green lighten-5">
+                                ${succes}
+                            </div>
+                            <div class="modal-footer text-center">
+                                <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                            </div>
+                            </form>
+                        </div>
+                        <!--/.Content-->
+                    </div>
+                </div>
+
+      </#if>
 
     <div class="modal fade" id="signalsWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
@@ -232,7 +253,8 @@
           <form action="/lk" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <input type="text" name="firstName" class="form-control" id="exampleInputLogin" placeholder="Введите имя">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+              <input type="text" required name="firstName" class="form-control" id="exampleInputLogin" placeholder="Введите имя">
             </div>
           </div>
           <div class="modal-footer">
@@ -253,7 +275,8 @@
           <form action="/lk" method="post">
             <div class="modal-body">
               <div class="form-group">
-                <input type="first_name" class="form-control" placeholder="Введите фамилию">
+               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input type="text" required name="lastName" class="form-control" placeholder="Введите фамилию">
               </div>
             </div>
             <div class="modal-footer">
@@ -271,18 +294,19 @@
             <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена пароля</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
-          <form action="/lk" method="post">
-            <div class="modal-body">
+          <form action="/lk" method="post" id="changePassword">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+              <div class="modal-body">
               <table class="table">
                 <tbody>
                 <tr>
                   <td><i class="fa fa-lock mr-1 fa-5x" aria-hidden="true"></i></td>
                   <td class="lead">
                     <div class="form-group">
-                        <input class="form-control" type="password" name="password1" placeholder="Введите пароль">
+                        <input class="form-control" type="password" name="password1" placeholder="Введите пароль" required id="password1">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="password" name="password2"  placeholder="Повторите пароль">
+                        <input class="form-control" type="password" name="password2"  placeholder="Повторите пароль" required id="password2">
                     </div>
                   </td>
                 </tr>
@@ -290,7 +314,8 @@
               </table>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-info">Сохранить</button>
+                <p id="passwordText" class="text warning-color"></p>
+              <button type="submit" id="passwordButton" class="btn btn-info">Сохранить</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
             </div>
           </form>
@@ -602,10 +627,48 @@
   <script type="text/javascript" src="js/popper.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
   <#--scrolling nav-->
   <script src="js/scrolling-nav.js"></script>
   <#-- Animations initialization-->
   <script type="text/javascript">new WOW().init();</script>
+  <#--проверка пароля-->
+  <script>
+      $(function(){
+          $('#changePassword').validate({
+              rules: {
+                  password1: {
+                      required: true,
+                      minlength: 8,
+                      pwcheck: true
+                  },
+                  password2: {
+                      required: true,
+                      minlength: 8,
+                      equalTo: "#password1",
+                      pwcheck: true
+                  },
+              },
+              messages: {
+                  password1: {
+                      required: "Обязательно к заполнению",
+                      minlength: "Введите не менее 8-ми символов",
+                      pwcheck: "Недопустимые символы"
+                  },
+                  password2: {
+                      required: "Обязательно к заполнению",
+                      minlength: "Введите не менее 8-ми символов",
+                      equalTo: "Пароли не совпадают",
+                      pwcheck: "Недопустимые символы"
+                  }
+              }
+          });
+          $.validator.addMethod("pwcheck",
+                  function(value, element) {
+                      return /^[A-Za-z0-9\d=!\-@._*]+$/.test(value);
+                  });
+      });
+  </script>
 <#if botLink??>
       <script type="text/javascript">
           $(window).on('load',function(){
@@ -618,6 +681,12 @@
                 $('#paidOrderModal').modal('show');
             });
         </script>
+<#elseif succes??>
+        <script type="text/javascript">
+    $(window).on('load',function(){
+        $('#succesWindow').modal('show');
+    });
+</script>
 </#if>
 
 </body>

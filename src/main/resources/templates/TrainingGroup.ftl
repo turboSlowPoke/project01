@@ -40,9 +40,17 @@
                                   <tbody>
                                   <#list group.users as user>
                                      <tr>
-                                         <td>${user.userData.firstName}</td>
-                                         <td>${user.userData.telegramNikcName}</td>
-                                         <td>Otto</td>
+                                         <td><#if user.userData.firstName??>${user.userData.firstName}<#else>Без имени</#if></td>
+                                         <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>Без ника</#if></td>
+                                         <td>
+                                             <#assign newHomeWork="нет дз на проверку">
+                                             <#if user.homeworks??>
+                                             <#list user.homeworks as homework>
+                                                 <#if homework.verified??><#assign newHomeWork="есть дз на проверку"></#if>
+                                             </#list>
+                                         </#if>
+                                             ${newHomeWork}
+                                         </td>
                                      </tr>
                                   </#list>
                                   </tbody>

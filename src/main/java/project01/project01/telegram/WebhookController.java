@@ -210,23 +210,6 @@ public class WebhookController {
                     botMessage.setParseMode("HTML");
                     break;
                 case SUBSCRIPTIONS:
-//                Subscribe subscribe = user.getSubsribe();
-//                String signalsString;
-//                String trainingString;
-//                String resultString;
-//                if (subscribe!=null&&subscribe.getEndOfSignal()!=null&&subscribe.getEndOfSignal().isAfter(LocalDate.now())) {
-//                    signalsString = "Подписка на сигналы активна до " + subscribe.getEndOfSignal() + "\n";
-//                }else {
-//                    signalsString="Подписка на сигналы не активна\n";
-//                }
-//                if (subscribe!=null&&subscribe.getTraining()!=null&&subscribe.getTraining().getEndTraining().isAfter(LocalDate.now())){
-//                    trainingString="Дата начала курса "+subscribe.getTraining().getStartTraining()+"\n"
-//                            +"Дата конца курса "+subscribe.getTraining().getEndTraining();
-//                }else {
-//                    trainingString="Подписка на обучение не активна\n";
-//                }
-//                resultString=signalsString+trainingString+"Купить подписку:\n";
-//                botMessage.setText(resultString);
                     botMessage.setText("Подписки");
                     botMessage.setReplyMarkup(createSubsribtionMenu(user));
                     break;

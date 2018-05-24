@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
@@ -22,13 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.config.GlobalConfig;
-import project01.project01.db_services.CustomUserDetails;
-import project01.project01.db_services.OrderRepository;
-import project01.project01.db_services.TrainingGroupRepository;
-import project01.project01.db_services.UserRepository;
+import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.exceptions.StorageException;
+import project01.project01.services.PasswordService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,6 +57,10 @@ public class PrivatePageController {
     private UserRepository userRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private UserDataRepository userDataRepository;
+    @Autowired
+    private PasswordService passwordService;
 
     public PrivatePageController( ) {
     }
@@ -66,8 +69,7 @@ public class PrivatePageController {
     @GetMapping("/lk")
     public ModelAndView lk(HttpServletRequest request,
                            Authentication authentication,
-                           @RequestParam(required = false) String paidOrder,
-                           @RequestParam(required = false) String firstName) {
+                           @RequestParam(required = false) String paidOrder) {
         HttpSession session = request.getSession(false);
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
@@ -113,12 +115,11 @@ public class PrivatePageController {
             if (user.getTelegramChatId()==null) {
                 model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
             }
-            if (firstName!=null) {
-                user.getUserData().setFirstName(firstName);
-                userRepository.save(user);
-                session.setAttribute("user", user);
+            if (request.getSession(false).getAttribute("passwordChanged")!=null
+                    &&(Boolean) request.getSession(false).getAttribute("passwordChanged")){
+                model.put("succes","Пароль изменён");
+                request.getSession().removeAttribute("passwordChanged");
             }
-
         });
         model.put("trainingGroups",trainingGroups);
         //редирект от удачного платежа
@@ -128,43 +129,64 @@ public class PrivatePageController {
                 model.put("paidOrder",order);
             });
         }
-
         return new ModelAndView("dashboard", model);
 
     }
 
     @PostMapping("/lk")
     public RedirectView uploadFile(HttpServletRequest request,
-                                   @RequestParam("image")MultipartFile[] files){
+                                   @RequestParam(required = false) String firstName,
+                                   @RequestParam(required = false) String lastName,
+                                   @RequestParam(required = false) String password1,
+                                   @RequestParam(required = false) String password2,
+                                   @RequestParam(value = "image",required = false)MultipartFile[] files){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
         optionalUser.ifPresent(user -> {
-            log.info("юзер "+user+"прислал дз");
-            List<String> filenames = new ArrayList<>();
-            for (MultipartFile file : files){
-                String filename =""+user.getId()+"_"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                        +"_"+StringUtils.cleanPath(file.getOriginalFilename());
-                if (file.isEmpty())
-                    throw new StorageException("Failed to store empty file " + filename);
-                if (filename.contains(".."))
-                    throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-                try (InputStream inputStream = file.getInputStream()) {
-                    Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-                    filenames.add(filename);
-                    System.out.println("Сохранён файл " + filename);
-                    log.info("Сохранён файл " + filename);
-                }catch (IOException e){
-                    throw new StorageException("Failed to store empty file " + filename);
+            if (files!=null) {
+                log.info("юзер " + user + "прислал дз");
+                List<String> filenames = new ArrayList<>();
+                for (MultipartFile file : files) {
+                    String filename = "" + user.getId() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                            + "_" + StringUtils.cleanPath(file.getOriginalFilename());
+                    if (file.isEmpty())
+                        throw new StorageException("Failed to store empty file " + filename);
+                    if (filename.contains(".."))
+                        throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+                    try (InputStream inputStream = file.getInputStream()) {
+                        Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                        filenames.add(filename);
+                        System.out.println("Сохранён файл " + filename);
+                        log.info("Сохранён файл " + filename);
+                    } catch (IOException e) {
+                        throw new StorageException("Failed to store empty file " + filename);
+                    }
                 }
+                Homework homework = new Homework();
+                homework.setDateTimeOfCreation(LocalDateTime.now());
+                homework.setFiles(filenames);
+                if (user.getHomeworks() == null)
+                    user.setHomeworks(new ArrayList<>());
+                user.getHomeworks().add(homework);
+                userRepository.save(user);
+                log.info("Сохранено дз " + homework);
             }
-            Homework homework = new Homework();
-            homework.setDateTimeOfCreation(LocalDateTime.now());
-            homework.setFiles(filenames);
-            if (user.getHomeworks()==null)
-                user.setHomeworks(new ArrayList<>());
-            user.getHomeworks().add(homework);
-            userRepository.save(user);
-            log.info("Сохранено дз "+homework);
+            if (firstName!=null) {
+                user.getUserData().setFirstName(firstName);
+                userDataRepository.save(user.getUserData());
+            }
+            if (lastName!=null){
+                user.getUserData().setLastName(lastName);
+                userDataRepository.save(user.getUserData());
+            }
+            if (password1!=null&&password2!=null&&
+                    password1.equals(password2)&&
+                    passwordService.checkPassword(password1)){
+                user.setPassword(new BCryptPasswordEncoder().encode(password1));
+                userRepository.save(user);
+                System.out.println("Поменял пароль юзер" + user);
+                request.getSession(false).setAttribute("passwordChanged",true);
+            }
         });
         return new RedirectView("/lk");
     }

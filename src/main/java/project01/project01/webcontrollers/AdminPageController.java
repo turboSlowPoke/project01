@@ -15,6 +15,7 @@ import project01.project01.entyties.Course;
 import project01.project01.entyties.Signal;
 import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
+import project01.project01.enums.Global;
 import project01.project01.telegram.tx_objects.SendMessage;
 
 import java.math.BigDecimal;
@@ -109,7 +110,7 @@ public class AdminPageController {
 
     private void sendMessage(SendMessage sendMessage) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-           //restTemplate.postForObject(Global.BOT_URL.getText() +"/sendMessage", sendMessage,SendMessage.class);
+           restTemplate.postForObject(Global.BOT_URL.getText() +"/sendMessage", sendMessage,SendMessage.class);
             Thread.sleep(20);
 
     }
