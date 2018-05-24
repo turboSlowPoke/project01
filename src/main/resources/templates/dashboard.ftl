@@ -69,8 +69,8 @@
     <div class="sidebar-fixed position-fixed ">
 
       <div class="list-group list-group-flush" id="mainNav">
-        <a href="#subscription" class="list-group-item active waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки </a>
-        <a href="#homework" class="list-group-item active waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a>
+        <a href="#subscription" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки </a>
+        <a href="#homework" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
         <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
         <a href="#bonus" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
