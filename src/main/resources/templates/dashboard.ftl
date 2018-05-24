@@ -330,14 +330,15 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
           <form action="/lk" method="post">
-            <div class="modal-body">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+              <div class="modal-body">
               <table class="table">
                 <tbody>
                 <tr>
                   <td><i class="fa fa-envelope-o fa-5x mr-1" aria-hidden="true"></i></td>
                   <td class="lead">
                     <div class="form-group">
-                      <input class="form-control" type="email" name="email" placeholder="Введите email">
+                      <input class="form-control" type="email" name="email" placeholder="Введите email" required>
                     </div>
                   </td>
                 </tr>

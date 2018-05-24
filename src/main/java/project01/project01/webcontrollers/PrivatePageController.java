@@ -139,6 +139,7 @@ public class PrivatePageController {
                                    @RequestParam(required = false) String lastName,
                                    @RequestParam(required = false) String password1,
                                    @RequestParam(required = false) String password2,
+                                   @RequestParam(required = false) String email,
                                    @RequestParam(value = "image",required = false)MultipartFile[] files){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -174,10 +175,14 @@ public class PrivatePageController {
             if (firstName!=null) {
                 user.getUserData().setFirstName(firstName);
                 userDataRepository.save(user.getUserData());
+                log.info("сменил имя "+user);
+                System.out.println("сменил имя "+user);
             }
             if (lastName!=null){
                 user.getUserData().setLastName(lastName);
                 userDataRepository.save(user.getUserData());
+                log.info("сменил фамилию "+user);
+                System.out.println("сменил фамилию "+user);
             }
             if (password1!=null&&password2!=null&&
                     password1.equals(password2)&&
@@ -186,6 +191,12 @@ public class PrivatePageController {
                 userRepository.save(user);
                 System.out.println("Поменял пароль юзер" + user);
                 request.getSession(false).setAttribute("passwordChanged",true);
+            }
+            if (email!=null&&!email.isEmpty()){
+                user.getUserData().setEmail(email);
+                userDataRepository.save(user.getUserData());
+                log.info("сменил email "+user);
+                System.out.println("сменил email "+user);
             }
         });
         return new RedirectView("/lk");
