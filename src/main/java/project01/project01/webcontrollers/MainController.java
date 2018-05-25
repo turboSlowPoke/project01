@@ -98,7 +98,7 @@ public class MainController {
 
     @PostConstruct
     public void addUser(){
-        User user = new User("user01");
+        User user = new User("admin");
         userRepository.save(user);
         user.setStartDate(LocalDateTime.now());
         String checkString = user.getId().toString()+user.getStartDate()+Global.COD_WORD.getText();
@@ -116,7 +116,7 @@ public class MainController {
         userData.setFirstName("суперимя");
         userData.setLastName("суперфамилия");
         user.setUserData(userData);
-        String password = new BCryptPasswordEncoder().encode("123456");
+        String password = new BCryptPasswordEncoder().encode("MegaAdmin");
         user.setPassword(password);
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("ADMIN"));

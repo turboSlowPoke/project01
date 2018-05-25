@@ -102,7 +102,9 @@ public class PrivatePageController {
             // крепим атрибут к сессии
             userId=user.getId();
             session.setAttribute("userId",user.getId());
-            //session.setAttribute("user",user);
+            //если админ редиректим на админскую страницу
+            if (userIsAdmin(user))
+                return new ModelAndView("redirect:/admin", new HashMap<>());
         } else {
             //user = (User) session.getAttribute("user");
              userId = (Integer) session.getAttribute("userId");
@@ -132,6 +134,15 @@ public class PrivatePageController {
         }
         return new ModelAndView("dashboard", model);
 
+    }
+
+    private boolean userIsAdmin(User user) {
+        boolean chek=false;
+        Set<Role> roles = user.getRoles();
+        for (Role role : roles)
+            if (role.getRole().equals("ADMIN"))
+                chek=true;
+        return chek;
     }
 
     @PostMapping("/lk")

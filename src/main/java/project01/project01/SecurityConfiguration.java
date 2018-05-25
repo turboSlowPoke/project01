@@ -38,10 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/font/roboto/*",
                             "login/oauth2/code/google",
                             "/logout",
-                            "/admin/**",
                             "/status").permitAll()
                    // .anyRequest().permitAll()
-                   // .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                    // .antMatchers("/lk").authenticated()
                 .and()
