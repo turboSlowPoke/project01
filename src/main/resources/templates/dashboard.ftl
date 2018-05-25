@@ -24,7 +24,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
       <div class="container-fluid">
         <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="#" target="_blank"> <strong class="blue-text">MDB</strong> </a>
+        <a class="navbar-brand waves-effect" href="/#" target="_blank"> <strong class="blue-text">MDB</strong> </a>
         <!-- Collapse -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
         <!-- Links -->

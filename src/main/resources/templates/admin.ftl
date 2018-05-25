@@ -4,10 +4,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> </head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/lk/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/lk/font-awesome-animation.min.css">
+</head>
 
 <body>
+<header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand waves-effect" href="/#" target="_blank"> <strong class="blue-text">MDB</strong> </a>
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect" href="#">Главная <span class="sr-only">(current)</span> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#" target="_blank">О нас</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#" target="_blank">Контакты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect" href="#" target="_blank">FAQ</a>
+                    </li>
+                </ul>
+                <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item">
+                        <b class="nav-link waves-effect" ">
+                        <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                        admin
+                        </b>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link border border-light rounded waves-effect">
+                            <i class="fa fa-sign-out orange-text mr-1" aria-hidden="true"></i>Выйти</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 <div class="modal" id="modal01">
     <div class="modal-dialog" role="document" >
         <div class="modal-content">
@@ -73,8 +121,8 @@
 </#if>
 
   <div class="py-2">
-    <div class="container">
-        <div class="row">
+    <div class="container pt-5">
+        <div class="row pt-2">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
