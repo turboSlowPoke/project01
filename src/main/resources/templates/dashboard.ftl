@@ -69,8 +69,8 @@
     <div class="sidebar-fixed position-fixed ">
 
       <div class="list-group list-group-flush" id="mainNav">
-        <a href="#subscription" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки </a>
-        <a href="#homework" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a>
+        <a href="#subscription1" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки</a>
+        <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
         <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
         <a href="#bonus" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
@@ -142,6 +142,38 @@
                 </div>
 
       </#if>
+      <#if (user.trainingGroups?? && user.trainingGroups?size > 0)>
+      <div class="modal fade" id="homeworkWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header btn-pink">
+                      <p class="heading lead">Домашнее задание</p>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                  </div>
+                  <form class="form-group" action="/lk" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                      <div class="modal-body text-center">
+                          <table class="table">
+                              <tbody>
+                              <tr>
+                                  <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
+                                  <td class="lead">
+                                      <input type="file" multiple name="image" class="form-control-file">
+                                  </td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="modal-footer text-center">
+                          <button class="btn btn-pink waves-effect focus" type="submit">Отправить</button>
+                          <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
+                      </div>
+                  </form>
+              </div>
+              <!--/.Content-->
+          </div>
+      </div>
+       </#if>
 
     <div class="modal fade" id="signalsWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
@@ -353,40 +385,27 @@
         </div>
       </div>
     </div>
-    <#if (user.trainingGroups?? && user.trainingGroups?size > 0)>
-      <div class="modal fade" id="homeworkWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="changeTelegramUsername" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header btn-pink">
-                      <p class="heading lead">Домашнее задание</p>
+                      <p class="heading lead">Сменить @username телеграм</p>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
-                  <form class="form-group" action="/lk" method="post" enctype="multipart/form-data">
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      <div class="modal-body text-center">
-                          <table class="table">
-                              <tbody>
-                              <tr>
-                                  <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
-                                  <td class="lead">
-                                    <input type="file" multiple name="image" class="form-control-file">
-                                  </td>
-                              </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="modal-footer text-center">
-                          <button class="btn btn-pink waves-effect focus" type="submit">Отправить</button>
-                          <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
-                      </div>
+                  <div class="modal-body text-center green lighten-5">
+                      Воспользйтесь кнопкой "Личный кабинет" в нашем <a href="${botUrl}"> боте </a>.
+                  </div>
+                  <div class="modal-footer text-center">
+                      <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                  </div>
                   </form>
               </div>
               <!--/.Content-->
           </div>
       </div>
-    </#if>)
 
-    <section id="subscription"></section>
+
+    <section id="subscription1"> </section>
     <div class="container container-fluid mt-5">
       <div class="row wow fadeIn">
           <#--сигналы-->
@@ -490,7 +509,7 @@
     </div>
     </#if>
 
-    <section id="profile"></section>
+    <section id="profile"> </section>
     <div class="container container-fluid">
       <div class="row wow fadeIn">
         <div class="col-md-12 mb-4">
@@ -504,27 +523,27 @@
                   <tr>
                     <th scope="row">Имя</th>
                     <td><#if user.userData??&&user.userData.firstName??>${user.userData.firstName}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileFirstName">Изменить</button></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
                     <th scope="row">Фамилия</th>
                     <td><#if user.userData??&&user.userData.lastName??>${user.userData.lastName}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileLastName">Изменить</button></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-lock mr-1" aria-hidden="true"></i>Пароль</th>
                     <td>*******</td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfilePassword">Изменить</button></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-envelope-o mr-1" aria-hidden="true"></i>email</th>
                     <td><#if user.userData.email??>${user.userData.email}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail"><#if user.userData.email??>Изменить<#else>Указать</#if></button></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
-                    <td>@telegramusername</td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#">Изменить</button></td>
+                    <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>не настроен</#if></td>
+                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                 </tbody>
                 <!-- Table body -->

@@ -218,23 +218,27 @@ public class WebhookController {
                     String privatePageText = "";
                     if (user.getGoogleId() == null && user.getPassword() == null) {
                         privatePageText = "<b>К боту не привязан линый web-кабинет!</b>\n";
-                        privatePageText = privatePageText + "Устанновить логин: отправьте /login <i>ваш логин</i>\n";
-                        privatePageText = privatePageText + "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
+                        privatePageText = privatePageText + "Устанновить логин, отправьте\n /login <i>ваш логин</i>\n";
+                        privatePageText = privatePageText + "Установить пароль, отправьте\n /pass <i>ваш пароль</i>\n";
                         privatePageText = privatePageText + "Доступна авторизация через <b>Google</b> аккаунт\n";
                         privatePageText = privatePageText + "Перейти на сайт в личный кабинет нужно по этой " +
-                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>";
+                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
                     } else {
                         privatePageText = "<b>Перейти на сайт в личный кабинет нужно по этой</b> " +
-                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n";
+                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
                         if (user.getLogin() != null)
                             privatePageText = privatePageText + "Ваш логин " + user.getLogin() + "\n";
                         if (user.getPassword() == null)
                             privatePageText = privatePageText + "Пароль не установлен." + "\n";
-                        privatePageText = privatePageText + "Устанновить логин: отправьте /login <i>ваш логин</i>\n" +
-                                "Установить пароль: отправьте /pass <i>ваш пароль</i>\n";
+                        privatePageText = privatePageText + "Чтобы устанновить логин, отправьте \n /login <i>ваш логин</i>\n" +
+                                "Чтобы установить пароль, отправьте \n /pass <i>ваш пароль</i>\n";
                     }
+                   // privatePageText=privatePageText+"\nДля взаимодействия с вами , нам нужен ваш <b>@username</b>, пожалуйста заполните его (Настройки -> Имя пользователя / Settings->Username), затем нажмите в чате кнопку обновить";
                     botMessage.setText(privatePageText);
                     botMessage.setParseMode("HTML");
+                    sendMessage(botMessage);
+                    botMessage.setText("\nДля взаимодействия с вами , нам нужно знать ваш <b>@username</b> в телеграм, пожалуйста заполните его в профиле мессенджера (Настройки -> Имя пользователя / Settings->Username), затем нажмите кнопку обновить");
+                    botMessage.setReplyMarkup(createUpdateBottom());
                     break;
                 case START:
                     botMessage.setText("Главное меню:");

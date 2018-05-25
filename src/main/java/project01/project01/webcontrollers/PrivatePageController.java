@@ -120,6 +120,7 @@ public class PrivatePageController {
                 model.put("succes","Пароль изменён");
                 request.getSession().removeAttribute("passwordChanged");
             }
+            model.put("botUrl",Global.BOT_LINK.getText());
         });
         model.put("trainingGroups",trainingGroups);
         //редирект от удачного платежа
