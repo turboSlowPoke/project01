@@ -74,6 +74,7 @@ public class PaymentPageController {
             Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
             optionalUser.ifPresent(user ->{
                 user.addOrder(order);
+                order.setUser(user);
                 userRepository.save(user);
                 orderRepository.save(order);
                 log.info("Сформирован заказ "+order+" для юзера " +user);

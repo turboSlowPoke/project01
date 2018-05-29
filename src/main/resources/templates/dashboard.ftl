@@ -403,7 +403,24 @@
               <!--/.Content-->
           </div>
       </div>
+    <div class="modal fade" id="referalLinkWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header cyan">
 
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                  </div>
+                  <div class="modal-body text-center ">
+                     Чтобы пригласить рефералов, отправьте эту <a href="${siteURL}?ref=${user.id}">ссылку</a>.
+                  </div>
+                  <div class="modal-footer text-center">
+                      <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                  </div>
+                  </form>
+              </div>
+              <!--/.Content-->
+          </div>
+      </div>
 
     <section id="subscription1"> </section>
     <div class="container container-fluid mt-5">
@@ -562,23 +579,23 @@
         <div class="col-md-1"></div>
         <div class="col-md-7 mt-4">
           <div class="card">
-            <div class="card-header text-center "><i class="fa fa-handshake-o mr-3 text-default" aria-hidden="true"></i>Рефералы</div>
+            <div class="card-header text-center"><i class="fa fa-handshake-o mr-3 text-default" aria-hidden="true"></i>Рефералы</div>
             <div class="card-body cyan lighten-5">
               <table class="table table-hover">
                 <tbody>
                 <tr>
-                  <th scope="row">Количество рефералов</th>
-                  <td>....</td>
+                  <th scope="row">Количество рефералов </th>
+                  <td><#if numberOfAllReferals??>${numberOfAllReferals}<#else>0</#if></td>
                 </tr>
                 <tr>
-                  <th scope="row">Количество оплат</th>
-                  <td>....</td>
+                  <th scope="row">Оплатили услуг на сумму</th>
+                  <td><#if sumPaymentOfReferals??>${sumPaymentOfReferals}<#else>0</#if></td>
                 </tr>
                 </tbody>
               </table>
             </div>
             <div class="card-footer text-center ">
-              <button type="button" class="btn btn-default " data-toggle="modal" data-target="#">Пригласить</button>
+              <button type="button" class="btn btn-default " data-toggle="modal" data-target="#referalLinkWindow">Пригласить</button>
             </div>
           </div>
         </div>

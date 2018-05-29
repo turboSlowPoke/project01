@@ -5,4 +5,5 @@ import java.nio.file.Paths;
 
 public class GlobalConfig {
     public static final Path pathUsersFiles = Paths.get("./");
+    public static final String siteUrl = "https://sandbox.dorado.su";
 }

@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -103,8 +104,8 @@ public class PrivatePageController {
             userId=user.getId();
             session.setAttribute("userId",user.getId());
             //если админ редиректим на админскую страницу
-            if (userIsAdmin(user))
-                return new ModelAndView("redirect:/admin", new HashMap<>());
+//            if (userIsAdmin(user))
+//                return new ModelAndView("redirect:/admin", new HashMap<>());
         } else {
             //user = (User) session.getAttribute("user");
              userId = (Integer) session.getAttribute("userId");
@@ -123,8 +124,32 @@ public class PrivatePageController {
                 request.getSession().removeAttribute("passwordChanged");
             }
             model.put("botUrl",Global.BOT_LINK.getText());
+            //если юзер перешел по реферальной ссылке
+            if (session.getAttribute("invitedId")!=null){
+                try {
+                    Integer id = Integer.parseInt((String) session.getAttribute("invitedId"));
+                    Optional<User> optionalInvitedUser = userRepository.findById(id);
+                    optionalInvitedUser.ifPresent(u ->{
+                        if ((user.getInvitedId()==null||user.getInvitedId()==0)){ //проверить чтобы юзер не пригласил сам себя
+                            user.setInvitedId(u.getId());
+                            userRepository.save(user);
+                        }
+                        log.info("Добавлен invitedId="+id+"  для " + user);
+                        System.out.println("Добавлен invitedId="+id+"  для " + user);
+                    });
+                }catch (Exception e){
+                    log.error("Не корректный id в реф ссылке" + session.getAttribute("invitedId"));
+                    System.out.println("Не корректный id в реф ссылке" + session.getAttribute("invitedId"));
+                }finally {
+                    session.removeAttribute("invitedId");
+                }
+            }
+            model.put("numberOfAllReferals",userRepository.countByInvitedId(user.getId()));
+            BigDecimal amount = orderRepository.amountReferalPayment(user.getId());
+            model.put("sumPaymentOfReferals",amount);
         });
         model.put("trainingGroups",trainingGroups);
+
         //редирект от удачного платежа
         if (paidOrder!=null&&!paidOrder.isEmpty()){
             Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(paidOrder));
@@ -132,6 +157,7 @@ public class PrivatePageController {
                 model.put("paidOrder",order);
             });
         }
+        model.put("siteURL",GlobalConfig.siteUrl);
         return new ModelAndView("dashboard", model);
 
     }

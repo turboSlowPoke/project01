@@ -15,6 +15,8 @@ public class Order {
     private String purch;
     private Boolean isPaid = false;
     private Integer trGroupid;
+    @ManyToOne
+    private User user;
 
     @Override
     public String toString() {
@@ -82,5 +84,13 @@ public class Order {
 
     public void setTrGroupid(Integer trGroupid) {
         this.trGroupid = trGroupid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

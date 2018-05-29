@@ -37,14 +37,17 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public ModelAndView index(HttpServletRequest request){
+    public ModelAndView index(HttpServletRequest request,
+                              @RequestParam(required = false, name = "uh") String userHash,
+                              @RequestParam(required = false, name = "ref") String invitedId){
         HttpSession session = request.getSession();
         Map<String, String> model = new HashMap<>();
-        String userHash = request.getParameter("uh");
         if (userHash!=null){
             session.setAttribute("userHashFromTelegramLink",userHash);
             model.put("loginModalIsActive","active");
         }
+        if (invitedId!=null)
+            session.setAttribute("invitedId",invitedId);
         return new ModelAndView("/index", model);
     }
 

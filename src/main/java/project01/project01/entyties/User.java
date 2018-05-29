@@ -19,6 +19,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Subscribe subsribe;
     private LocalDateTime startDate;
+    private Integer invitedId;
     @OneToOne(cascade = CascadeType.ALL)
     private Referal referal;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -176,5 +177,13 @@ public class User {
 
     public void setHomeworks(List<Homework> homeworks) {
         this.homeworks = homeworks;
+    }
+
+    public Integer getInvitedId() {
+        return invitedId;
+    }
+
+    public void setInvitedId(Integer invitedId) {
+        this.invitedId = invitedId;
     }
 }

@@ -28,10 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -283,10 +280,8 @@ public class WebhookController {
                 if (users==null||users.isEmpty())
                     throw new Exception();
                 User parentUser= users.get(0);
-                parentUser.getReferal().plusOneReferal();
-                userRepository.save(parentUser);
                 log.info("Юзеру добавлен реферал "+parentUser);
-                user.setReferal(new Referal(parenUserId));
+                user.setInvitedId(parentUser.getId());
                 userRepository.save(user);
                 log.info("Сохранён приглашенный пользователь");
                 sendMessage(new SendMessage(parentUser.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
