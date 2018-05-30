@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import project01.project01.db_services.SignalRepository;
-import project01.project01.db_services.TrainingGroupRepository;
-import project01.project01.db_services.UserDataRepository;
-import project01.project01.db_services.UserRepository;
+import project01.project01.config.GlobalConfig;
+import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.exceptions.DublicateUsersInDb;
@@ -22,6 +20,7 @@ import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -40,6 +39,8 @@ public class WebhookController {
     private final TrainingGroupRepository trainingRepository;
     @Autowired
     private  UserDataRepository userDataRepository;
+    @Autowired
+    private OrderRepository orderRepository;
     private final String botURL ="https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M";
 
     public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
@@ -171,37 +172,39 @@ public class WebhookController {
                     }
                     break;
                 case TRAINING:
-                    //если есть подписка на обучение, обучение активно
-//                if (user.getSubsribe()!=null&&
-//                        user.getSubsribe().getTraining()!=null&&
-//                        user.getSubsribe().getTraining().getActive()){
-//                    List<Webinar> webinars = user.getSubsribe().getTraining().getWebinars();
-//                    String webinarString="дата и место вебинара пока не определены";
-//                    if (webinars!=null&&!webinars.isEmpty()) {
-//                        for (Webinar webinar : webinars) {
-//                            if (webinar.getDateTime().isAfter(LocalDateTime.now())) {
-//                                webinarString = webinar.getName() + " начнется " + webinar.getDateTime();
-//                                if (webinar.getUrlWebinarRoom() != null && !webinar.getUrlWebinarRoom().isEmpty())
-//                                    webinarString = webinarString + ", <a href=\"" + webinar.getUrlWebinarRoom() + "\">ссылка на вебинар</a>";
-//                            }
-//                        }
-//                    }
-//                    botMessage.setText("Ближайший вебинар: "+webinarString);
-//
-//                }else {
-//                    botMessage.setText("Здесь будут отображаться приглашения на вебинар. Вам нужно оформить подписку.");
-//                }
-                    botMessage.setText("Здесь будут отображаться приглашения на вебинар");
+                    String trainingText="";
+                    if (user.getTrainingGroups()!=null&&!user.getTrainingGroups().isEmpty()){
+                        TrainingGroup trainingGroup = user.getTrainingGroups().get(0);
+                        trainingText = "Вы записаны на курс \""+trainingGroup.getCourse().getName()+"\"\n.";
+                        if (trainingGroup.getWebinars()!=null&&!trainingGroup.getWebinars().isEmpty()){
+                            trainingText = trainingText+"Предстоящие вебинары:\n";
+                            for (Webinar webinar : trainingGroup.getWebinars()){
+                                if (webinar.getDateTime()!=null&&webinar.getDateTime().isAfter(LocalDateTime.now().minusHours(2))) {
+                                    trainingText=trainingText+"Вебинар: "+webinar.getName()+
+                                            ", время начала: "+webinar.getDateTime();
+                                    if (webinar.getUrlWebinarRoom()==null){
+                                        trainingText=trainingText+"\n";
+                                    }else {
+                                        trainingText=trainingText+", ссылка на комнату: "+webinar.getUrlWebinarRoom()+"\n";
+                                    }
+                                }
+                            }
+                        }
+                    }else {
+                        trainingText="Запишитесь на курс на сайте, в <a href=\""+GlobalConfig.siteUrl + "/?uh=" + user.getHash()+"\">личном кабинете</a>.";
+                    }
+                    botMessage.setText(trainingText);
                     break;
                 case REFERALS_PROG:
                     String textMessage = "";
-//                    Referal referal = user.getReferal();
-//                    if (referal != null) {
-//                        textMessage = textMessage + "Количество ваших рефералов = " + referal.getNumberOfReferals() + "\n"
-//                                + "Количесвто оплат ваших рефералов=" + referal.getNumerOfReferalsPayments() + "\n";
-//                    } else {
-//                        textMessage = "У вас нет рефералов.\n ";
-//                    }
+                    Long allReferals = userRepository.countByInvitedId(user.getId());
+                    BigDecimal amountReferalsPayment = orderRepository.amountReferalPayment(user.getId());
+                    BigDecimal usdBonus = new BigDecimal("0.0");
+                    if (user.getBonusWallet()!=null&&user.getBonusWallet().getUsdBonus()!=null)
+                        usdBonus=user.getBonusWallet().getUsdBonus();
+                    textMessage = textMessage + "Количество ваших рефералов = " +  allReferals+ "\n"+
+                                "Произведено оплат на сумму ="+amountReferalsPayment + "$\n"+
+                                "Вам начислено "+usdBonus+"$\n";
                     textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + Global.BOT_LINK.getText() + "?start=" + user.getId() + "\">ссылку</a>\n";
                     botMessage.setText(textMessage);
                     botMessage.setParseMode("HTML");

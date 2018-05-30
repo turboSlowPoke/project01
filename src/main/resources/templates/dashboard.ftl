@@ -598,8 +598,12 @@
                   <td><#if numberOfAllReferals??>${numberOfAllReferals}<#else>0</#if></td>
                 </tr>
                 <tr>
-                  <th scope="row">Оплатили услуг на сумму</th>
+                  <th scope="row">Оплатили услуг на сумму $</th>
                   <td><#if sumPaymentOfReferals??>${sumPaymentOfReferals}<#else>0</#if></td>
+                </tr>
+                <tr>
+                    <th scope="row">Вам начислено $ </th>
+                    <td><#if user.getBonusWallet()??&&user.getBonusWallet().usdBonus??>${ user.getBonusWallet().usdBonus}<#else>0</#if></td>
                 </tr>
                 </tbody>
               </table>

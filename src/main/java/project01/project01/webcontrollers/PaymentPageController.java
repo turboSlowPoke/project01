@@ -185,9 +185,28 @@ public class PaymentPageController {
                     }
                     BigDecimal newBonus = order.getAmount().multiply(GlobalConfig.bonusProcentForPayment);
                     user.getBonusWallet().setCandyWrapers(user.getBonusWallet().getCandyWrapers().add(newBonus));
+                    log.info("бонусы начислены " + newBonus);
+                    System.out.println("бонусы начислены " + newBonus);
                     userRepository.save(user);
+                    //начисляем рефералку
+                    if (user.getInvitedId()!=null){
+                        Optional<User> otionalParentUser = userRepository.findById(user.getInvitedId());
+                        otionalParentUser.ifPresent(parentUser -> {
+                            if (parentUser.getBonusWallet()==null){
+                                BonusWallet wallet = new BonusWallet();
+                                wallet.setCandyWrapers(new BigDecimal("0.00"));
+                                wallet.setUsdBonus(new BigDecimal("0.00"));
+                                parentUser.setBonusWallet(wallet);
+                            }
+                            BigDecimal newUSDBonus = order.getAmount().multiply(GlobalConfig.bonusProcentForReferal);
+                            parentUser.getBonusWallet().setUsdBonus(user.getBonusWallet().getUsdBonus().add(newUSDBonus));
+                            userRepository.save(parentUser);
+                            log.info("реферальные бонусы начислены пригласителю" +parentUser);
+                            System.out.println("реферальные бонусы начислены пригласителю" +parentUser);
+                        });
+                    }
                 });
-                //рассчитываем рефералку
+
             }
 
         });
