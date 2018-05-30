@@ -12,6 +12,6 @@ import java.util.stream.Stream;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order,Integer> {
-    @Query("SELECT SUM(o.amount) FROM Order o JOIN o.user u WHERE u.id=:id AND o.isPaid=true")
+    @Query("SELECT SUM(o.amount) FROM Order o JOIN o.user u WHERE u.invitedId=:id AND o.isPaid=true")
     BigDecimal amountReferalPayment(@Param("id") Integer id);
 }

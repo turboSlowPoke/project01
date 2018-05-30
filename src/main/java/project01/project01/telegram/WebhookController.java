@@ -194,11 +194,14 @@ public class WebhookController {
                         trainingText="Запишитесь на курс на сайте, в <a href=\""+GlobalConfig.siteUrl + "/?uh=" + user.getHash()+"\">личном кабинете</a>.";
                     }
                     botMessage.setText(trainingText);
+                    botMessage.setParseMode("HTML");
                     break;
                 case REFERALS_PROG:
                     String textMessage = "";
                     Long allReferals = userRepository.countByInvitedId(user.getId());
                     BigDecimal amountReferalsPayment = orderRepository.amountReferalPayment(user.getId());
+                    if (amountReferalsPayment==null)
+                        amountReferalsPayment=new BigDecimal("0.0");
                     BigDecimal usdBonus = new BigDecimal("0.0");
                     if (user.getBonusWallet()!=null&&user.getBonusWallet().getUsdBonus()!=null)
                         usdBonus=user.getBonusWallet().getUsdBonus();
