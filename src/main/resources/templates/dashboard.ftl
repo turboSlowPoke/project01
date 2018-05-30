@@ -73,14 +73,14 @@
         <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
         <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
-        <a href="#bonus" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
+        <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
       </div>
     </div>
     <!-- Sidebar -->
   </header>
 
   <main class="pt-5 mx-lg-5 m-lg-5">
-      <#if botLink??>
+      <#if userHash??>
       <div class="modal fade" id="botLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
@@ -90,7 +90,7 @@
                   </div>
                       <div class="modal-body text-center green lighten-5">
                           Присоедитесь к нашему боту в telegram <i class="fa fa-telegram" aria-hidden="true"></i>
-                          , перейдя по <a href="${botLink}"> ссылке </a>.
+                          , перейдя по <a href="${botLink}?start=${userHash}"> ссылке </a>.
                       </div>
                       <div class="modal-footer text-center">
                           <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
@@ -388,26 +388,38 @@
     <div class="modal fade" id="changeTelegramUsername" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
-                  <div class="modal-header btn-pink">
-                      <p class="heading lead">Сменить @username телеграм</p>
+                  <div class="modal-header  accent-1">
+                      <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i>Изменить телеграм @username </h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
-                  <div class="modal-body text-center green lighten-5">
-                      Воспользйтесь кнопкой "Личный кабинет" в нашем <a href="${botUrl}"> боте </a>.
+                  <div class="modal-body">
+                      <table class="table">
+                          <tbody>
+                          <tr>
+                              <td><i class="fa fa-telegram fa-5x mr-1" aria-hidden="true"></i></td>
+                              <td class="lead">
+                                      Чтобы изменить ваш @username в телеграм, воспользуйтесь кнопкой "Личный кабинет" в меню нашего <#if userHash??><a href="${botLink}?start=${userHash}">бота</a><#else><a href="${botLink}"> бота </a></#if>.
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
                   </div>
                   <div class="modal-footer text-center">
-                      <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+
+                      <form action="${botLink}" method="get">
+                          <#if userHash??><input type="hidden" name="start" value="${userHash}"></#if>
+                          <button type="submit" class="btn btn-info">Перейти к боту</button>
+                      </form>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                   </div>
-                  </form>
               </div>
-              <!--/.Content-->
           </div>
       </div>
     <div class="modal fade" id="referalLinkWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header cyan">
-
+                      <h5 class="modal-title white-text" ><i class="fa fa-handshake-o mr-3 white-text" aria-hidden="true"></i>Реферальная ссылка</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body text-center ">
@@ -416,9 +428,7 @@
                   <div class="modal-footer text-center">
                       <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
                   </div>
-                  </form>
               </div>
-              <!--/.Content-->
           </div>
       </div>
 
@@ -603,7 +613,7 @@
       </div>
     </div>
 
-    <section id="bonus"></section>
+    <section id="bonusWallet"></section>
     <div class="container container-fluid">
       <div class="row wow fadeIn">
         <div class="col-md-1"></div>
@@ -615,7 +625,17 @@
                 <tbody>
                 <tr>
                   <td><i class="fa fa-university fa-5x" aria-hidden="true"></i></td>
-                  <td class="lead">На вашем счету $$$ бонусов</td>
+                  <td class="lead">На вашем счету
+                  <#if user.getBonusWallet()??&&user.getBonusWallet().candyWrapers??>
+                  ${user.getBonusWallet().candyWrapers}
+                      <#if (user.getBonusWallet().candyWrapers==1)>
+                       бонус
+                      <#elseif (user.getBonusWallet().candyWrapers>1&&user.getBonusWallet().candyWrapers<5)>
+                        бонуса
+                      <#else>бонусов
+                      </#if>
+                  <#else>0 бонусов
+                  </#if> </td>
                 </tr>
                 </tbody>
               </table>
@@ -706,7 +726,7 @@
                   });
       });
   </script>
-<#if botLink??>
+<#if userHash??>
       <script type="text/javascript">
           $(window).on('load',function(){
               $('#botLinkModal').modal('show');

@@ -10,12 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.config.AdvcashCongig;
+import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.OrderRepository;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
+import project01.project01.entyties.BonusWallet;
 import project01.project01.entyties.Order;
 import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
+import project01.project01.enums.Global;
 import project01.project01.enums.Purchase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -173,6 +176,15 @@ public class PaymentPageController {
                             log.info("Продлена подписка на сигналы для юзера " +user);
                             break;
                     }
+                    //начисляем бонусы
+                    if (user.getBonusWallet()==null) {
+                        BonusWallet wallet = new BonusWallet();
+                        wallet.setCandyWrapers(new BigDecimal("0.00"));
+                        wallet.setUsdBonus(new BigDecimal("0.00"));
+                        user.setBonusWallet(wallet);
+                    }
+                    BigDecimal newBonus = order.getAmount().multiply(GlobalConfig.bonusProcentForPayment);
+                    user.getBonusWallet().setCandyWrapers(user.getBonusWallet().getCandyWrapers().add(newBonus));
                     userRepository.save(user);
                 });
                 //рассчитываем рефералку

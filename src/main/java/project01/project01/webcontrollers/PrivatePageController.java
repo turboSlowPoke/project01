@@ -116,14 +116,14 @@ public class PrivatePageController {
         optionalUser.ifPresent(user->{
             model.put("user", user);
             if (user.getTelegramChatId()==null) {
-                model.put("botLink",Global.BOT_LINK.getText()+"?start="+user.getHash());
+                model.put("userHash",user.getHash());
             }
             if (request.getSession(false).getAttribute("passwordChanged")!=null
                     &&(Boolean) request.getSession(false).getAttribute("passwordChanged")){
                 model.put("succes","Пароль изменён");
                 request.getSession().removeAttribute("passwordChanged");
             }
-            model.put("botUrl",Global.BOT_LINK.getText());
+            model.put("botLink",Global.BOT_LINK.getText());
             //если юзер перешел по реферальной ссылке
             if (session.getAttribute("invitedId")!=null){
                 try {

@@ -20,8 +20,6 @@ public class User {
     private Subscribe subsribe;
     private LocalDateTime startDate;
     private Integer invitedId;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Referal referal;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -33,6 +31,8 @@ public class User {
     private List<Order> orders;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Homework> homeworks;
+    @OneToOne(cascade = CascadeType.ALL)
+    private BonusWallet bonusWallet;
 
     public User() {
     }
@@ -115,16 +115,6 @@ public class User {
         this.startDate = startDate;
     }
 
-    public Referal getReferal() {
-        if (this.referal==null)
-            this.referal=new Referal();
-        return referal;
-    }
-
-    public void setReferal(Referal referal) {
-        this.referal = referal;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -186,4 +176,13 @@ public class User {
     public void setInvitedId(Integer invitedId) {
         this.invitedId = invitedId;
     }
+
+    public BonusWallet getBonusWallet() {
+        return bonusWallet;
+    }
+
+    public void setBonusWallet(BonusWallet bonusWallet) {
+        this.bonusWallet = bonusWallet;
+    }
+
 }

@@ -195,13 +195,13 @@ public class WebhookController {
                     break;
                 case REFERALS_PROG:
                     String textMessage = "";
-                    Referal referal = user.getReferal();
-                    if (referal != null) {
-                        textMessage = textMessage + "Количество ваших рефералов = " + referal.getNumberOfReferals() + "\n"
-                                + "Количесвто оплат ваших рефералов=" + referal.getNumerOfReferalsPayments() + "\n";
-                    } else {
-                        textMessage = "У вас нет рефералов.\n ";
-                    }
+//                    Referal referal = user.getReferal();
+//                    if (referal != null) {
+//                        textMessage = textMessage + "Количество ваших рефералов = " + referal.getNumberOfReferals() + "\n"
+//                                + "Количесвто оплат ваших рефералов=" + referal.getNumerOfReferalsPayments() + "\n";
+//                    } else {
+//                        textMessage = "У вас нет рефералов.\n ";
+//                    }
                     textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + Global.BOT_LINK.getText() + "?start=" + user.getId() + "\">ссылку</a>\n";
                     botMessage.setText(textMessage);
                     botMessage.setParseMode("HTML");
