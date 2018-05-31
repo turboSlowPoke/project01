@@ -15,6 +15,8 @@ public class Homework {
     private Boolean verified;
     @ElementCollection(targetClass = String.class)
     private List<String> files;
+    @ManyToOne
+    private User user;
 
     @Override
     public String toString() {
@@ -80,5 +82,13 @@ public class Homework {
 
     public void setFiles(List<String> files) {
         this.files = files;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

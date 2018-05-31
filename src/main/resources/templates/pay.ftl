@@ -75,16 +75,16 @@
                                   </form>
                                   <form method="post" action="/status">
                                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                      <input type="text" name="ac_src_wallet" value="U210987654321">
-                                      <input type="text" name="ac_dest_wallet" value="U123456789012">
-                                      <input type="text" name="ac_amount" value="${order.amount}">
-                                      <input type="text" name="ac_merchant_currency" value="USD">
-                                      <input type="text" name="ac_transfer" value="235f9d0b-b48f-462c-9949-621c4930490c">
-                                      <input type="text" name="ac_sci_name" value="My Shop">
-                                      <input type="text" name="ac_start_date" value="2012-06-23 12:30:00">
-                                      <input type="text" name="ac_order_id" value="${order.id}">
-                                      <input type="text" name="ac_transaction_status" value="COMPLETED">
-                                      <input type="text" name="ac_comments" value="Comments">
+                                      <input type="hidden" name="ac_src_wallet" value="U210987654321">
+                                      <input type="hidden" name="ac_dest_wallet" value="U123456789012">
+                                      <input type="hidden" name="ac_amount" value="${order.amount}">
+                                      <input type="hidden" name="ac_merchant_currency" value="USD">
+                                      <input type="hidden" name="ac_transfer" value="235f9d0b-b48f-462c-9949-621c4930490c">
+                                      <input type="hidden" name="ac_sci_name" value="My Shop">
+                                      <input type="hidden" name="ac_start_date" value="2012-06-23 12:30:00">
+                                      <input type="hidden" name="ac_order_id" value="${order.id}">
+                                      <input type="hidden" name="ac_transaction_status" value="COMPLETED">
+                                      <input type="hidden" name="ac_comments" value="Comments">
                                       <button autofocus type="submit" class="btn btn-primary">Тест</button>
                                       <!-- Merchant custom fields -->
                                   </form>

@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> </head>
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+</head>
 
 <body class="">
   <div class="py-1 pt-5">
@@ -42,15 +43,7 @@
                                      <tr>
                                          <td><#if user.userData.firstName??>${user.userData.firstName}<#else>Без имени</#if></td>
                                          <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>Без ника</#if></td>
-                                         <td>
-                                             <#assign newHomeWork="нет дз на проверку">
-                                             <#if user.homeworks??>
-                                             <#list user.homeworks as homework>
-                                                 <#if homework.verified??><#assign newHomeWork="есть дз на проверку"></#if>
-                                             </#list>
-                                         </#if>
-                                             ${newHomeWork}
-                                         </td>
+                                         <td><#if user.homeworks??><a href="/admin/homework/${user.id}">ДЗ</a></#if></td>
                                      </tr>
                                   </#list>
                                   </tbody>

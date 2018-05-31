@@ -7,14 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import project01.project01.db_services.SignalRepository;
-import project01.project01.db_services.SubscribeRepository;
-import project01.project01.db_services.TrainingGroupRepository;
-import project01.project01.db_services.UserRepository;
-import project01.project01.entyties.Course;
-import project01.project01.entyties.Signal;
-import project01.project01.entyties.TrainingGroup;
-import project01.project01.entyties.User;
+import project01.project01.db_services.*;
+import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.telegram.tx_objects.SendMessage;
 
@@ -36,6 +30,8 @@ public class AdminPageController {
     private SignalRepository signalRepository;
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
+    @Autowired
+    private HomeWorkRepository homeWorkRepository;
 
 
     @RequestMapping("/admin")
@@ -121,6 +117,23 @@ public class AdminPageController {
         Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(group));
         trainingGroup.ifPresent(tg -> model.put("group",tg));
         return new ModelAndView("TrainingGroup",model);
+    }
+
+    @RequestMapping(value = "/admin/training_group/{groupId}/list_user_homeworks/{userid}", method = RequestMethod.GET)
+    public ModelAndView checkHomeWork(@PathVariable("userid") String userId,
+                                      @PathVariable("groupId")String groupId){
+      Map<String,Object> model = new HashMap<>();
+      Optional<User> optionalUser = userRepository.findById(Integer.parseInt(userId));
+      optionalUser.ifPresent(user -> {
+          model.put("user",user);
+      });
+      Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(groupId));
+      trainingGroup.ifPresent(group -> {
+            model.put("trainingGroup",group);
+      });
+
+      return new ModelAndView("homeworkList",model);
+
     }
 
 }
