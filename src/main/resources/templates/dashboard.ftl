@@ -525,7 +525,6 @@
                             </table>
                         <#else> Вы пока не отправили ни однного задания
                         </#if>
-                        <!-- Table  -->
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>

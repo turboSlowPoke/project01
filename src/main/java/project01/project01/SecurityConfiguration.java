@@ -3,7 +3,6 @@ package project01.project01;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/login",
                             "/oauth_login",
                             "/css/*",
+                            "/img/**",
                             "/js/*",
                             "/scss/*",
                             "/font/roboto/*",

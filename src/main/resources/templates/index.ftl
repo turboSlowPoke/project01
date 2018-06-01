@@ -85,26 +85,26 @@
   <!--Carousel Wrapper-->
   <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
     <!--Indicators-->
-    <ol class="carousel-indicators">
-      <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
-      <li data-target="#carousel-example-1z" data-slide-to="1"></li>
-      <li data-target="#carousel-example-1z" data-slide-to="2"></li>
-    </ol>
+    <#--<ol class="carousel-indicators">-->
+      <#--<li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>-->
+      <#--<li data-target="#carousel-example-1z" data-slide-to="1"></li>-->
+      <#--<li data-target="#carousel-example-1z" data-slide-to="2"></li>-->
+    <#--</ol>-->
     <!--/.Indicators-->
     <!--Slides-->
     <div class="carousel-inner" role="listbox">
       <!--First slide-->
       <div class="carousel-item active">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/nature7.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="view" style="background-image: url('/img/shapka.jpg'); background-repeat: no-repeat; background-size: cover;">
           <!-- Mask & flexbox options-->
           <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
             <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4"> <strong>По ТВ не покажут</strong> </h1>
-              <p> <strong>бла1 бла1 бла1</strong> </p>
-              <p class="mb-4 d-none d-md-block"> <strong>бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2  </strong> </p>
-              <a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>
-            </div>
+            <#--<div class="text-center white-text mx-5 wow fadeIn">-->
+              <#--<h1 class="mb-4"> <strong>По ТВ не покажут</strong> </h1>-->
+              <#--<p> <strong>бла1 бла1 бла1</strong> </p>-->
+              <#--<p class="mb-4 d-none d-md-block"> <strong>бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2 бла2  </strong> </p>-->
+              <#--<a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>-->
+            <#--</div>-->
             <!-- Content -->
           </div>
           <!-- Mask & flexbox options-->
@@ -112,42 +112,42 @@
       </div>
       <!--/First slide-->
       <!--Second slide-->
-      <div class="carousel-item">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg'); background-repeat: no-repeat; background-size: cover;">
-          <!-- Mask & flexbox options-->
-          <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
-            <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4"> <strong>Learn Bootstrap 4 with MDB</strong> </h1>
-              <p> <strong>Best &amp; free guide of responsive web design</strong> </p>
-              <p class="mb-4 d-none d-md-block"> <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000 users. Video and written versions
-                  available. Create your own, stunning website.</strong> </p>
-              <a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>
-            </div>
-            <!-- Content -->
-          </div>
-          <!-- Mask & flexbox options-->
-        </div>
-      </div>
+      <#--<div class="carousel-item">-->
+        <#--<div class="view" style="background-image: url('/img/shapka.jpg'); background-repeat: no-repeat; background-size: cover;">-->
+          <#--<!-- Mask & flexbox options&ndash;&gt;-->
+          <#--<div class="mask rgba-black-light d-flex justify-content-center align-items-center">-->
+            <#--<!-- Content &ndash;&gt;-->
+            <#--<div class="text-center white-text mx-5 wow fadeIn">-->
+              <#--<h1 class="mb-4"> <strong>Learn Bootstrap 4 with MDB</strong> </h1>-->
+              <#--<p> <strong>Best &amp; free guide of responsive web design</strong> </p>-->
+              <#--<p class="mb-4 d-none d-md-block"> <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000 users. Video and written versions-->
+                  <#--available. Create your own, stunning website.</strong> </p>-->
+              <#--<a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>-->
+            <#--</div>-->
+            <#--<!-- Content &ndash;&gt;-->
+          <#--</div>-->
+          <#--<!-- Mask & flexbox options&ndash;&gt;-->
+        <#--</div>-->
+      <#--</div>-->
       <!--/Second slide-->
       <!--Third slide-->
-      <div class="carousel-item">
-        <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/47.jpg'); background-repeat: no-repeat; background-size: cover;">
-          <!-- Mask & flexbox options-->
-          <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
-            <!-- Content -->
-            <div class="text-center white-text mx-5 wow fadeIn">
-              <h1 class="mb-4"> <strong>Learn Bootstrap 4 with MDB</strong> </h1>
-              <p> <strong>Best &amp; free guide of responsive web design</strong> </p>
-              <p class="mb-4 d-none d-md-block"> <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000 users. Video and written versions
-                  available. Create your own, stunning website.</strong> </p>
-              <a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>
-            </div>
-            <!-- Content -->
-          </div>
-          <!-- Mask & flexbox options-->
-        </div>
-      </div>
+      <#--<div class="carousel-item">-->
+        <#--<div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/47.jpg'); background-repeat: no-repeat; background-size: cover;">-->
+          <#--<!-- Mask & flexbox options&ndash;&gt;-->
+          <#--<div class="mask rgba-black-light d-flex justify-content-center align-items-center">-->
+            <#--<!-- Content &ndash;&gt;-->
+            <#--<div class="text-center white-text mx-5 wow fadeIn">-->
+              <#--<h1 class="mb-4"> <strong>Learn Bootstrap 4 with MDB</strong> </h1>-->
+              <#--<p> <strong>Best &amp; free guide of responsive web design</strong> </p>-->
+              <#--<p class="mb-4 d-none d-md-block"> <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000 users. Video and written versions-->
+                  <#--available. Create your own, stunning website.</strong> </p>-->
+              <#--<a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/" class="btn btn-outline-white btn-lg">Start free tutorial <i class="fa fa-graduation-cap ml-2"></i> </a>-->
+            <#--</div>-->
+            <#--<!-- Content &ndash;&gt;-->
+          <#--</div>-->
+          <#--<!-- Mask & flexbox options&ndash;&gt;-->
+        <#--</div>-->
+      <#--</div>-->
       <!--/Third slide-->
     </div>
     <!--/.Slides-->

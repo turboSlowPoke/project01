@@ -15,9 +15,29 @@
                      <a class="btn btn-primary" href="/admin" >Вернуться к списку групп </a>
                      <h3>user #${user.id}
                          <#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
-                         <#if user.userData.firstName>${user.userData.firstName}<#else></#if></h3>
-                     <p class="lead">Группа #${trainingGroup.id} ${trainingGroup.name}  ${group.startSet} - ${group.endSet}</p>
-                     <p class="lead">Курс ${group.course.name}</p>
+                         <#if user.userData.firstName??>${user.userData.firstName}<#else></#if></h3>
+                     <p class="lead">Группа # ${trainingGroup.id} ${trainingGroup.name}  ${trainingGroup.startSet} - ${trainingGroup.endSet}</p>
+                     <p class="lead">Курс ${trainingGroup.course.name}</p>
+                     <#if user.homeworks?? >
+                             <table class="table">
+                                 <thead>
+                                 <tr>
+                                     <th class="w-25">#id</th>
+                                     <th>дата отправки</th>
+                                     <th>статус</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                   <#list user.homeworks as homework>
+                                  <tr>
+                                      <td>${homework.id}</td>
+                                      <td>${homework.dateTimeOfCreation?date("yyyy-MM-dd")}</td>
+                                      <td><#if homework.verified??&&homework.verified==true>оценка ${homework.rating}<#else> не проверено</#if></td>
+                                  </tr>
+                                  </#list>
+                                 </tbody>
+                             </table>
+                     </#if>
 
                  </div>
              </div>

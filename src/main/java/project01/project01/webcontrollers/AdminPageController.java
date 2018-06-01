@@ -131,9 +131,7 @@ public class AdminPageController {
       trainingGroup.ifPresent(group -> {
             model.put("trainingGroup",group);
       });
-
       return new ModelAndView("homeworkList",model);
-
     }
 
 }

@@ -184,6 +184,7 @@ public class PrivatePageController {
         optionalUser.ifPresent(user -> {
             if (files!=null) {
                 log.info("юзер " + user + "прислал дз");
+                System.out.println("юзер " + user + "прислал дз");
                 List<String> filenames = new ArrayList<>();
                 for (MultipartFile file : files) {
                     String filename = "" + user.getId() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
@@ -198,7 +199,7 @@ public class PrivatePageController {
                         System.out.println("Сохранён файл " + filename);
                         log.info("Сохранён файл " + filename);
                     } catch (IOException e) {
-                        throw new StorageException("Failed to store empty file " + filename);
+                        throw new StorageException("Failed to store file " + filename);
                     }
                 }
                 Homework homework = new Homework();
