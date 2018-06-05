@@ -17,6 +17,8 @@ public class Homework {
     private List<String> files;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private TrainingGroup trainingGroup;
 
     @Override
     public String toString() {
@@ -90,5 +92,13 @@ public class Homework {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public TrainingGroup getTrainingGroup() {
+        return trainingGroup;
+    }
+
+    public void setTrainingGroup(TrainingGroup trainingGroup) {
+        this.trainingGroup = trainingGroup;
     }
 }

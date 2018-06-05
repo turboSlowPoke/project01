@@ -32,7 +32,9 @@
                                   <tr>
                                       <td>${homework.id}</td>
                                       <td>${homework.dateTimeOfCreation?date("yyyy-MM-dd")}</td>
-                                      <td><#if homework.verified??&&homework.verified==true>оценка ${homework.rating}<#else> не проверено</#if></td>
+                                      <td><#if homework.verified??&&homework.verified==true>оценка ${homework.rating}<#else> не проверено</#if>
+                                          <a href="/admin/homework/${homework.id}">открыть</a>
+                                      </td>
                                   </tr>
                                   </#list>
                                  </tbody>

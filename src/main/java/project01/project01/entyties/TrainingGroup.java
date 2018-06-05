@@ -18,6 +18,8 @@ public class TrainingGroup {
     private List<User> users;
     @ManyToOne (cascade = CascadeType.ALL)
     private Course course;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Homework> homeworkList;
 
     @Override
     public String toString() {
@@ -83,5 +85,13 @@ public class TrainingGroup {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Homework> getHomeworkList() {
+        return homeworkList;
+    }
+
+    public void setHomeworkList(List<Homework> homeworkList) {
+        this.homeworkList = homeworkList;
     }
 }

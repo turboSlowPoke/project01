@@ -133,5 +133,16 @@ public class AdminPageController {
       });
       return new ModelAndView("homeworkList",model);
     }
+    @RequestMapping(value = "/admin/homework/{homeworkId}", method = RequestMethod.GET)
+    public ModelAndView homework(@PathVariable("homeworkId")String homeworkId){
+        Map<String, Object> model = new HashMap<>();
+        if (homeworkId!=null&&!homeworkId.isEmpty()){
+            Optional<Homework> optionalHomework = homeWorkRepository.findById(Integer.parseInt(homeworkId));
+            optionalHomework.ifPresent(homework -> {
+                model.put("homework",homework);
+            });
+        }
+        return new ModelAndView("homework",model);
+    }
 
 }

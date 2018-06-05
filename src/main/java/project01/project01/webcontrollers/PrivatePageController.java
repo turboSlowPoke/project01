@@ -199,7 +199,8 @@ public class PrivatePageController {
                         System.out.println("Сохранён файл " + filename);
                         log.info("Сохранён файл " + filename);
                     } catch (IOException e) {
-                        throw new StorageException("Failed to store file " + filename);
+                        System.out.println("не смог сохранить файл в homeworkfiles");
+                        throw new StorageException("Failed to store file " + GlobalConfig.pathUsersFiles.resolve(filename));
                     }
                 }
                 Homework homework = new Homework();
