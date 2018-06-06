@@ -134,11 +134,32 @@ public class AdminPageController {
       return new ModelAndView("homeworkList",model);
     }
     @RequestMapping(value = "/admin/homework/{homeworkId}", method = RequestMethod.GET)
-    public ModelAndView homework(@PathVariable("homeworkId")String homeworkId){
+    public ModelAndView homework(@PathVariable("homeworkId")String homeworkId,
+                                 @RequestParam(required = false)String rating){
         Map<String, Object> model = new HashMap<>();
         if (homeworkId!=null&&!homeworkId.isEmpty()){
             Optional<Homework> optionalHomework = homeWorkRepository.findById(Integer.parseInt(homeworkId));
             optionalHomework.ifPresent(homework -> {
+                if (rating!=null&&!rating.isEmpty()){
+                    homework.setRating(Integer.parseInt(rating));
+                    homework.setVerified(true);
+                    homeWorkRepository.save(homework);
+                    log.info("проверено дз "+homework);
+                    System.out.println("проверено дз "+homework);
+                    Optional<User> optionalUser = userRepository.findById(homework.getUser().getId());
+                    optionalUser.ifPresent(user -> {
+                        if (user.getBonusWallet()==null){
+                            BonusWallet wallet = new BonusWallet();
+                            wallet.setCandyWrapers(new BigDecimal("0.00"));
+                            wallet.setUsdBonus(new BigDecimal("0.00"));
+                            user.setBonusWallet(wallet);
+                        }
+                        user.getBonusWallet().setCandyWrapers(user.getBonusWallet().getCandyWrapers().add(new BigDecimal(rating)));
+                        userRepository.save(user);
+                        log.info("добавлены бонусы юзеру" +user);
+                        System.out.println("добавлены бонусы юзеру" +user);
+                    });
+                }
                 model.put("homework",homework);
             });
         }

@@ -13,20 +13,39 @@
             <div class="row">
                 <div class="col-md-12">
                     <a class="btn btn-primary" href="/admin" >Вернуться к списку групп </a>
-                    <h2>Домашняя работа ${homework.id} </h2>
-                    <h3>user #${homework.user.id}
-                         <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
-                         <#if homework.user.userData.firstName??>${user.userData.firstName}<#else></#if></h3>
-                    <#if homework.files??>
-                        <#list homework.files as file>
-                            <img src="/homeworkfiles/${file}">
-                        </#list>
+                    <h2>Домашняя работа ${homework.id} оценка: <#if homework.rating??>${homework.rating}<#else> не проверено</#if></h2>
+                    <h3>user <#if homework.user??>#${homework.user.id}
+                    <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
+                    <#if homework.user.userData.firstName??>${user.userData.firstName}<#else></#if></h3>
                     </#if>
-
                 </div>
             </div>
         </div>
     </div>
+    <#if homework.files??>
+        <div class="container">
+            <#list homework.files as file>
+                <div class="row pt-2">
+                    <div class="col-md-12">
+                        <img class="img-fluid" src="/homeworkfiles/${file}">
+                    </div>
+                </div>
+            </#list>
+        </div>
+    </#if>
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <form action="/admin/homework/${homework.id}">
+                    <input type="number" class="form-control bfh-number" name="rating">
+                    <button type="submit">Оценить</button>
+                </form>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+
 </#if>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

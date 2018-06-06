@@ -51,6 +51,6 @@ public class Project01Application implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/homeworkfiles/**").addResourceLocations("file:./homeworkfiles/");
+		registry.addResourceHandler("/homeworkfiles/**").addResourceLocations("file:src//homeworkfiles/");
 	}
 }

@@ -62,6 +62,8 @@ public class PrivatePageController {
     private UserDataRepository userDataRepository;
     @Autowired
     private PasswordService passwordService;
+    @Autowired
+    private HomeWorkRepository homeWorkRepository;
 
     public PrivatePageController( ) {
     }
@@ -208,8 +210,10 @@ public class PrivatePageController {
                 homework.setFiles(filenames);
                 if (user.getHomeworks() == null)
                     user.setHomeworks(new ArrayList<>());
+                homework.setUser(user);
                 user.getHomeworks().add(homework);
                 userRepository.save(user);
+                homeWorkRepository.save(homework);
                 log.info("Сохранено дз " + homework);
             }
             if (firstName!=null) {
