@@ -9,6 +9,8 @@ public class Homework {
     @Id @GeneratedValue
     private Integer id;
     private String name;
+    @Lob
+    private String body;
     private LocalDateTime dateTimeOfCreation;
     private LocalDateTime dateTimeVerification;
     private Integer rating;
@@ -100,5 +102,13 @@ public class Homework {
 
     public void setTrainingGroup(TrainingGroup trainingGroup) {
         this.trainingGroup = trainingGroup;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

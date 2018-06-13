@@ -22,6 +22,13 @@
             </div>
         </div>
     </div>
+<#if homework.body??>
+    <div class="card p-2">
+        <div class="card-body">
+            ${homework.body}
+        </div>
+    </div>
+</#if>
     <#if homework.files??>
         <div class="container">
             <#list homework.files as file>

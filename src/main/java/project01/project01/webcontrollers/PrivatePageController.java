@@ -180,34 +180,42 @@ public class PrivatePageController {
                                    @RequestParam(required = false) String password1,
                                    @RequestParam(required = false) String password2,
                                    @RequestParam(required = false) String email,
-                                   @RequestParam(value = "image",required = false)MultipartFile[] files){
+                                   @RequestParam(value = "image",required = false)MultipartFile[] files,
+                                   @RequestParam(value = "body",required = false) String body){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
         optionalUser.ifPresent(user -> {
-            if (files!=null) {
+            if (files!=null||body!=null&&!body.isEmpty()) {
                 log.info("юзер " + user + "прислал дз");
                 System.out.println("юзер " + user + "прислал дз");
                 List<String> filenames = new ArrayList<>();
-                for (MultipartFile file : files) {
-                    String filename = "" + user.getId() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                            + "_" + StringUtils.cleanPath(file.getOriginalFilename());
-                    if (file.isEmpty())
-                        throw new StorageException("Failed to store empty file " + filename);
-                    if (filename.contains(".."))
-                        throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-                    try (InputStream inputStream = file.getInputStream()) {
-                        Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-                        filenames.add(filename);
-                        System.out.println("Сохранён файл " + filename);
-                        log.info("Сохранён файл " + filename);
-                    } catch (IOException e) {
-                        System.out.println("не смог сохранить файл в homeworkfiles");
-                        throw new StorageException("Failed to store file " + GlobalConfig.pathUsersFiles.resolve(filename));
+                if (files!=null&&files.length>0) {
+                    for (MultipartFile file : files) {
+                        String filename = "" + user.getId() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                                + "_" + StringUtils.cleanPath(file.getOriginalFilename());
+                        if (file.isEmpty())
+                            throw new StorageException("Failed to store empty file " + filename);
+                        if (filename.contains(".."))
+                            throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+                        try (InputStream inputStream = file.getInputStream()) {
+                            Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                            filenames.add(filename);
+                            System.out.println("Сохранён файл " + filename);
+                            log.info("Сохранён файл " + filename);
+                        } catch (IOException e) {
+                            System.out.println("не смог сохранить файл в homeworkfiles " + GlobalConfig.pathUsersFiles.resolve(filename));
+                        } catch (StorageException e){
+                            log.warn(e.getMessage());
+                            System.out.println("не смог сохранить файл в homeworkfiles " + GlobalConfig.pathUsersFiles.resolve(filename));
+                        }
                     }
                 }
                 Homework homework = new Homework();
                 homework.setDateTimeOfCreation(LocalDateTime.now());
-                homework.setFiles(filenames);
+                if (!filenames.isEmpty()&&filenames.size()>0)
+                    homework.setFiles(filenames);
+                if (body!=null&&!body.isEmpty())
+                    homework.setBody(body);
                 if (user.getHomeworks() == null)
                     user.setHomeworks(new ArrayList<>());
                 homework.setUser(user);

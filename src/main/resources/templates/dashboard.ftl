@@ -159,6 +159,7 @@
                                   <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
                                   <td class="lead">
                                       <input type="file" multiple name="image" class="form-control-file">
+                                      <textarea class="form-control-plaintext pt-2" placeholder="введите текс" name="body"></textarea>
                                   </td>
                               </tr>
                               </tbody>
