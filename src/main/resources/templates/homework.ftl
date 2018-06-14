@@ -14,10 +14,18 @@
                 <div class="col-md-12">
                     <a class="btn btn-primary" href="/admin" >Вернуться к списку групп </a>
                     <h2>Домашняя работа ${homework.id} оценка: <#if homework.rating??>${homework.rating}<#else> не проверено</#if></h2>
-                    <h3>user <#if homework.user??>#${homework.user.id}
-                    <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
-                    <#if homework.user.userData.firstName??>${user.userData.firstName}<#else></#if></h3>
-                    </#if>
+                    <h3>user
+                    <#if homework.user??>#${homework.user.id}
+                        <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
+                        <#if homework.user.userData.firstName??>${user.userData.firstName}<#else></#if>
+                    </h3></#if>
+                    <h3>Группа:
+                        <#if homework.trainingGroup??>
+                            #${homework.trainingGroup.id},
+                             ${homework.trainingGroup.name},
+                             <#if homework.trainingGroup.telegramName??>${homework.trainingGroup.telegramName}</#if>
+                        </#if>
+                    </h3>
                 </div>
             </div>
         </div>

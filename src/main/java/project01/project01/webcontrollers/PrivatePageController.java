@@ -26,7 +26,6 @@ import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.enums.Global;
-import project01.project01.exceptions.StorageException;
 import project01.project01.services.PasswordService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -180,33 +179,28 @@ public class PrivatePageController {
                                    @RequestParam(required = false) String password1,
                                    @RequestParam(required = false) String password2,
                                    @RequestParam(required = false) String email,
-                                   @RequestParam(value = "image",required = false)MultipartFile[] files,
+                                   @RequestParam(value = "files",required = false)MultipartFile[] files,
                                    @RequestParam(value = "body",required = false) String body){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
         optionalUser.ifPresent(user -> {
-            if (files!=null||body!=null&&!body.isEmpty()) {
+            if (user.getTrainingGroups()!=null&&user.getTrainingGroups().size()>0&&(files!=null||body!=null)) {
                 log.info("юзер " + user + "прислал дз");
                 System.out.println("юзер " + user + "прислал дз");
                 List<String> filenames = new ArrayList<>();
-                if (files!=null&&files.length>0) {
+                if (files!=null) {
                     for (MultipartFile file : files) {
                         String filename = "" + user.getId() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
                                 + "_" + StringUtils.cleanPath(file.getOriginalFilename());
-                        if (file.isEmpty())
-                            throw new StorageException("Failed to store empty file " + filename);
-                        if (filename.contains(".."))
-                            throw new StorageException("Cannot store file with relative path outside current directory " + filename);
-                        try (InputStream inputStream = file.getInputStream()) {
-                            Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-                            filenames.add(filename);
-                            System.out.println("Сохранён файл " + filename);
-                            log.info("Сохранён файл " + filename);
-                        } catch (IOException e) {
-                            System.out.println("не смог сохранить файл в homeworkfiles " + GlobalConfig.pathUsersFiles.resolve(filename));
-                        } catch (StorageException e){
-                            log.warn(e.getMessage());
-                            System.out.println("не смог сохранить файл в homeworkfiles " + GlobalConfig.pathUsersFiles.resolve(filename));
+                        if (!file.isEmpty()&&!filename.contains("..")) {
+                            try (InputStream inputStream = file.getInputStream()) {
+                                Files.copy(inputStream, GlobalConfig.pathUsersFiles.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                                filenames.add(filename);
+                                System.out.println("Сохранён файл " + filename);
+                                log.info("Сохранён файл " + filename);
+                            } catch (IOException e) {
+                                System.out.println("не смог сохранить файл в homeworkfiles " + GlobalConfig.pathUsersFiles.resolve(filename));
+                            }
                         }
                     }
                 }
@@ -219,6 +213,7 @@ public class PrivatePageController {
                 if (user.getHomeworks() == null)
                     user.setHomeworks(new ArrayList<>());
                 homework.setUser(user);
+                homework.setTrainingGroup(user.getTrainingGroups().get(0));
                 user.getHomeworks().add(homework);
                 userRepository.save(user);
                 homeWorkRepository.save(homework);

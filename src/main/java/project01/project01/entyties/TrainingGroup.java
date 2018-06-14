@@ -20,6 +20,7 @@ public class TrainingGroup {
     private Course course;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Homework> homeworkList;
+    private String telegramName;
 
     @Override
     public String toString() {
@@ -93,5 +94,13 @@ public class TrainingGroup {
 
     public void setHomeworkList(List<Homework> homeworkList) {
         this.homeworkList = homeworkList;
+    }
+
+    public String getTelegramName() {
+        return telegramName;
+    }
+
+    public void setTelegramName(String telegramName) {
+        this.telegramName = telegramName;
     }
 }
