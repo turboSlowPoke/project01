@@ -4,16 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.UserDataRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Role;
 import project01.project01.entyties.Subscribe;
 import project01.project01.entyties.User;
 import project01.project01.entyties.UserData;
-import project01.project01.enums.Global;
 import project01.project01.exceptions.NoUserInDbException;
 import project01.project01.telegram.rx_objects.Message;
-import project01.project01.telegram.tx_objects.SendMessage;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -72,7 +71,7 @@ public class UserService {
         user.setRoles(new HashSet<Role>(Arrays.asList(new Role())));
         user.setLogin(message.getChat().getUserName());
         userRepository.save(user);
-        String stringForHash = user.getId().toString()+user.getStartDate().toString()+Global.COD_WORD;
+        String stringForHash = user.getId().toString()+user.getStartDate().toString()+GlobalConfig.CodWord;
         user.setHash(createHash(stringForHash));
         user.setSubsribe(new Subscribe());
         userRepository.save(user);

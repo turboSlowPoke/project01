@@ -9,4 +9,5 @@ public class GlobalConfig {
     public static final String siteUrl = "https://sandbox.dorado.su";
     public static final BigDecimal bonusProcentForPayment = new BigDecimal("0.10");
     public static final BigDecimal bonusProcentForReferal = new BigDecimal("0.10");
+    public static final String CodWord = "C0d0v0eSl0v0";
 }
