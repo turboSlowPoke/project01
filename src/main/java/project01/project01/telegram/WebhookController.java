@@ -13,6 +13,8 @@ import project01.project01.entyties.*;
 import project01.project01.enums.Global;
 import project01.project01.exceptions.DublicateUsersInDb;
 import project01.project01.enums.Purchase;
+import project01.project01.exceptions.NoUserInDbException;
+import project01.project01.services.UserService;
 import project01.project01.telegram.commands.MainCommand;
 import project01.project01.telegram.rx_objects.CallbackQuery;
 import project01.project01.telegram.tx_objects.*;
@@ -21,15 +23,9 @@ import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 public class WebhookController {
@@ -41,8 +37,8 @@ public class WebhookController {
     private  UserDataRepository userDataRepository;
     @Autowired
     private OrderRepository orderRepository;
-    private final String botURL ="https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M";
-
+    @Autowired
+    private UserService userService;
     public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
         this.userRepository = userRepository;
         this.signalRepository = signalRepository;
@@ -276,44 +272,30 @@ public class WebhookController {
         String t = text.substring(6);
         Integer len = text.substring(6).length();
         if (text.equals("/start")) {
-            user = createNewUser(incomingMessage);
-            log.info("В базу добавлен новый root пользователь");
+            userService.createNewUser(incomingMessage);
         }else if(text.startsWith("/start ref")){
-            user = createNewUser(incomingMessage);
             try {
-                Integer parenUserId = Integer.parseInt(text.substring(10));
-                List<User> users = userRepository.findUserById(parenUserId);
-                if (users==null||users.isEmpty())
-                    throw new Exception();
-                User parentUser= users.get(0);
-                log.info("Юзеру добавлен реферал "+parentUser);
-                user.setInvitedId(parentUser.getId());
-                userRepository.save(user);
-                log.info("Сохранён приглашенный пользователь");
-                sendMessage(new SendMessage(parentUser.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
+                user = userService.createNewUserByInviteLinkForTelegram(incomingMessage);
+                String textFoParentUser = "У вас добавился реферал: ";
+                if (user.getUserData().getFirstName()!=null){
+                    textFoParentUser= textFoParentUser+user.getUserData().getFirstName()+", ";
+                }else {
+                    textFoParentUser= textFoParentUser+"имя не указано, ";
+                }
+                if (user.getUserData().getTelegramNikcName()!=null&&!user.getUserData().getTelegramNikcName().equals("@null")){
+                    textFoParentUser = textFoParentUser + user.getUserData().getTelegramNikcName()+".\n";
+                }else {
+                    textFoParentUser = textFoParentUser + "@никнейм не указан.\n";
+                }
+                sendMessage(new SendMessage(user.getInvitedId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
                 answer.setText("<b>Добро пожаловать</b>");
-            } catch (Exception e) {
-                log.error("Зашел юзер по кривой реф ссылке");
-                userRepository.save(user);
+            } catch (NoUserInDbException e) {
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");
             }
-        }else if (text.startsWith("/start ")&&text.substring(7).length()==64){// /start=123456789,,,
-            List<User> users = userRepository.findUserByHash(text.substring(7));
-            if (users!=null&&!users.isEmpty()){
-                user = users.get(0);
-                user.setTelegramChatId(incomingMessage.getChat().getId());
-                user.getUserData().setTelegramNikcName("@"+incomingMessage.getChat().getUserName());
-                if (user.getUserData().getFirstName()==null)
-                    user.getUserData().setFirstName(getValidPartName(incomingMessage.getChat().getFirstName()));
-                if (user.getUserData().getLastName()==null)
-                    user.getUserData().setLastName(getValidPartName(incomingMessage.getChat().getLastName()));
-                userRepository.save(user);
-                userDataRepository.save(user.getUserData());
-                log.info("Юзеру выполнена привязка телеграм "+user);
-            }else{
-                log.warn("Юзер перешел по кривой ссылке из личного кабинета: " +text);
-                System.out.println("Юзер перешел по кривой ссылке из личного кабинета: " +text);
-                answer.setText("<<b>Вниманией!</b> В ссылке по которой вы перешли ошибка, бот не может привязать вашу учетку в telegram к личному кабинету");
+        }else if (text.startsWith("/start ")&&text.substring(7).length()==64){// /start='hash'
+            User userByHash = userService.addTelegramIdToUser(incomingMessage);
+            if (userByHash==null){
+                answer.setText("<<b>Вниманией!</b> В ссылке по которой вы перешли ошибка, бот не может привязать ваш ID в telegram к личному кабинету");
                 answer.setReplyMarkup(null);
             }
         } else {
@@ -328,33 +310,7 @@ public class WebhookController {
         return answer;
     }
 
-    private User createNewUser(Message incomingMessage) {
-        UserData userData = new UserData();
-        userData.setFirstName(getValidPartName(incomingMessage.getChat().getFirstName()));
-        userData.setLastName(getValidPartName(incomingMessage.getChat().getLastName()));
-        userData.setTelegramNikcName("@"+incomingMessage.getChat().getUserName());
-        User user = new User();
-        user.setStartDate(LocalDateTime.now());
-        user.setTelegramChatId(incomingMessage.getChat().getId());
-        user.setRoles(new HashSet<Role>(Arrays.asList(new Role())));
-        user.setLogin(incomingMessage.getChat().getUserName());
-        userRepository.save(user);
-        String stringForHash = user.getId().toString()+user.getStartDate().toString()+Global.COD_WORD;
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(stringForHash.getBytes(StandardCharsets.UTF_8));
-        byte[] digest = md.digest();
-        String hash = String.format("%064x", new BigInteger( 1, digest ) );
-        user.setHash(hash);
-        user.setSubsribe(new Subscribe());
-        userRepository.save(user);
-        log.info("Сохранён новый юзер: "+user);
-        return user;
-    }
+
 
     private InlineKeyboardMarkup createUpdateBottom() {
         List<List<InlineKeyboardButton>> lines = new ArrayList<>();
@@ -364,22 +320,7 @@ public class WebhookController {
         return new InlineKeyboardMarkup(lines);
     }
 
-    private String getValidPartName(String name) {
-        String validName="-";
-        String p = "([\\w]|.)*";
-        Pattern pattern = Pattern.compile(p,Pattern.UNICODE_CHARACTER_CLASS);
-        if (name!=null) {
-            try {
-                Matcher matcher = pattern.matcher(name);
-                if (matcher.matches()) {
-                    validName = name;
-                }
-            } catch (Exception e) {
-                log.info("Не прошло проверку имя "+name);
-            }
-        }
-        return validName;
-    }
+
 
     private KeyboardMarkup createMainKeyBoard() {
         List<List<KeyboardButton>> buttonList = new ArrayList<>();

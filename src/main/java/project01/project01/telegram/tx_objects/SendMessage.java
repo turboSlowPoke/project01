@@ -35,11 +35,6 @@ public class SendMessage extends ResponseForTelegram {
         return "SendMessage{" +
                 "chatId=" + chatId +
                 ", text='" + text + '\'' +
-                ", parseMode='" + parseMode + '\'' +
-                ", disableWebPagePreview=" + disableWebPagePreview +
-                ", disableNotification=" + disableNotification +
-                ", replytoMessageId=" + replytoMessageId +
-                ", replyMarkup=" + replyMarkup +
                 '}';
     }
 
