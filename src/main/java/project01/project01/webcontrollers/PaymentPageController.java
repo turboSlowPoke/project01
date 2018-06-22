@@ -185,6 +185,10 @@ public class PaymentPageController {
                     }
                     BigDecimal newBonus = order.getAmount().multiply(GlobalConfig.bonusProcentForPayment);
                     user.getBonusWallet().setCandyWrapers(user.getBonusWallet().getCandyWrapers().add(newBonus));
+                    if (user.getUserData().getAdvcash()==null){
+                        user.getUserData().setAdvcash(acSrcWallet);
+
+                    }
                     log.info("бонусы начислены " + newBonus);
                     System.out.println("бонусы начислены " + newBonus);
                     userRepository.save(user);

@@ -433,8 +433,36 @@
               </div>
           </div>
       </div>
+    <div class="modal fade" id="referalPayOutBonus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+              <div class="modal-content">
+                  <div class="modal-header cyan">
+                      <h5 class="modal-title white-text" ><i class="fa fa-handshake-o mr-3 white-text" aria-hidden="true"></i>Выплата реферальных</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
+                  </div>
+                  <div class="modal-body text-center">
+                      <#if (payOutOrders?? && payOutOrders?size>0)>
+                          <#list payOutOrders as payOutOrder>
+                              <#assign orderDate=(""+payOutOrder.createDate)?date("yyyy-MM-dd")>
+                              Вы подали заявку на выплату id:${payOutOrder.id}  ${orderDate} <br>
+                              Ваши реферальные будут перечислены на кошелёк advcash: ${user.userData.advcash}
+                          </#list>
+                      <#else>
+                      Прежде чем создать заявку на выплату проверьте номер вашего кошелька advcash.<br>
+                      Номер вашего advcash: <#if user.userData.advcash??> ${user.userData.advcash}<#else> <i>не настроен</i> </#if>
+                      Заявки обрабатываются в конце недели.
+                      <a class="btn btn-green btn-sm" href="/lk/pay_out">Создать заявку</a><br>
+                      </#if>
+                  </div>
+                  <div class="modal-footer text-center">
+                      <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <section id="subscription1"> </section>
+
+      <section id="subscription1"> </section>
     <div class="container container-fluid mt-5">
       <div class="row wow fadeIn">
           <#--сигналы-->
@@ -611,6 +639,9 @@
             </div>
             <div class="card-footer text-center ">
               <button type="button" class="btn btn-default " data-toggle="modal" data-target="#referalLinkWindow">Пригласить</button>
+              <#if user.getBonusWallet()??&&user.getBonusWallet().usdBonus??>
+                  <button type="button" class="btn btn-default " data-toggle="modal" data-target="#referalPayOutBonus">Выплатить</button>
+              </#if>
             </div>
           </div>
         </div>

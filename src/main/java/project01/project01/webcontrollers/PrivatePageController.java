@@ -63,6 +63,8 @@ public class PrivatePageController {
     private PasswordService passwordService;
     @Autowired
     private HomeWorkRepository homeWorkRepository;
+    @Autowired
+    private PayOutOrderRepositotry payOutOrderRepositotry;
 
     public PrivatePageController( ) {
     }
@@ -105,8 +107,8 @@ public class PrivatePageController {
             userId=user.getId();
             session.setAttribute("userId",user.getId());
             //если админ редиректим на админскую страницу
-//            if (userIsAdmin(user))
-//                return new ModelAndView("redirect:/admin", new HashMap<>());
+            if (userIsAdmin(user))
+                return new ModelAndView("redirect:/admin", new HashMap<>());
         } else {
             //user = (User) session.getAttribute("user");
              userId = (Integer) session.getAttribute("userId");
@@ -149,6 +151,8 @@ public class PrivatePageController {
             BigDecimal amount = orderRepository.amountReferalPayment(user.getId());
             model.put("sumPaymentOfReferals",amount);
         });
+        //заявка на выплату
+        model.put("payOutOrders",payOutOrderRepositotry.findOpenOrder(userId));
         model.put("trainingGroups",trainingGroups);
 
         //редирект от удачного платежа
@@ -244,6 +248,33 @@ public class PrivatePageController {
                 userDataRepository.save(user.getUserData());
                 log.info("сменил email "+user);
                 System.out.println("сменил email "+user);
+            }
+        });
+        return new RedirectView("/lk");
+    }
+
+    @GetMapping("/lk/pay_out")
+    private RedirectView createPayOutOrder(HttpServletRequest request){
+        Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            if (user.getBonusWallet()!=null
+                    &&user.getBonusWallet().getUsdBonus()!=null
+                    &&user.getBonusWallet().getUsdBonus().signum()==1){
+                List<PayOutOrder> payOutOrders = payOutOrderRepositotry.findOpenOrder(user.getId());
+                if (payOutOrders==null||payOutOrders.isEmpty()) {
+                    if (user.getPayOutOrders() == null) {
+                        user.setPayOutOrders(new ArrayList<>());
+                    }
+                    PayOutOrder payOutOrder = new PayOutOrder();
+                    payOutOrder.setCreateDate(LocalDateTime.now());
+                    payOutOrder.setUser(user);
+                    user.getPayOutOrders().add(payOutOrder);
+                    userRepository.save(user);
+                    payOutOrderRepositotry.save(payOutOrder);
+                    log.info("Создана заявка на выплату рефералки для " +user);
+                    System.out.println("Создана заявка на выплату рефералки для " +user);
+                    request.getSession(false).setAttribute("succes","Заявка на выплату принята");
+                }
             }
         });
         return new RedirectView("/lk");

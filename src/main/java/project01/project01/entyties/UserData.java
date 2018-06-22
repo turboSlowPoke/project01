@@ -13,6 +13,7 @@ public class UserData {
     private String telegramNikcName;
     private String firstName;
     private String lastName;
+    private String advcash;
 
     @Override
     public String toString() {
@@ -63,5 +64,13 @@ public class UserData {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAdvcash() {
+        return advcash;
+    }
+
+    public void setAdvcash(String advcash) {
+        this.advcash = advcash;
     }
 }

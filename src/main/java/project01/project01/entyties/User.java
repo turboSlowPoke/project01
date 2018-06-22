@@ -33,6 +33,8 @@ public class User {
     private List<Homework> homeworks;
     @OneToOne(cascade = CascadeType.ALL)
     private BonusWallet bonusWallet;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PayOutOrder> payOutOrders;
 
     public User() {
     }
@@ -185,4 +187,11 @@ public class User {
         this.bonusWallet = bonusWallet;
     }
 
+    public List<PayOutOrder> getPayOutOrders() {
+        return payOutOrders;
+    }
+
+    public void setPayOutOrders(List<PayOutOrder> payOutOrders) {
+        this.payOutOrders = payOutOrders;
+    }
 }
