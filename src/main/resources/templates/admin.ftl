@@ -107,7 +107,7 @@
                                       <td>${group.startSet} - ${group.endSet}</td>
                                       <td><#if group.name??>${group.name}</#if></td>
                                       <td><#if group.users??>${group.users?size}</#if></td>
-                                      <th><a href="/admin/group?group=${group.id}">подробнее</a></th>
+                                      <th><a href="/admin/group/${group.id}">подробнее</a></th>
                                   </tr>
                                   </#list>
                                   </tbody>

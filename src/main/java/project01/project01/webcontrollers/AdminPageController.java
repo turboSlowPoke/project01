@@ -38,11 +38,11 @@ public class AdminPageController {
 
     @RequestMapping("/admin")
     public ModelAndView admin(@RequestParam(required = false) String method,
-                                      @RequestParam(required = false) String header,
-                                      @RequestParam(required = false) String body,
-                                      @RequestParam(required = false) String groupName,
-                                      @RequestParam(required = false) String startSet,
-                                      @RequestParam(required = false) String endSet){
+                              @RequestParam(required = false) String header,
+                              @RequestParam(required = false) String body,
+                              @RequestParam(required = false) String groupName,
+                              @RequestParam(required = false) String startSet,
+                              @RequestParam(required = false) String endSet){
 
         Map<String,Object> model = new HashMap<>();
         if (method!=null) {
@@ -83,10 +83,10 @@ public class AdminPageController {
         return trainingGroup;
     }
 
-    @GetMapping("/admin/group")
-    public ModelAndView trainingGroup(@RequestParam String group){
+    @GetMapping("/admin/group/{groupid}")
+    public ModelAndView trainingGroup(@PathVariable("groupid")String groupid){
         Map<String, Object> model = new HashMap<>();
-        Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(group));
+        Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(groupid));
         trainingGroup.ifPresent(tg -> model.put("group",tg));
         return new ModelAndView("TrainingGroup",model);
     }
@@ -105,6 +105,7 @@ public class AdminPageController {
       });
       return new ModelAndView("homeworkList",model);
     }
+
     @RequestMapping(value = "/admin/homework/{homeworkId}", method = RequestMethod.GET)
     public ModelAndView homework(@PathVariable("homeworkId")String homeworkId,
                                  @RequestParam(required = false)String rating){
