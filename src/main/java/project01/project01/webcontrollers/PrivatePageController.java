@@ -36,6 +36,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -176,7 +178,7 @@ public class PrivatePageController {
         return chek;
     }
 
-    @PostMapping("/add_homework")
+    @PostMapping("/lk/add_homework")
     public RedirectView addHomeWork(HttpServletRequest request,
                                     @RequestParam(value = "name",required = false) String name,
                                     @RequestParam(value = "files",required = false)MultipartFile[] files,
@@ -223,6 +225,39 @@ public class PrivatePageController {
                 log.info("Сохранено дз " + homework + "для юзера " +user);
                 System.out.println("Сохранено дз " + homework + "для юзера " +user);
             }
+        });
+        return new RedirectView("/lk");
+    }
+
+    @PostMapping("/lk/delete_homework")
+    public RedirectView deleteHomework(HttpServletRequest request,
+                                       @RequestParam String id){
+        Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            Optional<Homework> optionalHomework = homeWorkRepository.findById(Integer.parseInt(id));
+            optionalHomework.ifPresent(homework -> {
+                if (homework.getUser().getId()==user.getId()){
+                    Integer countDeletedFiles=0;
+                    for (String path : homework.getFiles()) {
+                        Path fileToDeletePath = GlobalConfig.pathUsersFiles.resolve(path);
+                        try {
+                            Files.delete(fileToDeletePath);
+                            countDeletedFiles++;
+                        } catch (IOException e) {
+                            System.out.println("Не смог удалить файл" + path);
+                            log.error("Не смог удалить файл" + path);
+                        }
+                    }
+                    if (countDeletedFiles==homework.getFiles().size()){
+                        System.out.println("все файлы для дз  удалены");
+                        user.getHomeworks().remove(homework);
+                        userRepository.save(user);
+                        homeWorkRepository.delete(homework);
+                    }else {
+                        System.out.println("Не все файлы удалены, не могу удалить " + homework);
+                    }
+                }
+            });
         });
         return new RedirectView("/lk");
     }

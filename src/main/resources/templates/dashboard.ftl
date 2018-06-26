@@ -150,7 +150,7 @@
                       <p class="heading lead">Домашнее задание</p>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
-                  <form class="form-group" action="/add_homework" method="post" enctype="multipart/form-data">
+                  <form class="form-group" action="/lk/add_homework" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                       <div class="modal-body text-center">
                           <table class="table">
@@ -565,6 +565,7 @@
                                 <th>id</th>
                                 <th>дата</th>
                                 <th>статус</th>
+                                <th></th>
                                 </thead>
                                 <tbody >
                                 <#list user.homeworks as homework>
@@ -573,6 +574,13 @@
                                     <td>${homework.id}</td>
                                     <td>${homeworkDate}</td>
                                     <td><#if (homework.cheked?? && homework.cheked==true )>Оценка ${homework.rating}<#else>не проверено</#if></td>
+                                    <td>
+                                        <form action="/lk/delete_homework" method="post">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input type="hidden" name="id" value="${homework.id}">
+                                            <a class="text red-text" href="#" onclick="this.parentNode.submit()"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        </form>
+                                    </td>
                                 </tr>
                                 </#list>
                             </table>

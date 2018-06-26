@@ -43,7 +43,7 @@
                                      <tr>
                                          <td><#if user.userData.firstName??>${user.userData.firstName}<#else>Без имени</#if></td>
                                          <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>Без ника</#if></td>
-                                         <td><#if user.homeworks??><a href="/admin/training_group/${group.id}/list_user_homeworks/${user.id}">ДЗ</a></#if></td>
+                                         <td><#if (user.homeworks?? && user.homeworks?size>0)><a href="/admin/training_group/${group.id}/list_user_homeworks/${user.id}">ДЗ</a></#if></td>
                                      </tr>
                                   </#list>
                                   </tbody>
