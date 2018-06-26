@@ -14,7 +14,7 @@ public class Homework {
     private LocalDateTime dateTimeOfCreation;
     private LocalDateTime dateTimeVerification;
     private Integer rating;
-    private Boolean verified;
+    private Boolean cheked=false;
     @ElementCollection(targetClass = String.class)
     private List<String> files;
     @ManyToOne
@@ -72,16 +72,16 @@ public class Homework {
         this.rating = rating;
     }
 
-    public Boolean getVerified() {
-        return verified;
+    public Boolean getCheked() {
+        return cheked;
     }
 
     public List<String> getFiles() {
         return files;
     }
 
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
+    public void setCheked(Boolean cheked) {
+        this.cheked = cheked;
     }
 
     public void setFiles(List<String> files) {

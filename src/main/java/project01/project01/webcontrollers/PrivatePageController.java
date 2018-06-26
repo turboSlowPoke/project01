@@ -220,7 +220,7 @@ public class PrivatePageController {
                 homework.setTrainingGroup(user.getTrainingGroups().get(0));
                 user.getHomeworks().add(homework);
                 userRepository.save(user);
-                homeWorkRepository.save(homework);
+             //   homeWorkRepository.save(homework);
                 log.info("Сохранено дз " + homework);
             }
             if (firstName!=null) {

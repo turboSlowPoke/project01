@@ -120,6 +120,25 @@
       </div>
 </#if>
 
+ <#if (uncheckedHomeworkList?? && uncheckedHomeworkList?size>0)>
+ <div class="py-2">
+     <div class="container pt-5">
+         <div class="row pt-2">
+             <div class="col-md-12">
+                 <div class="card">
+                     <div class="card-body">
+                         Есть ${uncheckedHomeworkList?size} ДЗ на проверку
+                     </div>
+                     <div class="card-footer">
+                         <a class="btn btn-green" href="/admin/unchecked_homeworks">Проверить</a>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ </#if>
+
   <div class="py-2">
     <div class="container pt-5">
         <div class="row pt-2">

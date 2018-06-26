@@ -5,17 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
-import project01.project01.enums.Global;
 import project01.project01.services.SignalsService;
-import project01.project01.telegram.tx_objects.SendMessage;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -64,6 +62,7 @@ public class AdminPageController {
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
         model.put("trainingGroupList",trainingGroupRepository.findAll());
+        model.put("uncheckedHomeworkList",homeWorkRepository.findAllByChekedFalse());
         return new ModelAndView("admin",model);
     }
 
@@ -115,7 +114,7 @@ public class AdminPageController {
             optionalHomework.ifPresent(homework -> {
                 if (rating!=null&&!rating.isEmpty()){
                     homework.setRating(Integer.parseInt(rating));
-                    homework.setVerified(true);
+                    homework.setCheked(true);
                     homeWorkRepository.save(homework);
                     log.info("проверено дз "+homework);
                     System.out.println("проверено дз "+homework);
@@ -138,5 +137,15 @@ public class AdminPageController {
         }
         return new ModelAndView("homework",model);
     }
+
+    @GetMapping("/admin/unchecked_homeworks")
+    public ModelAndView getUncheckedHomeworkList(){
+        Map<String,Object> model = new HashMap<>();
+        List<Homework> uncheckedHomeworkList = homeWorkRepository.findAllByChekedFalse();
+        model.put("uncheckedHomeworkList",uncheckedHomeworkList);
+        return new ModelAndView("unchekedHomeworList",model);
+
+    }
+
 
 }

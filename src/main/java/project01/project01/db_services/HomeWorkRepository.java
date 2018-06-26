@@ -12,4 +12,6 @@ import java.util.List;
 public interface HomeWorkRepository extends CrudRepository<Homework,Integer> {
     @Query("SELECT h FROM Homework h JOIN h.user u WHERE u.id=:id")
     List<Homework> findAllByUser(@Param("id") Integer id);
+    List<Homework> findAllByCheked(Boolean isCheked);
+    List<Homework> findAllByChekedFalse();
 }

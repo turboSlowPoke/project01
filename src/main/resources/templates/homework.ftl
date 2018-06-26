@@ -12,8 +12,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-primary" href="/admin" >Вернуться к списку групп </a>
-                    <h2>Домашняя работа ${homework.id} оценка: <#if homework.rating??>${homework.rating}<#else> не проверено</#if></h2>
+                    <a class="btn btn-primary" href="/admin/unchecked_homeworks" >Вернуться к списку непроверенных ДЗ </a>
+                    <h2>Домашняя работа id= ${homework.id} оценка: <#if homework.rating??>${homework.rating}<#else> не проверено</#if></h2>
                     <h3>user
                     <#if homework.user??>#${homework.user.id}
                         <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>

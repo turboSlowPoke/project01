@@ -549,7 +549,7 @@
                                 <tr>
                                     <td>${homework.id}</td>
                                     <td>${homeworkDate}</td>
-                                    <td><#if homework.verified??>Оценка ${homework.rating}><#else>не проверено</#if></td>
+                                    <td><#if (homework.cheked?? && homework.cheked==true )>Оценка ${homework.rating}><#else>не проверено</#if></td>
                                 </tr>
                                 </#list>
                             </table>
