@@ -138,6 +138,24 @@
      </div>
  </div>
  </#if>
+<#if (payOutOrderList?? && payOutOrderList?size>0)>
+     <div class="py-2">
+         <div class="container pt-5">
+             <div class="row pt-2">
+                 <div class="col-md-12">
+                     <div class="card">
+                         <div class="card-body">
+                             Есть ${payOutOrderList?size} заявки на выплату реферальных
+                         </div>
+                         <div class="card-footer">
+                             <a class="btn btn-green" href="/admin/pay_out_orders">Открыть</a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+</#if>
 
   <div class="py-2">
     <div class="container pt-5">

@@ -70,7 +70,7 @@
 
       <div class="list-group list-group-flush" id="mainNav">
         <a href="#subscription1" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки</a>
-        <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item  waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
+        <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
         <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
         <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
@@ -444,7 +444,7 @@
                       <#if (payOutOrders?? && payOutOrders?size>0)>
                           <#list payOutOrders as payOutOrder>
                               <#assign orderDate=(""+payOutOrder.createDate)?date("yyyy-MM-dd")>
-                              Вы подали заявку на выплату id:${payOutOrder.id}  ${orderDate} <br>
+                              Вы подали заявку на выплату ${orderDate}  id=<b>${payOutOrder.id}</b><br>
                               Ваши реферальные будут перечислены на кошелёк advcash: ${user.userData.advcash}
                           </#list>
                       <#else>
@@ -639,7 +639,7 @@
             </div>
             <div class="card-footer text-center ">
               <button type="button" class="btn btn-default " data-toggle="modal" data-target="#referalLinkWindow">Пригласить</button>
-              <#if user.getBonusWallet()??&&user.getBonusWallet().usdBonus??>
+              <#if (user.getBonusWallet()?? && user.getBonusWallet().usdBonus?? && user.getBonusWallet().usdBonus>0)>
                   <button type="button" class="btn btn-default " data-toggle="modal" data-target="#referalPayOutBonus">Выплатить</button>
               </#if>
             </div>

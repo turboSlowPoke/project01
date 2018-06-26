@@ -10,6 +10,7 @@ import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.Signal;
 import project01.project01.entyties.User;
 import project01.project01.enums.Global;
+import project01.project01.exceptions.TelegramMessageNotSendedException;
 import project01.project01.telegram.tx_objects.SendMessage;
 
 import java.time.LocalDate;
@@ -46,11 +47,25 @@ public class SignalsService {
         return count;
     }
 
+    public void sendMessageForUser(User user, String text){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(user.getId());
+        sendMessage.setText(text);
+        try {
+            sendMessage(sendMessage);
+        } catch (TelegramMessageNotSendedException e) {
+            log.warn("Не удалось отправить сообщение юзеру "+user);
+        }
+    }
 
 
-    private void sendMessage(SendMessage sendMessage) throws Exception {
+    private void sendMessage(SendMessage sendMessage) throws TelegramMessageNotSendedException {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(Global.BOT_URL.getText() +"/sendMessage", sendMessage,SendMessage.class);
-        Thread.sleep(15);
+        try {
+            restTemplate.postForObject(Global.BOT_URL.getText() +"/sendMessage", sendMessage,SendMessage.class);
+            Thread.sleep(15);
+        } catch (Exception e){
+            throw new TelegramMessageNotSendedException();
+        }
     }
 }

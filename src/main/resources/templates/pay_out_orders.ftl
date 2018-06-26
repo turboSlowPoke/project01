@@ -12,28 +12,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3>Список непроверенных работ</h3>
+                <h3>Список заявок на выплату работ</h3>
                 <a class="btn btn-primary" href="/admin" >Вернуться </a>
-                     <#if uncheckedHomeworkList?? >
+                     <#if payOutOrderList?? >
                              <table class="table">
                                  <thead>
                                  <tr>
                                      <th class="w-25">#id</th>
                                      <th>дата создания</th>
-                                     <th>название</th>
-                                     <th>группа</th>
+                                     <th>сумма</th>
                                      <th>@telegram юзера</th>
+                                     <th>advcash</th>
                                      <th>ссылка</th>
                                  </tr>
                                  </thead>
                                  <tbody>
-                                   <#list uncheckedHomeworkList as homework>
+                                   <#list payOutOrderList as payOutOrder>
                                    <tr>
-                                       <td>${homework.id}</td>
-                                       <td>${homework.dateTimeOfCreation?date("yyyy-MM-dd")}</td>
-                                       <td><#if homework.name??>${homework.name}</#if></td>
-                                       <td><#if homework.user.userData.telegramNikcName??>${homework.user.userData.telegramNikcName}</#if></td>
-                                       <td><a href="/admin/homework/${homework.id}">открыть</a>
+                                       <td>${payOutOrder.id}</td>
+                                       <td>${payOutOrder.createDate?date("yyyy-MM-dd")}</td>
+                                       <td>${payOutOrder.user.bonusWallet.usdBonus}</td>
+                                       <td><#if payOutOrder.user.userData.telegramNikcName??>${payOutOrder.user.userData.telegramNikcName}</#if></td>
+                                       <td><#if payOutOrder.user.userData.advcash??>${payOutOrder.user.userData.advcash}</#if></td>
+                                       <td><a href="/admin/close_pay_out_order/${payOutOrder.id}">закрыть</a>
                                        </td>
                                    </tr>
                                    </#list>

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.services.SignalsService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,8 @@ public class AdminPageController {
     private HomeWorkRepository homeWorkRepository;
     @Autowired
     private SignalsService signalsService;
+    @Autowired
+    private PayOutOrderRepositotry payOutOrderRepositotry;
 
 
     @RequestMapping("/admin")
@@ -63,6 +67,7 @@ public class AdminPageController {
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
         model.put("trainingGroupList",trainingGroupRepository.findAll());
         model.put("uncheckedHomeworkList",homeWorkRepository.findAllByChekedFalse());
+        model.put("payOutOrderList",payOutOrderRepositotry.findAllByCloseFalse());
         return new ModelAndView("admin",model);
     }
 
@@ -146,6 +151,33 @@ public class AdminPageController {
         return new ModelAndView("unchekedHomeworList",model);
 
     }
+
+    @GetMapping("/admin/pay_out_orders")
+    public ModelAndView getPayOutOrders(){
+        Map<String,Object> model = new HashMap<>();
+        model.put("payOutOrderList",payOutOrderRepositotry.findAllByCloseFalse());
+        return new ModelAndView("pay_out_orders",model);
+    }
+
+    @GetMapping("/admin/close_pay_out_order/{orderId}")
+    public RedirectView closePayOutOrder(@PathVariable("orderId") String orderId){
+        Optional<PayOutOrder> payOutOrder = payOutOrderRepositotry.findById(Integer.parseInt(orderId));
+        payOutOrder.ifPresent(order -> {
+            User user = order.getUser();
+            BigDecimal amount = user.getBonusWallet().getUsdBonus();
+            user.getBonusWallet().setUsdBonus(new BigDecimal("0.00"));
+            order.setAmount(amount);
+            order.setClose(true);
+            order.setCloseDate(LocalDateTime.now());
+            userRepository.save(user);
+            System.out.println("Закрыта заявка на вывод для юзера"+user);
+            log.info("Закрыта заявка на вывод для юзера"+user);
+            signalsService.sendMessageForUser(user,"Обработана ваша заявка на вывод реферальных");
+        });
+
+        return new RedirectView("/admin/pay_out_orders");
+    }
+
 
 
 }

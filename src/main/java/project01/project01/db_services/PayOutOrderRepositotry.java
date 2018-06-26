@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface PayOutOrderRepositotry extends CrudRepository<PayOutOrder,Integer> {
     @Query("SELECT p FROM PayOutOrder p JOIN p.user u WHERE u.id=:userId AND p.close=false")
-    List<PayOutOrder> findOpenOrder(@Param("userId") Integer userId);
+    List<PayOutOrder> findOpenOrderForUser(@Param("userId") Integer userId);
+    List<PayOutOrder> findAllByCloseFalse();
 }

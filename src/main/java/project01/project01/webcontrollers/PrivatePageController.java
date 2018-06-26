@@ -152,7 +152,7 @@ public class PrivatePageController {
             model.put("sumPaymentOfReferals",amount);
         });
         //заявка на выплату
-        model.put("payOutOrders",payOutOrderRepositotry.findOpenOrder(userId));
+        model.put("payOutOrders",payOutOrderRepositotry.findOpenOrderForUser(userId));
         model.put("trainingGroups",trainingGroups);
 
         //редирект от удачного платежа
@@ -260,7 +260,7 @@ public class PrivatePageController {
             if (user.getBonusWallet()!=null
                     &&user.getBonusWallet().getUsdBonus()!=null
                     &&user.getBonusWallet().getUsdBonus().signum()==1){
-                List<PayOutOrder> payOutOrders = payOutOrderRepositotry.findOpenOrder(user.getId());
+                List<PayOutOrder> payOutOrders = payOutOrderRepositotry.findOpenOrderForUser(user.getId());
                 if (payOutOrders==null||payOutOrders.isEmpty()) {
                     if (user.getPayOutOrders() == null) {
                         user.setPayOutOrders(new ArrayList<>());
@@ -270,7 +270,6 @@ public class PrivatePageController {
                     payOutOrder.setUser(user);
                     user.getPayOutOrders().add(payOutOrder);
                     userRepository.save(user);
-                    payOutOrderRepositotry.save(payOutOrder);
                     log.info("Создана заявка на выплату рефералки для " +user);
                     System.out.println("Создана заявка на выплату рефералки для " +user);
                     request.getSession(false).setAttribute("succes","Заявка на выплату принята");
