@@ -150,7 +150,7 @@
                       <p class="heading lead">Домашнее задание</p>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
-                  <form class="form-group" action="/lk" method="post" enctype="multipart/form-data">
+                  <form class="form-group" action="/add_homework" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                       <div class="modal-body text-center">
                           <table class="table">
@@ -158,6 +158,8 @@
                               <tr>
                                   <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
                                   <td class="lead">
+                                      <input type="text" required name="name" class="form-control" placeholder="Введите название">
+                                      <br><br>
                                       <input type="file" multiple name="files" class="form-control-file">
                                       <br><br>
                                       <textarea class="form-control border-info" placeholder="введите текс" name="body" rows="10"></textarea>
@@ -391,7 +393,7 @@
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header  accent-1">
-                      <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i>Изменить телеграм @username </h5>
+                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i>Телеграм @username</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body">
@@ -414,6 +416,28 @@
                       </form>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                   </div>
+              </div>
+          </div>
+      </div>
+    <div class="modal fade" id="changeAdvcash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header light-blue accent-1">
+                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена Advcash</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                  </div>
+                  <form action="/lk" method="post">
+                      <div class="modal-body">
+                          <div class="form-group">
+                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                              <input type="text" required name="advcash" class="form-control" id="exampleInputLogin" placeholder="Введите номер кошелька">
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="submit" class="btn btn-info">Сохранить</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                      </div>
+                  </form>
               </div>
           </div>
       </div>
@@ -518,7 +542,6 @@
               </div>
             <div class="card-footer text-center ">
                 <#if (user.trainingGroups?? && user.trainingGroups?size>0)>
-                <#--<button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Отправить ДЗ </button>-->
                 <#else >
                 <button type="button" class="btn btn-purple" data-toggle="modal" data-target="#trainingWindow">Записаться</button>
                 </#if>
@@ -549,7 +572,7 @@
                                 <tr>
                                     <td>${homework.id}</td>
                                     <td>${homeworkDate}</td>
-                                    <td><#if (homework.cheked?? && homework.cheked==true )>Оценка ${homework.rating}><#else>не проверено</#if></td>
+                                    <td><#if (homework.cheked?? && homework.cheked==true )>Оценка ${homework.rating}<#else>не проверено</#if></td>
                                 </tr>
                                 </#list>
                             </table>
@@ -579,27 +602,49 @@
                   <tr>
                     <th scope="row">Имя</th>
                     <td><#if user.userData??&&user.userData.firstName??>${user.userData.firstName}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                     <td>
+                         <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                         <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                     </td>
                   </tr>
                   <tr>
                     <th scope="row">Фамилия</th>
                     <td><#if user.userData??&&user.userData.lastName??>${user.userData.lastName}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                    <td>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-lock mr-1" aria-hidden="true"></i>Пароль</th>
                     <td>*******</td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                    <td>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i>
+                        </button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-envelope-o mr-1" aria-hidden="true"></i>email</th>
                     <td><#if user.userData.email??>${user.userData.email}</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                    <td>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
                     <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>не настроен</#if></td>
-                    <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                    <td>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"><i class="fa fa-credit-card text-primary mr-1" aria-hidden="true"></i> advcash</th>
+                      <td><#if user.userData.advcash??>${user.userData.advcash}<#else>не настроен</#if></td>
+                      <td>
+                          <a class="text text-info littleButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                          <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                      </td>
                   </tr>
                 </tbody>
                 <!-- Table body -->

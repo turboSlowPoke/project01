@@ -25,20 +25,23 @@
   background-color: #929FBA; }
 
 @media (min-width: 1200px) {
+  .littleButton { display: none}
   .container{
     padding-top: 30px;
     padding-bottom: 50px;
   }
   .navbar,
-  .page-footer,
-  main {
+  .page-footer, main {
     padding-left: 270px;
-    padding-right: 170px} }
+    padding-right: 170px
+  }
+}
 
 
 @media (max-width: 1199.98px) {
-  .sidebar-fixed {
-    display: none; } }
+  .bigButton {display: none}
+  .sidebar-fixed {display: none; }
+}
 
 .page-footer {
   background-color: #929FBA; }

@@ -176,19 +176,17 @@ public class PrivatePageController {
         return chek;
     }
 
-    @PostMapping("/lk")
-    public RedirectView uploadFile(HttpServletRequest request,
-                                   @RequestParam(required = false) String firstName,
-                                   @RequestParam(required = false) String lastName,
-                                   @RequestParam(required = false) String password1,
-                                   @RequestParam(required = false) String password2,
-                                   @RequestParam(required = false) String email,
-                                   @RequestParam(value = "files",required = false)MultipartFile[] files,
-                                   @RequestParam(value = "body",required = false) String body){
-        Integer userId = (Integer) request.getSession(false).getAttribute("userId");
-        Optional<User> optionalUser = userRepository.findById(userId);
+    @PostMapping("/add_homework")
+    public RedirectView addHomeWork(HttpServletRequest request,
+                                    @RequestParam(value = "name",required = false) String name,
+                                    @RequestParam(value = "files",required = false)MultipartFile[] files,
+                                    @RequestParam(value = "body",required = false) String body){
+        Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
         optionalUser.ifPresent(user -> {
-            if (user.getTrainingGroups()!=null&&user.getTrainingGroups().size()>0&&(files!=null||body!=null)) {
+            if (user.getTrainingGroups()!=null
+                    &&user.getTrainingGroups().size()>0
+                    &&name!=null
+                    &&(files!=null||body!=null)) {
                 log.info("юзер " + user + "прислал дз");
                 System.out.println("юзер " + user + "прислал дз");
                 List<String> filenames = new ArrayList<>();
@@ -210,7 +208,9 @@ public class PrivatePageController {
                 }
                 Homework homework = new Homework();
                 homework.setDateTimeOfCreation(LocalDateTime.now());
-                if (!filenames.isEmpty()&&filenames.size()>0)
+                if (!name.isEmpty())
+                    homework.setName(name);
+                if (!filenames.isEmpty())
                     homework.setFiles(filenames);
                 if (body!=null&&!body.isEmpty())
                     homework.setBody(body);
@@ -220,9 +220,24 @@ public class PrivatePageController {
                 homework.setTrainingGroup(user.getTrainingGroups().get(0));
                 user.getHomeworks().add(homework);
                 userRepository.save(user);
-             //   homeWorkRepository.save(homework);
-                log.info("Сохранено дз " + homework);
+                log.info("Сохранено дз " + homework + "для юзера " +user);
+                System.out.println("Сохранено дз " + homework + "для юзера " +user);
             }
+        });
+        return new RedirectView("/lk");
+    }
+
+    @PostMapping("/lk")
+    public RedirectView uploadFile(HttpServletRequest request,
+                                   @RequestParam(required = false) String firstName,
+                                   @RequestParam(required = false) String lastName,
+                                   @RequestParam(required = false) String password1,
+                                   @RequestParam(required = false) String password2,
+                                   @RequestParam(required = false) String email,
+                                   @RequestParam(required = false) String advcash){
+        Integer userId = (Integer) request.getSession(false).getAttribute("userId");
+        Optional<User> optionalUser = userRepository.findById(userId);
+        optionalUser.ifPresent(user -> {
             if (firstName!=null) {
                 user.getUserData().setFirstName(firstName);
                 userDataRepository.save(user.getUserData());
@@ -248,6 +263,12 @@ public class PrivatePageController {
                 userDataRepository.save(user.getUserData());
                 log.info("сменил email "+user);
                 System.out.println("сменил email "+user);
+            }
+            if (advcash!=null&&!advcash.isEmpty()&&advcash.length()<20){
+                user.getUserData().setAdvcash(advcash);
+                userRepository.save(user);
+                System.out.println("сменил advcash " +user);
+                log.info("сменил advcash " +user);
             }
         });
         return new RedirectView("/lk");
