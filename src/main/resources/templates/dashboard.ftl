@@ -578,7 +578,7 @@
                                         <form action="/lk/delete_homework" method="post">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="hidden" name="id" value="${homework.id}">
-                                            <a class="text red-text" href="#" onclick="this.parentNode.submit()"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                            <a class="text red-text" href="#" onclick="this.parentNode.submit()" title="Удалить это задание" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-times" aria-hidden="true"></i></a>
                                         </form>
                                     </td>
                                 </tr>
@@ -776,8 +776,15 @@
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
   <#--scrolling nav-->
   <script src="js/scrolling-nav.js"></script>
+  <#--для подсказок-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <#-- Animations initialization-->
-  <script type="text/javascript">new WOW().init();</script>
+  <script type="text/javascript">new WOW().init();
+  <#--для подсказок-->
+  $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+  })
+  </script>
   <#--проверка пароля-->
   <script>
       $(function(){
