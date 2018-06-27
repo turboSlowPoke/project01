@@ -37,7 +37,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -64,7 +63,7 @@ public class PrivatePageController {
     @Autowired
     private PasswordService passwordService;
     @Autowired
-    private HomeWorkRepository homeWorkRepository;
+    private HomeworkRepository homeworkRepository;
     @Autowired
     private PayOutOrderRepositotry payOutOrderRepositotry;
 
@@ -152,6 +151,7 @@ public class PrivatePageController {
             model.put("numberOfAllReferals",userRepository.countByInvitedId(user.getId()));
             BigDecimal amount = orderRepository.amountReferalPayment(user.getId());
             model.put("sumPaymentOfReferals",amount);
+            model.put("sumUncheckedHomework",homeworkRepository.countUncheckedHomeworkForUser(user.getId()));
         });
         //заявка на выплату
         model.put("payOutOrders",payOutOrderRepositotry.findOpenOrderForUser(userId));
@@ -185,9 +185,11 @@ public class PrivatePageController {
                                     @RequestParam(value = "body",required = false) String body){
         Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
         optionalUser.ifPresent(user -> {
+            Integer sumUncheckedHomework = homeworkRepository.countUncheckedHomeworkForUser(user.getId());
             if (user.getTrainingGroups()!=null
                     &&user.getTrainingGroups().size()>0
                     &&name!=null
+                    &&(sumUncheckedHomework==null||sumUncheckedHomework<2)
                     &&(files!=null||body!=null)) {
                 log.info("юзер " + user + "прислал дз");
                 System.out.println("юзер " + user + "прислал дз");
@@ -234,7 +236,7 @@ public class PrivatePageController {
                                        @RequestParam String id){
         Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
         optionalUser.ifPresent(user -> {
-            Optional<Homework> optionalHomework = homeWorkRepository.findById(Integer.parseInt(id));
+            Optional<Homework> optionalHomework = homeworkRepository.findById(Integer.parseInt(id));
             optionalHomework.ifPresent(homework -> {
                 if (homework.getUser().getId()==user.getId()){
                     Integer countDeletedFiles=0;
@@ -252,7 +254,7 @@ public class PrivatePageController {
                         System.out.println("все файлы для дз  удалены");
                         user.getHomeworks().remove(homework);
                         userRepository.save(user);
-                        homeWorkRepository.delete(homework);
+                        homeworkRepository.delete(homework);
                     }else {
                         System.out.println("Не все файлы удалены, не могу удалить " + homework);
                     }

@@ -31,7 +31,7 @@ public class AdminPageController {
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
     @Autowired
-    private HomeWorkRepository homeWorkRepository;
+    private HomeworkRepository homeworkRepository;
     @Autowired
     private SignalsService signalsService;
     @Autowired
@@ -66,7 +66,7 @@ public class AdminPageController {
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
         model.put("trainingGroupList",trainingGroupRepository.findAll());
-        model.put("uncheckedHomeworkList",homeWorkRepository.findAllByChekedFalse());
+        model.put("uncheckedHomeworkList", homeworkRepository.findAllByChekedFalse());
         model.put("payOutOrderList",payOutOrderRepositotry.findAllByCloseFalse());
         return new ModelAndView("admin",model);
     }
@@ -115,12 +115,12 @@ public class AdminPageController {
                                  @RequestParam(required = false)String rating){
         Map<String, Object> model = new HashMap<>();
         if (homeworkId!=null&&!homeworkId.isEmpty()){
-            Optional<Homework> optionalHomework = homeWorkRepository.findById(Integer.parseInt(homeworkId));
+            Optional<Homework> optionalHomework = homeworkRepository.findById(Integer.parseInt(homeworkId));
             optionalHomework.ifPresent(homework -> {
                 if (rating!=null&&!rating.isEmpty()){
                     homework.setRating(Integer.parseInt(rating));
                     homework.setCheked(true);
-                    homeWorkRepository.save(homework);
+                    homeworkRepository.save(homework);
                     log.info("проверено дз "+homework);
                     System.out.println("проверено дз "+homework);
                     Optional<User> optionalUser = userRepository.findById(homework.getUser().getId());
@@ -146,7 +146,7 @@ public class AdminPageController {
     @GetMapping("/admin/unchecked_homeworks")
     public ModelAndView getUncheckedHomeworkList(){
         Map<String,Object> model = new HashMap<>();
-        List<Homework> uncheckedHomeworkList = homeWorkRepository.findAllByChekedFalse();
+        List<Homework> uncheckedHomeworkList = homeworkRepository.findAllByChekedFalse();
         model.put("uncheckedHomeworkList",uncheckedHomeworkList);
         return new ModelAndView("unchekedHomeworList",model);
 

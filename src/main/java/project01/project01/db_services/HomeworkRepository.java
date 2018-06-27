@@ -9,8 +9,10 @@ import project01.project01.entyties.Homework;
 import java.util.List;
 
 @Repository
-public interface HomeWorkRepository extends CrudRepository<Homework,Integer> {
+public interface HomeworkRepository extends CrudRepository<Homework,Integer> {
     @Query("SELECT h FROM Homework h JOIN h.user u WHERE u.id=:id")
     List<Homework> findAllByUser(@Param("id") Integer id);
+    @Query("SELECT COUNT(h) FROM Homework h JOIN h.user u WHERE u.id=:id AND h.cheked=false")
+    Integer countUncheckedHomeworkForUser(@Param("id") Integer userId);
     List<Homework> findAllByChekedFalse();
 }

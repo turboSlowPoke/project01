@@ -150,7 +150,8 @@
                       <p class="heading lead">Домашнее задание</p>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
-                  <form class="form-group" action="/lk/add_homework" method="post" enctype="multipart/form-data">
+                  <#if (sumUncheckedHomework<2)>
+                      <form class="form-group" action="/lk/add_homework" method="post" enctype="multipart/form-data">
                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                       <div class="modal-body text-center">
                           <table class="table">
@@ -173,6 +174,15 @@
                           <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
                       </div>
                   </form>
+                  <#else>
+                      <div class="modal-body text-center">
+                          Вы не можете отправить работу на проверку. У вас может быть не более двух непроверенных работ.
+                          Дождитесь проверки или удалите одну из последниx.
+                      </div>
+                      <div class="modal-footer text-center">
+                          <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отмена</a>
+                      </div>
+                  </#if>
               </div>
               <!--/.Content-->
           </div>
