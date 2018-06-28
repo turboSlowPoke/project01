@@ -16,8 +16,8 @@
                     <h2>Домашняя работа id= ${homework.id} оценка: <#if homework.rating??>${homework.rating}<#else> не проверено</#if></h2>
                     <h3>user
                     <#if homework.user??>#${homework.user.id}
-                        <#if homework.user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@null</#if>
-                        <#if homework.user.userData.firstName??>${user.userData.firstName}<#else></#if>
+                        <#if homework.user.userData.telegramNikcName??>${homework.user.userData.telegramNikcName}<#else>@null</#if>
+                        <#if homework.user.userData.firstName??>${homework.user.userData.firstName}<#else></#if>
                     </h3></#if>
                     <h3>Группа:
                         <#if homework.trainingGroup??>
