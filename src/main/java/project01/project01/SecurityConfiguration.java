@@ -31,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/mybot","/admin/**");
         http.authorizeRequests()
                     .antMatchers("/",
+                            "/faq",
+                            "/about",
+                            "/contacts",
                             "/mybot",
                             "/login",
                             "/oauth_login",

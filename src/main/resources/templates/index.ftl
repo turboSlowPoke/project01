@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
   <title>ТВ не скажет</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -60,40 +61,32 @@
 
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container">
-      <!-- Brand -->
-      <a class="navbar-brand" href="https://mdbootstrap.com/material-design-for-bootstrap/" >
+      <a class="navbar-brand" href="#" >
         <strong>
           <i class="fa fa-television" aria-hidden="true"></i>
           <i class="fa fa-line-chart" aria-hidden="true"></i>
         </strong>
       </a>
-      <!-- Collapse -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <!-- Links -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Главаная </a>
+            <a class="nav-link" href="/">Главаная </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">О нас</a>
+            <a class="nav-link" href="/about">О нас</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Контакты</a>
+            <a class="nav-link" href="/contacts">Контакты</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">FAQ
+            <a class="nav-link" href="/faq">FAQ
               <br> </a>
           </li>
         </ul>
-        <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item">
-            <a href="#" class="nav-link"> </a>
-          </li>
           <li class="nav-item pr-lg-3">
             <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
               <i class="fa fa-google" aria-hidden="true"></i>
@@ -109,22 +102,11 @@
     </div>
   </nav>
 
+  <img class="img-fluid header-img big-screen " src="img/shapka.jpg">
+<div class="background-header little-screen">
+  <img class="img-fluid little-screen" src="./img/shapka_test.png">
+</div>
 
-  <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel"><div class="carousel-inner" role="listbox">
-      <div class="carousel-item active">
-        <div class="view display_on_big_screen" >
-          <div class="container  display_on_litle_screen">
-            <div class="row display_on_litle_screen">
-              <div class="col-md-12 display_on_litle_screen"><img src="img/head_TV.png" class="img-fluid w-75 float-right pt-5 display_on_litle_screen"></div>
-            </div>
-            <div class="row display_on_litle_screen">
-              <div class="col-md-12 display_on_litle_screen"><img src="img/head_text.png" class="img-fluid float-left display_on_litle_screen"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <main>
     <div class="container">
@@ -163,98 +145,56 @@
       </section>
       <!--Section: Main info-->
       <hr class="my-5">
-      <!--Section: Main features & Quick Start-->
-      <section>
-        <h3 class="h3 text-center mb-5">О наших услугах</h3>
-        <!--Grid row-->
-        <div class="row wow fadeIn">
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12 px-4">
-            <!--First row-->
-            <!--/First row-->
-            <div style="height:30px"></div>
-            <!--Second row-->
-            <div class="row">
-              <div class="col-1 mr-3">
-                <i class="fa fa-bell fa-2x pink-text"></i>
-              </div>
-              <div class="col-10">
-                <h5 class="feature-title">Сигналы</h5>
-                <p class="grey-text">We give you detailed user-friendly documentation at your disposal. It will help you to implement your ideas easily. </p>
-              </div>
-            </div>
-            <!--/Second row-->
-            <div style="height:30px"></div>
-            <!--Third row-->
-            <div class="row">
-              <div class="col-1 mr-3">
-                <i class="fa fa-graduation-cap fa-2x purple-text"></i>
-              </div>
-              <div class="col-10">
-                <h5 class="feature-title">Lots of tutorials</h5>
-                <p class="grey-text">We care about the development of our users. We have prepared numerous tutorials, which allow you to learn how to use MDB as well as other technologies.</p>
-              </div>
-            </div>
-            <!--/Third row-->
-          </div>
-          <!--/Grid column-->
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12">
-            <img src="https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg" class="img-fluid z-depth-1-half" alt="">
-          </div>
-          <!--/Grid column-->
-        </div>
-        <!--/Grid row-->
-      </section>
-      <!--Section: Main features & Quick Start-->
-      <hr class="my-5">
       <!--Section: Not enough-->
-      <section>
-        <h3 class="h3 text-center mb-5">Цены</h3>
-        <div class="p-5 bg-secondary">
+      <section class="wow">
+        <h3 class="h3 text-center mb-5 ">Цены</h3>
+        <div class="p-5 bg-secondary wow ">
           <div class="container">
             <div class="row wow fadeIn">
-              <div class="p-3 align-self-center col-md-3">
+              <div class="p-3 align-self-center col-md-6">
                 <div class="card">
+                  <div class="card-header wow">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <img class="img-fluid " src="img/img_for_sales.jpg">
+                        </div>
+                        <div class="col-md-9">
+                          <h1><sup>$</sup> 10</h1>
+                          <h3>Сигналы</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="card-block p-5">
-                    <h1>
-                      <sup>$</sup> 10</h1>
-                    <h3>Сигналы 1 месяц</h3>
+                    <p>Наши супер сигналы бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
+                      бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
                     <a href="#" class="btn btn-dark">купить</a>
                   </div>
                 </div>
               </div>
-              <div class="p-3 align-self-center col-md-3">
+              <div class="p-3 align-self-center col-md-6">
                 <div class="card">
-                  <div class="card-block p-5">
-                    <h1>
-                      <sup>$</sup> 20</h1>
-                    <h3>Сигналы 2 месяца</h3>
-                    <hr>
-                    <a href="#" class="btn btn-dark">купить</a>
+                  <div class="card-header align-content-center">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <img class="img-fluid " src="img/img_for_sales.jpg">
+                        </div>
+                        <div class="col-md-9">
+                          <h1><sup>$</sup> 20</h1>
+                          <h3>Обучение</h3>
+                        </div>
+                      </div>
+                    </div>
+
+
                   </div>
-                </div>
-              </div>
-              <div class="p-3 align-self-center col-md-3">
-                <div class="card">
                   <div class="card-block p-5">
-                    <h1>
-                      <sup>$</sup> 30</h1>
-                    <h3>Сигналы 3 месяца</h3>
+                    <p>Наш супер курс  бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
+                      бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
-                    <a href="#" class="btn btn-dark">купить</a>
-                  </div>
-                </div>
-              </div>
-              <div class="p-3 align-self-center col-md-3">
-                <div class="card">
-                  <div class="card-block p-5">
-                    <h1>
-                      <sup>$</sup> 100</h1>
-                    <h3>Курс обучения</h3>
-                    <hr>
-                    <p>название курса</p>
                     <a href="#" class="btn btn-dark">купить</a>
                   </div>
                 </div>
@@ -266,7 +206,7 @@
       <!--Section: Not enough-->
       <hr class="mb-5">
       <!--Section: More-->
-      <section>
+      <section class="wow">
         <h2 class="my-5 h3 text-center">Мы в соцсетях:</h2>
         <!--row 1-->
         <div class="row features-small mt-4 wow fadeIn">

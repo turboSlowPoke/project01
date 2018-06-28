@@ -51,6 +51,25 @@ public class MainController {
         return new ModelAndView("/index", model);
     }
 
+    @GetMapping("/faq")
+    public ModelAndView getFaq(){
+        Map<String,Object> model = new HashMap<>();
+        return new ModelAndView("faq",model);
+
+    }
+    @GetMapping("/about")
+    public ModelAndView getAbout(){
+        Map<String,Object> model = new HashMap<>();
+        return new ModelAndView("about",model);
+
+    }
+    @GetMapping("/contacts")
+    public ModelAndView getContacts(){
+        Map<String,Object> model = new HashMap<>();
+        return new ModelAndView("contacts",model);
+
+    }
+
     @GetMapping(value = "/pay")
     public ModelAndView sendRedirectToAdvcashPage(@RequestParam(value = "userId")String userId,
                                                   @RequestParam(value = "service") String service){
