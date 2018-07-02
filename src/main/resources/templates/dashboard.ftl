@@ -8,14 +8,15 @@
   <title>Material Design Bootstrap</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/lk/font-awesome-animation.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="css/mdb.min.css" rel="stylesheet">
   <!-- Your custom styles (optional) -->
   <link href="css/lk/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/lk/font-awesome-animation.min.css">
-</head>
+  </head>
 
 <body>
 
@@ -300,7 +301,7 @@
           <div class="modal-body">
             <div class="form-group">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-              <input type="text" required name="firstName" class="form-control" id="exampleInputLogin" placeholder="Введите имя">
+              <input type="text" required name="firstName" class="form-control"  placeholder="Введите имя">
             </div>
           </div>
           <div class="modal-footer">
@@ -440,7 +441,7 @@
                       <div class="modal-body">
                           <div class="form-group">
                               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                              <input type="text" required name="advcash" class="form-control" id="exampleInputLogin" placeholder="Введите номер кошелька">
+                              <input type="text" required name="advcash" class="form-control"  placeholder="Введите номер кошелька">
                           </div>
                       </div>
                       <div class="modal-footer">
@@ -576,6 +577,7 @@
                                 <th>дата</th>
                                 <th>статус</th>
                                 <th></th>
+                                <th></th>
                                 </thead>
                                 <tbody >
                                 <#list user.homeworks as homework>
@@ -584,6 +586,7 @@
                                     <td>${homework.id}</td>
                                     <td>${homeworkDate}</td>
                                     <td><#if (homework.cheked?? && homework.cheked==true )>Оценка ${homework.rating}<#else>не проверено</#if></td>
+                                    <td><a class="" href="/lk/homework/${homework.id}" title="Просмотр" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-glasses text-success"></i></a></td>
                                     <td>
                                         <form action="/lk/delete_homework" method="post">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -599,6 +602,9 @@
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
+                        <#if (user.homeworks?? && user.homeworks?size >5)>
+                            <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
+                        </#if>
                     </div>
                 </div>
             </div>

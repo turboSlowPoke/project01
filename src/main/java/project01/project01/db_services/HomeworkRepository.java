@@ -15,4 +15,8 @@ public interface HomeworkRepository extends CrudRepository<Homework,Integer> {
     @Query("SELECT COUNT(h) FROM Homework h JOIN h.user u WHERE u.id=:id AND h.cheked=false")
     Integer countUncheckedHomeworkForUser(@Param("id") Integer userId);
     List<Homework> findAllByChekedFalse();
+    @Query("SELECT h FROM Homework h join h.user u WHERE u.id=:id ORDER BY h.dateTimeOfCreation DESC")
+    List<Homework> findAllAndSortByDateByUserId(@Param("id")Integer userId);
+    @Query(value = "SELECT h FROM Homework h join h.user u WHERE u.id=:id ORDER BY h.dateTimeOfCreation  DESC LIMIT 5",nativeQuery = true)
+    List<Homework> findTop5ByDateTimeOfCreationAndUserId(@Param("id") Integer userId);
 }

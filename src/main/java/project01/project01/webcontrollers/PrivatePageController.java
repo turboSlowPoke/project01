@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -30,6 +31,7 @@ import project01.project01.services.PasswordService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -152,6 +154,8 @@ public class PrivatePageController {
             BigDecimal amount = orderRepository.amountReferalPayment(user.getId());
             model.put("sumPaymentOfReferals",amount);
             model.put("sumUncheckedHomework",homeworkRepository.countUncheckedHomeworkForUser(user.getId()));
+            List<Homework> homeworkList = homeworkRepository.findTop5ByDateTimeOfCreationAndUserId(user.getId());
+            model.put("lastFivehomeWork",homeworkRepository.findTop5ByDateTimeOfCreationAndUserId(user.getId()));
         });
         //заявка на выплату
         model.put("payOutOrders",payOutOrderRepositotry.findOpenOrderForUser(userId));
@@ -262,6 +266,40 @@ public class PrivatePageController {
             });
         });
         return new RedirectView("/lk");
+    }
+    @GetMapping("/lk/list_my_homeworks")
+    public ModelAndView getHomeworkList(HttpServletRequest request){
+        Map<String,Object> model = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            List<Homework> homeworkList = homeworkRepository.findAllAndSortByDateByUserId(user.getId());
+            model.put("homeworkList",homeworkList);
+        });
+        return new ModelAndView("homeworks_list_user_view",model);
+    }
+
+    @GetMapping("/lk/homework/{id}")
+    public ModelAndView getHomework(HttpServletRequest request,
+                                    @PathVariable("id") String id){
+        Map<String,Object> model = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            try {
+                Optional<Homework> optionalHomework = homeworkRepository.findById(Integer.parseInt(id));
+                optionalHomework.ifPresent(homework -> {
+                    if (homework.getUser().getId()==user.getId()){
+                        model.put("homework",homework);
+                    }else {
+                        System.out.println("Пытается открыть чужую работу id="+id+", юзер: " + user);
+                        log.warn("Пытается открыть чужую работу id="+id+", юзер: " + user);
+                    }
+                });
+            }catch (NumberFormatException e){
+                System.out.println("Пытается открыть работу с id="+id+", юзер:" +user);
+                log.warn("Пытается открыть работу с id="+id+", юзер:" +user);
+            }
+        });
+        return new ModelAndView("homework_user_view",model);
     }
 
     @PostMapping("/lk")
