@@ -21,63 +21,76 @@
 <body>
 
   <header>
-    <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
       <div class="container-fluid">
-        <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="/#" target="_blank"> <strong class="blue-text">MDB</strong> </a>
-        <!-- Collapse -->
+        <a class="navbar-brand waves-effect" href="/#" target="_blank">
+            <strong>
+                <i class="fa fa-television" aria-hidden="true"></i>
+                <i class="fa fa-line-chart" aria-hidden="true"></i>
+            </strong>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-        <!-- Links -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left -->
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link waves-effect" href="#">Главная <span class="sr-only">(current)</span> </a>
+            <li class="nav-item">
+              <a class="nav-link waves-effect" href="/">Главная  </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">О нас</a>
+              <a class="nav-link waves-effect" href="/about">О нас</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">Контакты</a>
+              <a class="nav-link waves-effect" href="/about">Контакты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="#" target="_blank">FAQ</a>
+              <a class="nav-link waves-effect" href="/faq">FAQ</a>
             </li>
           </ul>
-          <!-- Right -->
-          <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item">
-              <b class="nav-link waves-effect" ">
-                  <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+            <#if user?? >
+               <ul class="navbar-nav nav-flex-icons">
+                   <li class="nav-item">
+                       <b class="nav-link waves-effect" ">
+                       <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                       <span class="sr-only">(current)</span>
                   <#if user.login??>${user.login}
                   <#elseif user.userData??&&user.userData.telegramNikcName??>
-                    ${user.userData.telegramNikcName}
+                      ${user.userData.telegramNikcName}
                   <#elseif user.userData.firstName??>${user.userData.firstName}
                   </#if>
-              </b>
-            </li>
-            <li class="nav-item">
-              <a href="/logout" class="nav-link border border-light rounded waves-effect">
-                  <i class="fa fa-sign-out orange-text mr-1" aria-hidden="true"></i>Выйти</a>
-            </li>
-          </ul>
+                       </b>
+                   </li>
+                   <li class="nav-item">
+                       <a href="/logout" class="nav-link border border-light rounded waves-effect">
+                           <i class="fas fa-sign-out-alt orange-text mr-1" aria-hidden="true"></i>Выйти</a>
+                   </li>
+               </ul>
+            <#else>
+              <ul class="navbar-nav nav-flex-icons">
+                  <li class="nav-item pr-lg-3">
+                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
+                          <i class="fa fa-google" aria-hidden="true"></i>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
+                          <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
+                      </a>
+                  </li>
+              </ul>
+            </#if>
         </div>
       </div>
     </nav>
-    <!-- Navbar -->
-    <!-- Sidebar -->
+
     <div class="sidebar-fixed position-fixed ">
 
       <div class="list-group list-group-flush" id="mainNav">
         <a href="#subscription1" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки</a>
         <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
         <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
-        <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-table mr-3"></i>Реферальная программа</a>
-        <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-map mr-3"></i>Бонусы</a>
+        <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-handshake-o mr-3"></i>Реферальная программа</a>
+        <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-money mr-3"></i>Бонусы</a>
       </div>
     </div>
-    <!-- Sidebar -->
   </header>
 
   <main class="pt-5 mx-lg-5 m-lg-5">
@@ -382,7 +395,7 @@
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-envelope-o fa-5x mr-1" aria-hidden="true"></i></td>
+                  <td><i class="fas fa-envelope fa-5x mr-1" aria-hidden="true"></i></td>
                   <td class="lead">
                     <div class="form-group">
                       <input class="form-control" type="email" name="email" placeholder="Введите email" required>
@@ -411,7 +424,7 @@
                       <table class="table">
                           <tbody>
                           <tr>
-                              <td><i class="fa fa-telegram fa-5x mr-1" aria-hidden="true"></i></td>
+                              <td><i class="fab fa-telegram fa-5x mr-1" aria-hidden="true"></i></td>
                               <td class="lead">
                                       Чтобы изменить ваш @username в телеграм, воспользуйтесь кнопкой "Личный кабинет" в меню нашего <#if userHash??><a href="${botLink}?start=${userHash}">бота</a><#else><a href="${botLink}"> бота </a></#if>.
                               </td>
@@ -570,7 +583,7 @@
                 <div class="card"  >
                     <div class="card-header text-center "><i class="fa fa-file text-info mr-3 " aria-hidden="true"></i>Ваши работы</div>
                     <div class="card-body blue lighten-5">
-                        <#if (user.homeworks?? && user.homeworks?size >0)>
+                        <#if (homeworkList?? && homeworkList?size >0)>
                             <table class="table table-hover">
                                 <thead>
                                 <th>id</th>
@@ -580,8 +593,11 @@
                                 <th></th>
                                 </thead>
                                 <tbody >
-                                <#list user.homeworks as homework>
-                                <#assign homeworkDate=(""+homework.dateTimeOfCreation)?date("yyyy-MM-dd")>
+                                <#assign countHomework=0>
+                                <#list homeworkList as homework>
+                                    <#if countHomework<5>
+                                    <#assign countHomework=countHomework+1>
+                                    <#assign homeworkDate=(""+homework.dateTimeOfCreation)?date("yyyy-MM-dd")>
                                 <tr>
                                     <td>${homework.id}</td>
                                     <td>${homeworkDate}</td>
@@ -595,6 +611,9 @@
                                         </form>
                                     </td>
                                 </tr>
+                                    <#else>
+                                        <#break>
+                                    </#if>
                                 </#list>
                             </table>
                         <#else> Вы пока не отправили ни однного задания
@@ -602,8 +621,8 @@
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
-                        <#if (user.homeworks?? && user.homeworks?size >5)>
-                            <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#homeworkWindow">Отправить ДЗ </button>
+                        <#if (homeworkList?? && homeworkList?size >5)>
+                        <a class="btn btn-blue-grey" href="/lk/list_my_homeworks" title="Открыть весь спикок" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-table mr-1"></i> Список работ</a>
                         </#if>
                     </div>
                 </div>
@@ -647,7 +666,7 @@
                         </button></td>
                   </tr>
                   <tr>
-                    <th scope="row"><i class="fa fa-envelope-o mr-1" aria-hidden="true"></i>email</th>
+                    <th scope="row"><i class="fas fa-envelope mr-1" aria-hidden="true"></i>email</th>
                     <td><#if user.userData.email??>${user.userData.email}</#if></td>
                     <td>
                         <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></a>
@@ -655,7 +674,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row"><i class="fa fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
+                    <th scope="row"><i class="fab fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
                     <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>не настроен</#if></td>
                     <td>
                         <a class="text text-info littleButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></a>
@@ -757,26 +776,27 @@
   </main>
 
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+      <!--/.Call to action-->
       <hr class="my-4">
       <!-- Social icons -->
       <div class="pb-4">
           <a href="#">
-              <i class="fa fa-vk mr-3"></i>
+              <i class="fab fa-vk mr-3"></i>
           </a>
           <a href="#">
-              <i class="fa fa-youtube mr-3"></i>
+              <i class="fab fa-youtube mr-3"></i>
           </a>
           <a href="#">
-              <i class="fa fa-telegram mr-3"></i>
+              <i class="fab fa-telegram mr-3"></i>
           </a>
           <a href="#">
-              <i class="fa fa-instagram mr-3"></i>
+              <i class="fab fa-instagram mr-3"></i>
           </a>
       </div>
       <!-- Social icons -->
       <!--Copyright-->
       <div class="footer-copyright py-3"> © 2018 Copyright:
-          <a href="#"> ontvnotshow.com </a>
+          <a href="#"> potvneskazut.ru </a>
       </div>
       <!--/.Copyright-->
   </footer>

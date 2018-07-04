@@ -154,8 +154,7 @@ public class PrivatePageController {
             BigDecimal amount = orderRepository.amountReferalPayment(user.getId());
             model.put("sumPaymentOfReferals",amount);
             model.put("sumUncheckedHomework",homeworkRepository.countUncheckedHomeworkForUser(user.getId()));
-            List<Homework> homeworkList = homeworkRepository.findTop5ByDateTimeOfCreationAndUserId(user.getId());
-            model.put("lastFivehomeWork",homeworkRepository.findTop5ByDateTimeOfCreationAndUserId(user.getId()));
+            model.put("homeworkList",homeworkRepository.findAllAndSortByDateByUserId(user.getId()));
         });
         //заявка на выплату
         model.put("payOutOrders",payOutOrderRepositotry.findOpenOrderForUser(userId));

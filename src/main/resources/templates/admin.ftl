@@ -84,6 +84,7 @@
         </div>
     </div>
 </div>
+
   <#if trainingGroupList?? && (trainingGroupList?size > 0)>
       <div class="py-2">
           <div class="container">

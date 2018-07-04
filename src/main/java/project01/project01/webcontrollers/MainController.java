@@ -41,31 +41,55 @@ public class MainController {
                               @RequestParam(required = false, name = "uh") String userHash,
                               @RequestParam(required = false, name = "ref") String invitedId){
         HttpSession session = request.getSession();
-        Map<String, String> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
         if (userHash!=null){
             session.setAttribute("userHashFromTelegramLink",userHash);
             model.put("loginModalIsActive","active");
         }
         if (invitedId!=null)
             session.setAttribute("invitedId",invitedId);
+        if (request.getSession().getAttribute("userId")!=null){
+            Optional<User> optionalUser = userRepository.findById((Integer)request.getSession().getAttribute("userId"));
+            optionalUser.ifPresent(user -> {
+                model.put("user",user);
+            });
+        }
         return new ModelAndView("/index", model);
     }
 
     @GetMapping("/faq")
-    public ModelAndView getFaq(){
+    public ModelAndView getFaq(HttpServletRequest request){
         Map<String,Object> model = new HashMap<>();
+        if (request.getSession().getAttribute("userId")!=null){
+            Optional<User> optionalUser = userRepository.findById((Integer)request.getSession().getAttribute("userId"));
+            optionalUser.ifPresent(user -> {
+                model.put("user",user);
+            });
+        }
         return new ModelAndView("faq",model);
 
     }
     @GetMapping("/about")
-    public ModelAndView getAbout(){
+    public ModelAndView getAbout(HttpServletRequest request){
         Map<String,Object> model = new HashMap<>();
+        if (request.getSession().getAttribute("userId")!=null){
+            Optional<User> optionalUser = userRepository.findById((Integer)request.getSession().getAttribute("userId"));
+            optionalUser.ifPresent(user -> {
+                model.put("user",user);
+            });
+        }
         return new ModelAndView("about",model);
 
     }
     @GetMapping("/contacts")
-    public ModelAndView getContacts(){
+    public ModelAndView getContacts(HttpServletRequest request){
         Map<String,Object> model = new HashMap<>();
+        if (request.getSession().getAttribute("userId")!=null){
+            Optional<User> optionalUser = userRepository.findById((Integer)request.getSession().getAttribute("userId"));
+            optionalUser.ifPresent(user -> {
+                model.put("user",user);
+            });
+        }
         return new ModelAndView("contacts",model);
 
     }

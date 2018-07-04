@@ -9,7 +9,9 @@
   <title>ТВ не скажет</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="css/mdb.css" rel="stylesheet">
@@ -40,16 +42,12 @@
               <input type="password" name="password" class="form-control"  id="exampleInputPassword1" placeholder="password" required>
             </div>
           </div>
-          <!--<div class="form-check">-->
-          <!--<input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-          <!--<label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-        <!--</div>-->
           <button type="submit" class="btn btn-primary btn-sm">Войти</button>
           <hr class="my-1">
-          Также вы можете войти черз Google:
-          <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-google" aria-hidden="true"></i></a><br>
+          Вы можете войти через Google:
+          <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
           Получить логин пароль в телеграм:
-          <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+          <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
         </form>
       </div>
       <div class="modal-bottom">
@@ -59,48 +57,66 @@
   </div>
 </div>
 
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="#" >
-        <strong>
-          <i class="fa fa-television" aria-hidden="true"></i>
-          <i class="fa fa-line-chart" aria-hidden="true"></i>
-        </strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Главаная </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">О нас</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contacts">Контакты</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/faq">FAQ
-              <br> </a>
-          </li>
-        </ul>
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item pr-lg-3">
-            <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-              <i class="fa fa-google" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
-              <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
-            </a>
-          </li>
-        </ul>
-      </div>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand waves-effect" href="/#" target="_blank">
+            <strong>
+                <i class="fa fa-television" aria-hidden="true"></i>
+                <i class="fa fa-line-chart" aria-hidden="true"></i>
+            </strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect active" href="/">Главная <span class="sr-only">(current)</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/about">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/about">Контакты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/faq">FAQ</a>
+                </li>
+            </ul>
+            <#if user?? >
+               <ul class="navbar-nav nav-flex-icons">
+                   <li class="nav-item">
+                       <b class="nav-link waves-effect" ">
+                       <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
+                       <a href="/lk" title="В личный кабинет" data-toggle="tooltip" data-placement="bottom">
+                         <#if user.login??>${user.login}
+                         <#elseif user.userData??&&user.userData.telegramNikcName??>
+                           ${user.userData.telegramNikcName}
+                         <#elseif user.userData.firstName??>${user.userData.firstName}
+                         </#if>
+                       </a>
+                       </b>
+                   </li>
+                   <li class="nav-item">
+                       <a href="/logout" class="nav-link border border-light rounded waves-effect">
+                           <i class="fas fa-sign-out-alt orange-text mr-1" aria-hidden="true"></i>Выйти</a>
+                   </li>
+               </ul>
+            <#else>
+              <ul class="navbar-nav nav-flex-icons">
+                  <li class="nav-item pr-lg-3">
+                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
+                          <i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
+                          <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
+                      </a>
+                  </li>
+              </ul>
+            </#if>
+        </div>
     </div>
-  </nav>
+</nav>
 
   <img class="img-fluid header-img big-screen " src="img/shapka.jpg">
 <div class="background-header little-screen">
@@ -137,7 +153,7 @@
               <strong>Free for personal and commercial use.</strong>
             </p>
             <!-- CTA -->
-            <a href="#" class="btn btn-grey btn-md">присоединиться <i class="fa fa-sign-in pl-2" aria-hidden="true"></i></a>
+            <a href="#" class="btn btn-grey btn-md" data-toggle="modal" data-placement="bottom" data-target="#signInModal">присоединиться <i class="fas fa-sign-in-alt pl-2" aria-hidden="true"></i></a>
           </div>
           <!--Grid column-->
         </div>
@@ -170,7 +186,7 @@
                     <p>Наши супер сигналы бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
                       бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
-                    <a href="#" class="btn btn-dark">купить</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
                   </div>
                 </div>
               </div>
@@ -195,7 +211,7 @@
                     <p>Наш супер курс  бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
                       бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
-                    <a href="#" class="btn btn-dark">купить</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
                   </div>
                 </div>
               </div>
@@ -214,7 +230,7 @@
           <div class="col-xl-4 col-lg-6">
             <div class="row">
               <div class="col-2">
-                <i class="fa fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i>
+                <i class="fab fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i>
               </div>
               <div class="col-10 mb-2">
                 <h5 class="feature-title font-bold mb-1">Группа вконтакте</h5>
@@ -230,7 +246,7 @@
           <div class="col-xl-4 col-lg-6">
             <div class="row">
               <div class="col-2">
-                <i class="fa fa-youtube-play fa-2x mb-1 red-text" aria-hidden="true"></i>
+                <i class="fab fa-youtube fa-2x mb-1 red-text" aria-hidden="true"></i>
               </div>
               <div class="col-10 mb-2">
                 <h5 class="feature-title font-bold mb-1">Канал на youtube</h5>
@@ -246,7 +262,7 @@
           <div class="col-xl-4 col-lg-6">
             <div class="row">
               <div class="col-2">
-                <i class="fa fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i>
+                <i class="fab fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i>
               </div>
               <div class="col-10 mb-2">
                 <h5 class="feature-title font-bold mb-1">Канал в телеграм</h5>
@@ -262,7 +278,7 @@
           <div class="col-xl-4 col-lg-6">
             <div class="row">
               <div class="col-2">
-                <i class="fa fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
+                <i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
               </div>
               <div class="col-10 mb-2">
                 <h5 class="feature-title font-bold mb-1">Мы в инстаграм</h5>
@@ -280,8 +296,8 @@
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
     <!--Call to action-->
     <div class="pt-4">
-      <a class="btn btn-outline-white" href="#" role="button">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
-        <i class="fa fa-sign-in ml-2"></i>
+      <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
+        <i class="fas fa-sign-in-alt ml-2"></i>
       </a>
     </div>
     <!--/.Call to action-->
@@ -289,22 +305,22 @@
     <!-- Social icons -->
     <div class="pb-4">
       <a href="#">
-        <i class="fa fa-vk mr-3"></i>
+        <i class="fab fa-vk mr-3"></i>
       </a>
       <a href="#">
-        <i class="fa fa-youtube mr-3"></i>
+        <i class="fab fa-youtube mr-3"></i>
       </a>
       <a href="#">
-        <i class="fa fa-telegram mr-3"></i>
+        <i class="fab fa-telegram mr-3"></i>
       </a>
       <a href="#">
-        <i class="fa fa-instagram mr-3"></i>
+        <i class="fab fa-instagram mr-3"></i>
       </a>
     </div>
     <!-- Social icons -->
     <!--Copyright-->
     <div class="footer-copyright py-3"> © 2018 Copyright:
-      <a href="#"> ontvnotshow.com </a>
+      <a href="#"> potvneskazut.ru </a>
     </div>
     <!--/.Copyright-->
   </footer>

@@ -21,47 +21,63 @@
 <body>
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="#" >
-        <strong>
-          <i class="fa fa-television" aria-hidden="true"></i>
-          <i class="fa fa-line-chart" aria-hidden="true"></i>
-        </strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Главаная </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">О нас</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/contacts">Контакты</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="/faq">FAQ
-              <br> </a>
-          </li>
-        </ul>
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item pr-lg-3">
-            <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-              <i class="fab fa-google" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
-              <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
-            </a>
-          </li>
-        </ul>
-      </div>
+    <div class="container-fluid">
+        <a class="navbar-brand waves-effect" href="/#" target="_blank">
+            <strong>
+                <i class="fa fa-television" aria-hidden="true"></i>
+                <i class="fa fa-line-chart" aria-hidden="true"></i>
+            </strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/">Главная <span class="sr-only">(current)</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/about">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/about">Контакты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" href="/faq">FAQ</a>
+                </li>
+            </ul>
+            <#if user?? >
+               <ul class="navbar-nav nav-flex-icons">
+                   <li class="nav-item">
+                       <b class="nav-link waves-effect" ">
+                       <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                  <#if user.login??>${user.login}
+                  <#elseif user.userData??&&user.userData.telegramNikcName??>
+                      ${user.userData.telegramNikcName}
+                  <#elseif user.userData.firstName??>${user.userData.firstName}
+                  </#if>
+                       </b>
+                   </li>
+                   <li class="nav-item">
+                       <a href="/logout" class="nav-link border border-light rounded waves-effect">
+                           <i class="fas fa-sign-out-alt orange-text mr-1" aria-hidden="true"></i>Выйти</a>
+                   </li>
+               </ul>
+            <#else>
+              <ul class="navbar-nav nav-flex-icons">
+                  <li class="nav-item pr-lg-3">
+                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
+                          <i class="fa fa-google" aria-hidden="true"></i>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
+                          <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
+                      </a>
+                  </li>
+              </ul>
+            </#if>
+        </div>
     </div>
-  </nav>
+</nav>
 
 <#if homework??>
 <main class="pt-5 mt-5">
