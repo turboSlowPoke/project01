@@ -39,7 +39,7 @@
               <a class="nav-link waves-effect" href="/about">О нас</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="/about">Контакты</a>
+              <a class="nav-link waves-effect" href="/contacts">Контакты</a>
             </li>
             <li class="nav-item">
               <a class="nav-link waves-effect" href="/faq">FAQ</a>

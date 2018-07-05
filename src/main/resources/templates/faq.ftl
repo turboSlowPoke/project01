@@ -75,7 +75,7 @@
                     <a class="nav-link waves-effect" href="/about">О нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/about">Контакты</a>
+                    <a class="nav-link waves-effect" href="/contacts">Контакты</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect active" href="/faq">FAQ <span class="sr-only">(current)</span> </a>

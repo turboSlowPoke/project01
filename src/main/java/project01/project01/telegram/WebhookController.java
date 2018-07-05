@@ -354,14 +354,14 @@ public class WebhookController {
     @PostConstruct
     public void init(){
 
-        System.out.println("PostConstruct start");
-        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("url","https://potvneskazut.ru:443/mybot");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
-        System.out.println("setwebhook");
+//        System.out.println("PostConstruct start");
+//        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+//        map.add("url","https://potvneskazut.ru:443/mybot");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
+//        System.out.println("setwebhook");
     }
 }

@@ -104,6 +104,10 @@ public class PaymentPageController {
             model.put("hash",hash);
             model.put("order",order);
         }
+        Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
+        optionalUser.ifPresent(user -> {
+            model.put("user",user);
+        });
         return new ModelAndView("pay",model);
     }
 

@@ -45,7 +45,7 @@
           <button type="submit" class="btn btn-primary btn-sm">Войти</button>
           <hr class="my-1">
           Вы можете войти через Google:
-          <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
+          <a class="btn btn-outline-red btn-sm" href="/oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
           Получить логин пароль в телеграм:
           <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
         </form>
@@ -75,7 +75,7 @@
                     <a class="nav-link waves-effect" href="/about">О нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/about">Контакты</a>
+                    <a class="nav-link waves-effect" href="/contacts">Контакты</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/faq">FAQ</a>
@@ -103,8 +103,8 @@
             <#else>
               <ul class="navbar-nav nav-flex-icons">
                   <li class="nav-item pr-lg-3">
-                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>
+                      <a href="/oauth2/authorization/google" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
+                          <i class="fab fa-google-plus-g " aria-hidden="true"></i>
                       </a>
                   </li>
                   <li class="nav-item">
@@ -118,9 +118,11 @@
     </div>
 </nav>
 
-  <img class="img-fluid header-img big-screen " src="img/shapka.jpg">
+<div class="test">
+    <img class="img-fluid header-img big-screen  " src="/img/shapka.jpg">
+</div>
 <div class="background-header little-screen">
-  <img class="img-fluid little-screen" src="./img/shapka_test.png">
+    <img class="img-fluid little-screen" src="/img/shapka_test.png">
 </div>
 
 
@@ -164,7 +166,7 @@
       <!--Section: Not enough-->
       <section class="wow">
         <h3 class="h3 text-center mb-5 ">Цены</h3>
-        <div class="p-5 bg-secondary wow ">
+        <div class="py-5 bg-secondary wow ">
           <div class="container">
             <div class="row wow fadeIn">
               <div class="p-3 align-self-center col-md-6">

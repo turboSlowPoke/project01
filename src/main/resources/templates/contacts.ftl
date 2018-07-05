@@ -75,7 +75,7 @@
                     <a class="nav-link waves-effect" href="/about">О нас </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect active" href="/about">Контакты <span class="sr-only">(current)</span></a>
+                    <a class="nav-link waves-effect active" href="/contacts">Контакты <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/faq">FAQ</a>
@@ -150,7 +150,7 @@
   </main>
   <!--Main layout-->
   <!--Footer-->
-<footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
+<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedfooter">
     <!--Call to action-->
     <div class="pt-4">
         <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
