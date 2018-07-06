@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Material Design Bootstrap</title>
+    <title>По ТВ не скажут</title>
+    <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/lk/font-awesome-animation.min.css">
@@ -47,7 +48,7 @@
           </ul>
             <#if user?? >
                <ul class="navbar-nav nav-flex-icons">
-                   <li class="nav-item">
+                   <li class="nav-item active grey darken-3 rounded rounded-2 mr-3">
                        <b class="nav-link waves-effect" ">
                        <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
                        <span class="sr-only">(current)</span>
@@ -775,27 +776,30 @@
 
   </main>
 
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
-      <!--/.Call to action-->
-      <hr class="my-4">
-      <!-- Social icons -->
-      <div class="pb-4">
-          <a href="#">
-              <i class="fab fa-vk mr-3"></i>
-          </a>
-          <a href="#">
-              <i class="fab fa-youtube mr-3"></i>
-          </a>
-          <a href="#">
-              <i class="fab fa-telegram mr-3"></i>
-          </a>
-          <a href="#">
-              <i class="fab fa-instagram mr-3"></i>
-          </a>
+  <footer class="text-center font-small mt-4 wow fadeIn">
+      <!--Call to action-->
+      <div class="footerUpSide">
+          <!--/.Call to action-->
+          <!-- Social icons -->
+          <div class="pb-4 footerMiddleSide">
+              <a href="#">
+                  <i class="fab fa-vk mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-youtube mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-telegram mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-instagram mr-3"></i>
+              </a>
+          </div>
       </div>
+
       <!-- Social icons -->
       <!--Copyright-->
-      <div class="footer-copyright py-3"> © 2018 Copyright:
+      <div class="footerDownSide py-3" > © 2018 Copyright:
           <a href="#"> potvneskazut.ru </a>
       </div>
       <!--/.Copyright-->

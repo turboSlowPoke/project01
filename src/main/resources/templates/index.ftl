@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <title>ТВ не скажет</title>
+  <title>По ТВ не скажут</title>
+    <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -69,7 +70,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect active" href="/">Главная <span class="sr-only">(current)</span> </a>
+                    <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/">Главная <span class="sr-only">(current)</span> </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/about">О нас</a>
@@ -85,13 +86,13 @@
                <ul class="navbar-nav nav-flex-icons">
                    <li class="nav-item">
                        <b class="nav-link waves-effect" ">
-                       <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
                        <a href="/lk" title="В личный кабинет" data-toggle="tooltip" data-placement="bottom">
-                         <#if user.login??>${user.login}
-                         <#elseif user.userData??&&user.userData.telegramNikcName??>
-                           ${user.userData.telegramNikcName}
-                         <#elseif user.userData.firstName??>${user.userData.firstName}
-                         </#if>
+                           <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
+                           <#if user.login??>${user.login}
+                           <#elseif user.userData??&&user.userData.telegramNikcName??>
+                               ${user.userData.telegramNikcName}
+                           <#elseif user.userData.firstName??>${user.userData.firstName}
+                           </#if>
                        </a>
                        </b>
                    </li>
@@ -102,11 +103,6 @@
                </ul>
             <#else>
               <ul class="navbar-nav nav-flex-icons ">
-                  <#--<li class="nav-item">-->
-                      <#--<a href="/oauth2/authorization/google" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
-                          <#--<i class="fab fa-google-plus-g " aria-hidden="true"></i>-->
-                      <#--</a>-->
-                  <#--</li>-->
                   <li class="nav-item">
                       <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
@@ -121,7 +117,8 @@
 <div class="wrapperheader">
     <div class="headerimagewrapper">
         <img class="imgForBigScreen" src="/img/shapka.jpg">
-        <img class="imgForLittleScreen"  src="img/shpaka_obrez.png">
+        <img class="imgForLittleScreen"  src="/img/shapka_obrez.jpg">
+        <img class="imgForVeryBigScreen" src="/img/shpaka_for_very_big_screen.jpg">
     </div>
 </div>
 
@@ -295,31 +292,34 @@
   <!--Footer-->
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
     <!--Call to action-->
-    <div class="pt-4">
-      <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
-        <i class="fas fa-sign-in-alt ml-2"></i>
-      </a>
+    <div class="footerUpSide">
+        <div class="pt-4">
+            <a class="btn btn-grey" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
+                <i class="fas fa-sign-in-alt ml-2"></i>
+            </a>
+        </div>
+        <!--/.Call to action-->
+        <hr class="my-4">
+        <!-- Social icons -->
+        <div class="pb-4 footerMiddleSide">
+            <a href="#">
+                <i class="fab fa-vk mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-telegram mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-instagram mr-3"></i>
+            </a>
+        </div>
     </div>
-    <!--/.Call to action-->
-    <hr class="my-4">
-    <!-- Social icons -->
-    <div class="pb-4">
-      <a href="#">
-        <i class="fab fa-vk mr-3"></i>
-      </a>
-      <a href="#">
-        <i class="fab fa-youtube mr-3"></i>
-      </a>
-      <a href="#">
-        <i class="fab fa-telegram mr-3"></i>
-      </a>
-      <a href="#">
-        <i class="fab fa-instagram mr-3"></i>
-      </a>
-    </div>
+
     <!-- Social icons -->
     <!--Copyright-->
-    <div class="footer-copyright py-3"> © 2018 Copyright:
+    <div class="footerDownSide py-3" > © 2018 Copyright:
       <a href="#"> potvneskazut.ru </a>
     </div>
     <!--/.Copyright-->

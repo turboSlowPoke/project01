@@ -5,11 +5,11 @@ body,
   height: 100%; }
 
 .wrapperheader{
-  background: #090001;
+  background: #060000;
 }
 
 @media (max-width: 776px){
-  .imgForBigScreen{
+  .imgForBigScreen,.imgForVeryBigScreen{
     display: none;
   }
   .headerimagewrapper{
@@ -22,7 +22,7 @@ body,
   }
 }
 @media  (min-width : 775px) and (max-width : 1024px) {
-  .imgForLittleScreen{
+  .imgForLittleScreen, .imgForVeryBigScreen{
     display: none;
   }
   .headerimagewrapper{
@@ -41,15 +41,16 @@ body,
   }
 }
 @media (min-width: 1023px) {
-  .headerimagewrapper{
-    width: 80%;
-    margin: 0 auto;
-  }
-  .imgForLittleScreen{
+  .imgForLittleScreen,.imgForBigScreen{
     display: none;
   }
-  .imgForBigScreen{
-    height: 400px;
+  .headerimagewrapper{
+    padding-top: 1% ;
+    width: 61%;
+    margin: 0 auto;
+  }
+  .imgForVeryBigScreen{
+    height:  400px;
     max-width: 100%;
   }
   .fixedFooterForBigScreen{
@@ -62,20 +63,32 @@ body,
 
 /* Navbar animation */
 .navbar {
-  background-color: rgba(0, 0, 0, 0.2); }
-
-.top-nav-collapse {
-  background-color: #929FBA; }
+  background-color: rgba(13, 1, 3, 0.2);
+}
+.top-nav-collapse, .navAboutPage {
+  background-color: #090000;
+  opacity: 0.95;
+}
 
 /* Adding color to the Navbar on mobile */
 @media only screen and (max-width: 768px) {
   .navbar {
-    background-color: #929FBA; } }
+    background-color: #090000;
+    opacity: 0.9;
+  }
+}
 
 /* Footer color for sake of consistency with Navbar */
-.page-footer {
-  background-color: #929FBA;
+.footerUpSide {
+ background: rgba(9,0,9,0.95);
 }
+.footerMiddleSide{
+  opacity: unset;
+}
+.footerDownSide{
+  background-color: #090000;
+}
+
 
 
 

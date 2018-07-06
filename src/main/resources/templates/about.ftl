@@ -5,8 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <title>ТВ не скажет</title>
+
+    <title>По ТВ не скажут</title>
+    <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -57,7 +58,7 @@
     </div>
 </div>
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark navAboutPage scrolling-navbar">
     <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
@@ -69,10 +70,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/">Главная  </a>
+                    <a class="nav-link waves-effect " href="/">Главная </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect active" href="/about">О нас<span class="sr-only">(current)</span></a>
+                    <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/about">О нас<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/contacts">Контакты</a>
@@ -101,14 +102,14 @@
                    </li>
                </ul>
             <#else>
-              <#--<ul class="navbar-nav nav-flex-icons">-->
-                  <#--<li class="nav-item pr-lg-3">-->
-                      <#--<a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
-                          <#--<i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>-->
-                      <#--</a>-->
-                  <#--</li>-->
+              <ul class="navbar-nav nav-flex-icons ">
+              <#--<li class="nav-item">-->
+              <#--<a href="/oauth2/authorization/google" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
+              <#--<i class="fab fa-google-plus-g " aria-hidden="true"></i>-->
+              <#--</a>-->
+              <#--</li>-->
                   <li class="nav-item">
-                      <a href="/lk" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
+                      <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
                       </a>
                   </li>
@@ -143,31 +144,34 @@
   <!--Footer-->
 <footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
     <!--Call to action-->
-    <div class="pt-4">
-        <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
-            <i class="fas fa-sign-in-alt ml-2"></i>
-        </a>
+    <div class="footerUpSide">
+        <div class="pt-4">
+            <a class="btn btn-grey" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;
+                <i class="fas fa-sign-in-alt ml-2"></i>
+            </a>
+        </div>
+        <!--/.Call to action-->
+        <hr class="my-4">
+        <!-- Social icons -->
+        <div class="pb-4 footerMiddleSide">
+            <a href="#">
+                <i class="fab fa-vk mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-telegram mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-instagram mr-3"></i>
+            </a>
+        </div>
     </div>
-    <!--/.Call to action-->
-    <hr class="my-4">
-    <!-- Social icons -->
-    <div class="pb-4">
-        <a href="#">
-            <i class="fab fa-vk mr-3"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-youtube mr-3"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-telegram mr-3"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-instagram mr-3"></i>
-        </a>
-    </div>
+
     <!-- Social icons -->
     <!--Copyright-->
-    <div class="footer-copyright py-3"> © 2018 Copyright:
+    <div class="footerDownSide py-3" > © 2018 Copyright:
         <a href="#"> potvneskazut.ru </a>
     </div>
     <!--/.Copyright-->
