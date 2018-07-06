@@ -150,7 +150,7 @@
   </main>
   <!--Main layout-->
   <!--Footer-->
-<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedfooter">
+<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
     <!--Call to action-->
     <div class="pt-4">
         <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;

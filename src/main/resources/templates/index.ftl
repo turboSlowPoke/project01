@@ -44,7 +44,7 @@
           </div>
           <button type="submit" class="btn btn-primary btn-sm">Войти</button>
           <hr class="my-1">
-          Вы можете войти через Google:
+          Также вы можете войти через Google:
           <a class="btn btn-outline-red btn-sm" href="/oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
           Получить логин пароль в телеграм:
           <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
@@ -101,12 +101,12 @@
                    </li>
                </ul>
             <#else>
-              <ul class="navbar-nav nav-flex-icons">
-                  <li class="nav-item pr-lg-3">
-                      <a href="/oauth2/authorization/google" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fab fa-google-plus-g " aria-hidden="true"></i>
-                      </a>
-                  </li>
+              <ul class="navbar-nav nav-flex-icons ">
+                  <#--<li class="nav-item">-->
+                      <#--<a href="/oauth2/authorization/google" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
+                          <#--<i class="fab fa-google-plus-g " aria-hidden="true"></i>-->
+                      <#--</a>-->
+                  <#--</li>-->
                   <li class="nav-item">
                       <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
@@ -118,11 +118,11 @@
     </div>
 </nav>
 
-<div class="test">
-    <img class="img-fluid header-img big-screen  " src="/img/shapka.jpg">
-</div>
-<div class="background-header little-screen">
-    <img class="img-fluid little-screen" src="/img/shapka_test.png">
+<div class="wrapperheader">
+    <div class="headerimagewrapper">
+        <img class="imgForBigScreen" src="/img/shapka.jpg">
+        <img class="imgForLittleScreen"  src="img/shpaka_obrez.png">
+    </div>
 </div>
 
 
@@ -142,18 +142,24 @@
           <!--Grid column-->
           <div class="col-md-6 mb-4">
             <!-- Main heading -->
-            <h3 class="h3 mb-3">О нас</h3>
-            <p>This template is created with Material Design for Bootstrap (
-              <strong>MDB</strong> ) framework.</p>
-            <p>Read details below to learn more about MDB.</p>
-            <!-- Main heading -->
-            <hr>
-            <p>
-              <strong>400+</strong> material UI elements,
-              <strong>600+</strong> material icons,
-              <strong>74</strong> CSS animations, SASS files, templates, tutorials and many more.
-              <strong>Free for personal and commercial use.</strong>
-            </p>
+              <strong>
+                  Весь мир помешался на криптовалютах, а ты до сих пор не знаешь с какой стороны к ним подойти?
+                  Боишься, что начинать уже поздно и твои деньги улетят в трубу?
+                  <hr>
+                  Меня зовут Кирилл Кузьмин и я могу научить тебя как заработать свои первые токены без рисков и вложений.
+                  На моем канале ты найдешь много полезной и интересной информации о мире криптовалют.
+                  Развиваться в этой сфере я начал еще в 19 лет, а в 20 уже заработал свой первый миллион, с удовольствием делюсь полученными знаниями и опытом с желающими увеличить свой доход.
+              </strong>
+              </p>
+              <!-- Main heading -->
+              <hr>
+              <p>
+                  <strong>
+                      Новости, обзоры монет, платформ и все виды заработка на Blokchain, о которых не скажут по ТВ!<br>
+                      Для тех, кто не готов тратить свое время на поиск и обработку огромного количества информации,
+                      мы с командой подготовили обучение, где просто и доступно расскажем как  зарабатывать от 500$ в месяц, проводя время в своих любимых соцсетях.
+                  </strong>
+              </p>
             <!-- CTA -->
             <a href="#" class="btn btn-grey btn-md" data-toggle="modal" data-placement="bottom" data-target="#signInModal">присоединиться <i class="fas fa-sign-in-alt pl-2" aria-hidden="true"></i></a>
           </div>
@@ -226,70 +232,62 @@
       <!--Section: More-->
       <section class="wow">
         <h2 class="my-5 h3 text-center">Мы в соцсетях:</h2>
-        <!--row 1-->
-        <div class="row features-small mt-4 wow fadeIn">
-          <div class="col-xl-4 col-lg-6 col-md-4"></div>
-          <div class="col-xl-4 col-lg-6">
-            <div class="row">
-              <div class="col-2">
-                <i class="fab fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i>
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                      <div class="row">
+                          <div class="col-2">
+                              <i class="fab fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10 mb-2">
+                              <h5 class="feature-title font-bold mb-1">Группа вконтакте</h5>
+                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-2"></div>
+                  <div class="col-md-4">
+                      <div class="row">
+                          <div class="col-2">
+                              <i class="fab fa-youtube fa-2x mb-1 red-text" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10 mb-2">
+                              <h5 class="feature-title font-bold mb-1">Канал на youtube</h5>
+                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-1"></div>
               </div>
-              <div class="col-10 mb-2">
-                <h5 class="feature-title font-bold mb-1">Группа вконтакте</h5>
-                <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+              <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                      <div class="row">
+                          <div class="col-2">
+                              <i class="fab fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10 mb-2">
+                              <h5 class="feature-title font-bold mb-1">Канал в телеграм</h5>
+                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-2"></div>
+                  <div class="col-md-4">
+                      <div class="row">
+                          <div class="col-2">
+                              <i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10 mb-2">
+                              <h5 class="feature-title font-bold mb-1">Мы в инстаграм</h5>
+                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-1"></div>
               </div>
-            </div>
           </div>
-          <div class="col-xl-4 col-lg-6"></div>
-        </div>
-        <!--row 2-->
-        <div class="row features-small mt-4 wow fadeIn">
-          <div class="col-xl-4 col-lg-6"></div>
-          <div class="col-xl-4 col-lg-6">
-            <div class="row">
-              <div class="col-2">
-                <i class="fab fa-youtube fa-2x mb-1 red-text" aria-hidden="true"></i>
-              </div>
-              <div class="col-10 mb-2">
-                <h5 class="feature-title font-bold mb-1">Канал на youtube</h5>
-                <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6"></div>
-        </div>
-        <!--row 3-->
-        <div class="row features-small mt-4 wow fadeIn">
-          <div class="col-xl-4 col-lg-6"></div>
-          <div class="col-xl-4 col-lg-6">
-            <div class="row">
-              <div class="col-2">
-                <i class="fab fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-              </div>
-              <div class="col-10 mb-2">
-                <h5 class="feature-title font-bold mb-1">Канал в телеграм</h5>
-                <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6"></div>
-        </div>
-        <!--row 4-->
-        <div class="row features-small mt-4 wow fadeIn">
-          <div class="col-xl-4 col-lg-6"></div>
-          <div class="col-xl-4 col-lg-6">
-            <div class="row">
-              <div class="col-2">
-                <i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
-              </div>
-              <div class="col-10 mb-2">
-                <h5 class="feature-title font-bold mb-1">Мы в инстаграм</h5>
-                <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6"></div>
-        </div>
       </section>
     </div>
   </main>

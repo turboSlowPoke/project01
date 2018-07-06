@@ -101,12 +101,12 @@
                    </li>
                </ul>
             <#else>
-              <ul class="navbar-nav nav-flex-icons">
-                  <li class="nav-item pr-lg-3">
-                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>
-                      </a>
-                  </li>
+              <#--<ul class="navbar-nav nav-flex-icons">-->
+                  <#--<li class="nav-item pr-lg-3">-->
+                      <#--<a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
+                          <#--<i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>-->
+                      <#--</a>-->
+                  <#--</li>-->
                   <li class="nav-item">
                       <a href="/lk" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
@@ -141,7 +141,7 @@
   </main>
   <!--Main layout-->
   <!--Footer-->
-<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedfooter">
+<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
     <!--Call to action-->
     <div class="pt-4">
         <a class="btn btn-outline-white" href="#" role="button" data-toggle="modal" data-placement="bottom" data-target="#signInModal">Присоединиться &nbsp; &nbsp; &nbsp; &nbsp;

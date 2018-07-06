@@ -102,11 +102,11 @@
                </ul>
             <#else>
               <ul class="navbar-nav nav-flex-icons">
-                  <li class="nav-item pr-lg-3">
-                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>
-                      </a>
-                  </li>
+                  <#--<li class="nav-item pr-lg-3">-->
+                      <#--<a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">-->
+                          <#--<i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>-->
+                      <#--</a>-->
+                  <#--</li>-->
                   <li class="nav-item">
                       <a href="/lk" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
