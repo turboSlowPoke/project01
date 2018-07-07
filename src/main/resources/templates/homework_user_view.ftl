@@ -20,7 +20,7 @@
 
 <body>
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark navAboutPage scrolling-navbar">
     <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/">Главная <span class="sr-only">(current)</span> </a>
+                    <a class="nav-link waves-effect" href="/">Главная  </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/about">О нас</a>
@@ -46,9 +46,10 @@
             </ul>
             <#if user?? >
                <ul class="navbar-nav nav-flex-icons">
-                   <li class="nav-item">
+                   <li class="nav-item active grey darken-3 rounded rounded-2 mr-3">
                        <b class="nav-link waves-effect" ">
                        <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                       <span class="sr-only">(current)</span>
                   <#if user.login??>${user.login}
                   <#elseif user.userData??&&user.userData.telegramNikcName??>
                       ${user.userData.telegramNikcName}
@@ -132,11 +133,35 @@
 </#if>
 
 
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
-    <div class="footer-copyright py-3"> © 2018 Copyright:
-      <a href="#"> ontvnotshow.com </a>
+<footer class="text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
+    <!--Call to action-->
+    <div class="footerUpSide">
+        <hr class="my-4">
+        <!--/.Call to action-->
+        <!-- Social icons -->
+        <div class="pb-4 footerMiddleSide text-white">
+            <a href="#" class="text-white">
+                <i class="fab fa-vk mr-3"></i>
+            </a>
+            <a href="#" class="text-white">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+            <a href="#" class="text-white">
+                <i class="fab fa-telegram mr-3"></i>
+            </a>
+            <a href="#" class="text-white">
+                <i class="fab fa-instagram mr-3"></i>
+            </a>
+        </div>
     </div>
-  </footer>
+
+    <!-- Social icons -->
+    <!--Copyright-->
+    <div class="footerDownSide py-3 text-white" > © 2018 Copyright:
+        <a href="#" class="text-white"> potvneskazut.ru </a>
+    </div>
+    <!--/.Copyright-->
+</footer>
 
   <!-- JQuery -->
   <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>

@@ -474,7 +474,8 @@
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body text-center ">
-                     Чтобы пригласить рефералов, отправьте эту <a href="${siteURL}?ref=${user.id}">ссылку</a>.
+                     Чтобы пригласить рефералов, отправьте эту <a href="${siteURL}?ref=${user.id}">ссылку</a>.<br>
+                      <textarea readonly placeholder="" rows="1" cols="30">${siteURL}?ref=${user.id}</textarea>
                   </div>
                   <div class="modal-footer text-center">
                       <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>

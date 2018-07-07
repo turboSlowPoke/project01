@@ -8,18 +8,18 @@
     <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
-    <link href="css/style.min.css" rel="stylesheet"> </head>
+    <link href="css/style.css" rel="stylesheet"> </head>
 
 <body>
 
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark navAboutPage scrolling-navbar">
     <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
@@ -31,10 +31,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/">Главная <span class="sr-only">(current)</span> </a>
+                    <a class="nav-link waves-effect " href="/">Главная </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/about">О нас</a>
+                    <a class="nav-link waves-effect " href="/about">О нас</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/contacts">Контакты</a>
@@ -43,39 +43,6 @@
                     <a class="nav-link waves-effect" href="/faq">FAQ</a>
                 </li>
             </ul>
-            <#if user?? >
-               <ul class="navbar-nav nav-flex-icons">
-                   <li class="nav-item">
-                       <b class="nav-link waves-effect" ">
-                       <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
-                       <a href="/lk" title="В личный кабинет" data-toggle="tooltip" data-placement="bottom">
-                         <#if user.login??>${user.login}
-                         <#elseif user.userData??&&user.userData.telegramNikcName??>
-                             ${user.userData.telegramNikcName}
-                         <#elseif user.userData.firstName??>${user.userData.firstName}
-                         </#if>
-                       </a>
-                       </b>
-                   </li>
-                   <li class="nav-item">
-                       <a href="/logout" class="nav-link border border-light rounded waves-effect">
-                           <i class="fas fa-sign-out-alt orange-text mr-1" aria-hidden="true"></i>Выйти</a>
-                   </li>
-               </ul>
-            <#else>
-              <ul class="navbar-nav nav-flex-icons">
-                  <li class="nav-item pr-lg-3">
-                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fa fa-google" aria-hidden="true"></i>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
-                          <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
-                      </a>
-                  </li>
-              </ul>
-            </#if>
         </div>
     </div>
 </nav>
@@ -101,12 +68,8 @@
                             <label for="exampleInputPassword1">Пароль</label>
                             <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
                         </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
                         <button type="submit" class="btn btn-primary">Войти</button>
-                        <a text="Google" href="oauth2/authorization/google">Google</a>
+                        <a class="btn btn-danger" href="/oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">Google</a><br>
                     </form>
                 </div>
                 <div class="col-md-4"></div>
@@ -115,18 +78,37 @@
     </div>
 
 </main>
-<footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
-    <!--Call to action-->
 
-    <!--/.Call to action-->
+<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
+    <!--Call to action-->
+    <div class="footerUpSide">
+        <!--/.Call to action-->
+        <hr class="my-4">
+        <!-- Social icons -->
+        <div class="pb-4 footerMiddleSide">
+            <a href="#">
+                <i class="fab fa-vk mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-telegram mr-3"></i>
+            </a>
+            <a href="#">
+                <i class="fab fa-instagram mr-3"></i>
+            </a>
+        </div>
+    </div>
 
     <!-- Social icons -->
     <!--Copyright-->
-    <div class="footer-copyright py-3"> © 2018 Copyright:
-        <a href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank"> MDBootstrap.com </a>
+    <div class="footerDownSide py-3" > © 2018 Copyright:
+        <a href="#"> potvneskazut.ru </a>
     </div>
     <!--/.Copyright-->
 </footer>
+
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="js/popper.min.js"></script>
