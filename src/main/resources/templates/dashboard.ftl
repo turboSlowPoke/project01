@@ -104,7 +104,7 @@
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                       <div class="modal-body text-center green lighten-5">
-                          Присоедитесь к нашему боту в telegram <i class="fa fa-telegram" aria-hidden="true"></i>
+                          Присоедитесь к нашему боту в telegram <i class="fab fa-telegram" aria-hidden="true"></i>
                           , перейдя по <a href="${botLink}?start=${userHash}"> ссылке </a>.
                       </div>
                       <div class="modal-footer text-center">
@@ -779,19 +779,20 @@
   <footer class="text-center font-small mt-4 wow fadeIn">
       <!--Call to action-->
       <div class="footerUpSide">
+          <hr class="my-4">
           <!--/.Call to action-->
           <!-- Social icons -->
-          <div class="pb-4 footerMiddleSide">
-              <a href="#">
+          <div class="pb-4 footerMiddleSide text-white">
+              <a href="#" class="text-white">
                   <i class="fab fa-vk mr-3"></i>
               </a>
-              <a href="#">
+              <a href="#" class="text-white">
                   <i class="fab fa-youtube mr-3"></i>
               </a>
-              <a href="#">
+              <a href="#" class="text-white">
                   <i class="fab fa-telegram mr-3"></i>
               </a>
-              <a href="#">
+              <a href="#" class="text-white">
                   <i class="fab fa-instagram mr-3"></i>
               </a>
           </div>
@@ -799,8 +800,8 @@
 
       <!-- Social icons -->
       <!--Copyright-->
-      <div class="footerDownSide py-3" > © 2018 Copyright:
-          <a href="#"> potvneskazut.ru </a>
+      <div class="footerDownSide py-3 text-white" > © 2018 Copyright:
+          <a href="#" class="text-white"> potvneskazut.ru </a>
       </div>
       <!--/.Copyright-->
   </footer>

@@ -140,7 +140,7 @@ public class WebhookController {
                         tempUser.setPassword(user.getPassword());
                         tempUser.setLogin(user.getLogin());
                     }
-                    tempUser.getUserData().setTelegramNikcName(user.getUserData().getTelegramNikcName());
+                    tempUser.getUserData().setTelegramNikcName("@"+userMessage.getChat().getUserName());
                     System.out.println("Обновлён");
                     System.out.println("Сохраняем пользоватлея " +tempUser);
                     userRepository.save(tempUser);
