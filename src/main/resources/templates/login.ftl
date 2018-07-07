@@ -23,8 +23,8 @@
     <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
-                <i class="fa fa-television" aria-hidden="true"></i>
-                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                <i class="fas fa-tv" aria-hidden="true"></i>
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
             </strong>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>

@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
@@ -45,13 +47,13 @@
                 <ul class="navbar-nav nav-flex-icons">
                     <li class="nav-item">
                         <b class="nav-link waves-effect" ">
-                        <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                        <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
                         admin
                         </b>
                     </li>
                     <li class="nav-item">
                         <a href="/logout" class="nav-link border border-light rounded waves-effect">
-                            <i class="fa fa-sign-out orange-text mr-1" aria-hidden="true"></i>Выйти</a>
+                            <i class="fas fa-sign-out-alt orange-text mr-1" aria-hidden="true"></i>Выйти</a>
                     </li>
                 </ul>
             </div>

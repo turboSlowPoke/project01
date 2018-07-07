@@ -9,7 +9,6 @@
   <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <!-- Bootstrap core CSS -->
@@ -60,10 +59,10 @@
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container-fluid">
-        <a class="navbar-brand waves-effect" href="/#" target="_blank">
+        <a class="navbar-brand waves-effect" href="/#">
             <strong>
-                <i class="fa fa-television" aria-hidden="true"></i>
-                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                <i class="fas fa-tv text-white" aria-hidden="true"></i>
+                <i class="fas fa-chart-line text-white" aria-hidden="true"></i>
             </strong>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -181,7 +180,6 @@
                           <img class="img-fluid " src="img/img_for_sales.jpg">
                         </div>
                         <div class="col-md-9">
-                          <h1><sup>$</sup> 10</h1>
                           <h3>Сигналы</h3>
                         </div>
                       </div>
@@ -191,7 +189,7 @@
                     <p>Наши супер сигналы бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
                       бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal"><b>$10</b>&nbsp; купить</a>
                   </div>
                 </div>
               </div>
@@ -204,7 +202,6 @@
                           <img class="img-fluid " src="img/img_for_sales.jpg">
                         </div>
                         <div class="col-md-9">
-                          <h1><sup>$</sup> 20</h1>
                           <h3>Обучение</h3>
                         </div>
                       </div>
@@ -216,7 +213,7 @@
                     <p>Наш супер курс  бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
                       бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
                     <hr>
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
+                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal"><b>$20&nbsp;</b> купить</a>
                   </div>
                 </div>
               </div>
@@ -228,7 +225,7 @@
       <hr class="mb-5">
       <!--Section: More-->
       <section class="wow">
-        <h2 class="my-5 h3 text-center">Мы в соцсетях:</h2>
+        <h2 class="my-5 h3 text-center">Я в соцсетях:</h2>
           <div class="container">
               <div class="row">
                   <div class="col-md-1"></div>
@@ -239,7 +236,7 @@
                           </div>
                           <div class="col-10 mb-2">
                               <h5 class="feature-title font-bold mb-1">Группа вконтакте</h5>
-                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                              <p class="grey-text mt-2">Ежедневный новостной дайджест и конкурсы с приятными призами. </p>
                           </div>
                       </div>
                   </div>
@@ -251,7 +248,7 @@
                           </div>
                           <div class="col-10 mb-2">
                               <h5 class="feature-title font-bold mb-1">Канал на youtube</h5>
-                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                              <p class="grey-text mt-2">Все о криптовалютах и биткоине, а так же обзоры перспективных альткоинов.</p>
                           </div>
                       </div>
                   </div>
@@ -266,7 +263,7 @@
                           </div>
                           <div class="col-10 mb-2">
                               <h5 class="feature-title font-bold mb-1">Канал в телеграм</h5>
-                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                              <p class="grey-text mt-2">Бесплатные айрдропы, легкие деньги без вложений. </p>
                           </div>
                       </div>
                   </div>
@@ -277,8 +274,8 @@
                               <i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
                           </div>
                           <div class="col-10 mb-2">
-                              <h5 class="feature-title font-bold mb-1">Мы в инстаграм</h5>
-                              <p class="grey-text mt-2">We care about reliability. If you have any questions - do not hesitate to contact us. </p>
+                              <h5 class="feature-title font-bold mb-1">Я в инстаграм</h5>
+                              <p class="grey-text mt-2">Немного обо мне и моей жизни</p>
                           </div>
                       </div>
                   </div>

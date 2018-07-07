@@ -8,29 +8,30 @@
     <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="css/mdb.min.css" rel="stylesheet">
   <!-- Your custom styles (optional) -->
-  <link href="css/style.min.css" rel="stylesheet"> </head>
+  <link href="css/style.css" rel="stylesheet"> </head>
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark navAboutPage scrolling-navbar">
       <div class="container-fluid">
           <a class="navbar-brand waves-effect" href="/#" target="_blank">
               <strong>
-                  <i class="fa fa-television" aria-hidden="true"></i>
-                  <i class="fa fa-line-chart" aria-hidden="true"></i>
+                  <i class="fas fa-tv" aria-hidden="true"></i>
+                  <i class="fas fa-chart-line" aria-hidden="true"></i>
               </strong>
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                      <a class="nav-link waves-effect active" href="/">Главная <span class="sr-only">(current)</span> </a>
+                      <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/">Главная <span class="sr-only">(current)</span> </a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link waves-effect" href="/about">О нас</a>
@@ -46,13 +47,13 @@
                <ul class="navbar-nav nav-flex-icons">
                    <li class="nav-item">
                        <b class="nav-link waves-effect" ">
-                       <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
                        <a href="/lk" title="В личный кабинет" data-toggle="tooltip" data-placement="bottom">
-                         <#if user.login??>${user.login}
-                         <#elseif user.userData??&&user.userData.telegramNikcName??>
-                             ${user.userData.telegramNikcName}
-                         <#elseif user.userData.firstName??>${user.userData.firstName}
-                         </#if>
+                           <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
+                           <#if user.login??>${user.login}
+                           <#elseif user.userData??&&user.userData.telegramNikcName??>
+                               ${user.userData.telegramNikcName}
+                           <#elseif user.userData.firstName??>${user.userData.firstName}
+                           </#if>
                        </a>
                        </b>
                    </li>
@@ -62,12 +63,7 @@
                    </li>
                </ul>
             <#else>
-              <ul class="navbar-nav nav-flex-icons">
-                  <li class="nav-item pr-lg-3">
-                      <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fab fa-google-plus-g text-danger" aria-hidden="true"></i>
-                      </a>
-                  </li>
+              <ul class="navbar-nav nav-flex-icons ">
                   <li class="nav-item">
                       <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
                           <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
@@ -87,7 +83,7 @@
                   <div class="row">
                       <div class="col-md-12">
                           <div class="card">
-                              <i class="fa fa-shopping-basket fa-5x"></i>
+                              <i class="fas fa-shopping-basket fa-5x"></i>
                               <div class="card-body">
                                   <form method="post" action="https://wallet.advcash.com/sci/">
                                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -125,17 +121,34 @@
               </div>
           </div>
   </main>
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
-    <!--Call to action-->
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
+      <!--Call to action-->
+      <div class="footerUpSide">
+          <!--/.Call to action-->
+          <hr class="my-4">
+          <!-- Social icons -->
+          <div class="pb-4 footerMiddleSide">
+              <a href="#">
+                  <i class="fab fa-vk mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-youtube mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-telegram mr-3"></i>
+              </a>
+              <a href="#">
+                  <i class="fab fa-instagram mr-3"></i>
+              </a>
+          </div>
+      </div>
 
-    <!--/.Call to action-->
-
-    <!-- Social icons -->
-    <!--Copyright-->
-    <div class="footer-copyright py-3"> © 2018 Copyright:
-      <a href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank"> MDBootstrap.com </a>
-    </div>
-    <!--/.Copyright-->
+      <!-- Social icons -->
+      <!--Copyright-->
+      <div class="footerDownSide py-3" > © 2018 Copyright:
+          <a href="#"> potvneskazut.ru </a>
+      </div>
+      <!--/.Copyright-->
   </footer>
   <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
   <!-- Bootstrap tooltips -->

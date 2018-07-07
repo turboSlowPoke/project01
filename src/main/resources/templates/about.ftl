@@ -9,7 +9,7 @@
     <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <!-- Bootstrap core CSS -->
@@ -62,8 +62,8 @@
     <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
-                <i class="fa fa-television" aria-hidden="true"></i>
-                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                <i class="fas fa-tv" aria-hidden="true"></i>
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
             </strong>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>

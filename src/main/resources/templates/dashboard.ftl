@@ -8,7 +8,7 @@
     <title>По ТВ не скажут</title>
     <link rel="icon" href="/img/icon.png">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" href="css/lk/font-awesome-animation.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <!-- Bootstrap core CSS -->
@@ -26,8 +26,8 @@
       <div class="container-fluid">
         <a class="navbar-brand waves-effect" href="/#" target="_blank">
             <strong>
-                <i class="fa fa-television" aria-hidden="true"></i>
-                <i class="fa fa-line-chart" aria-hidden="true"></i>
+                <i class="fas fa-tv" aria-hidden="true"></i>
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
             </strong>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -50,7 +50,7 @@
                <ul class="navbar-nav nav-flex-icons">
                    <li class="nav-item active grey darken-3 rounded rounded-2 mr-3">
                        <b class="nav-link waves-effect" ">
-                       <i class="fa fa-user indigo-text mr-1" aria-hidden="true"></i>
+                       <i class="fas fa-user indigo-text mr-1" aria-hidden="true"></i>
                        <span class="sr-only">(current)</span>
                   <#if user.login??>${user.login}
                   <#elseif user.userData??&&user.userData.telegramNikcName??>
@@ -68,12 +68,12 @@
               <ul class="navbar-nav nav-flex-icons">
                   <li class="nav-item pr-lg-3">
                       <a href="#" class="nav-link"  title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom">
-                          <i class="fa fa-google" aria-hidden="true"></i>
+                          <i class="fab fa-google" aria-hidden="true"></i>
                       </a>
                   </li>
                   <li class="nav-item">
                       <a href="#" class="nav-link border border-light rounded" title="Войти в личный кабинет" data-toggle="modal" data-placement="bottom" data-target="#signInModal">
-                          <i class="fa fa-sign-in pr-2" aria-hidden="true"></i>кабинет
+                          <i class="fas fa-sign-in-alt pr-2" aria-hidden="true"></i>кабинет
                       </a>
                   </li>
               </ul>
@@ -85,11 +85,11 @@
     <div class="sidebar-fixed position-fixed ">
 
       <div class="list-group list-group-flush" id="mainNav">
-        <a href="#subscription1" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-shopping-basket mr-3"></i>Подписки</a>
-        <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-file mr-3"></i>Домашние задания</a></#if>
-        <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-user mr-3"></i>Профиль</a>
-        <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-handshake-o mr-3"></i>Реферальная программа</a>
-        <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fa fa-money mr-3"></i>Бонусы</a>
+        <a href="#subscription1" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fas fa-shopping-basket mr-3"></i>Подписки</a>
+        <#if (user.trainingGroups?? && user.trainingGroups?size > 0)><a href="#homework" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fas fa-file-signature mr-3"></i>Домашние задания</a></#if>
+        <a href="#profile" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fas fa-user mr-3"></i>Профиль</a>
+        <a href="#referals" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fas fa-handshake mr-3"></i>Реферальная программа</a>
+        <a href="#bonusWallet" class="list-group-item list-group-item-action waves-effect js-scroll-trigger"> <i class="fas fa-hand-holding-usd mr-3"></i>Бонусы</a>
       </div>
     </div>
   </header>
@@ -172,7 +172,7 @@
                           <table class="table">
                               <tbody>
                               <tr>
-                                  <td><i class="fa fa-file faa-ring animated pink-text fa-5x" ></i></td>
+                                  <td><i class="fas fa-file-signature faa-ring animated pink-text fa-5x" ></i></td>
                                   <td class="lead">
                                       <input type="text" required name="name" class="form-control" placeholder="Введите название">
                                       <br><br>
@@ -217,7 +217,7 @@
             <table class="table">
               <tbody>
               <tr>
-                <td><i class="fa fa-bell faa-ring animated pink-text fa-5x" ></i></td>
+                <td><i class="fas fa-bell faa-ring animated pink-text fa-5x" ></i></td>
                 <td class="lead">
                   <div class="form-check">
                   <label class="form-check-label lead">
@@ -271,7 +271,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text fa-5x"></i></i>
+                                <i class="fas fa-graduation-cap faa-tada animated mr-3 purple-text fa-5x"></i></i>
                             </td>
                             <td class="lead">
 
@@ -308,7 +308,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header light-blue accent-1">
-            <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена имени</h5>
+            <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i> Смена имени</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
           <form action="/lk" method="post">
@@ -330,7 +330,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header light-blue accent-1">
-            <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена фамилии</h5>
+            <h5 class="modal-title white-text" ><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i> Смена фамилии</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
           <form action="/lk" method="post">
@@ -352,7 +352,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header light-blue accent-1">
-            <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена пароля</h5>
+            <h5 class="modal-title white-text" ><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i> Смена пароля</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
           <form action="/lk" method="post" id="changePassword">
@@ -361,7 +361,7 @@
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-lock mr-1 fa-5x" aria-hidden="true"></i></td>
+                  <td><i class="fa fas fa-lock mr-1 fa-5x" aria-hidden="true"></i></td>
                   <td class="lead">
                     <div class="form-group">
                         <input class="form-control" type="password" name="password1" placeholder="Введите пароль" required id="password1">
@@ -387,7 +387,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header light-blue accent-1">
-            <h5 class="modal-title white-text" ><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена почты</h5>
+            <h5 class="modal-title white-text" ><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i> Смена почты</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
           </div>
           <form action="/lk" method="post">
@@ -418,7 +418,7 @@
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header  accent-1">
-                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i>Телеграм @username</h5>
+                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i>Телеграм @username</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body">
@@ -448,7 +448,7 @@
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header light-blue accent-1">
-                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fa fa-user-circle  mr-3 " aria-hidden="true"></i> Смена Advcash</h5>
+                      <h5 class="modal-title white-text" id="exampleModalLabel"><i class="fas fa-user-circle  mr-3 " aria-hidden="true"></i> Смена Advcash</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
                   </div>
                   <form action="/lk" method="post">
@@ -470,7 +470,7 @@
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header cyan">
-                      <h5 class="modal-title white-text" ><i class="fa fa-handshake-o mr-3 white-text" aria-hidden="true"></i>Реферальная ссылка</h5>
+                      <h5 class="modal-title white-text" ><i class="fas fa-handshake mr-3 white-text" aria-hidden="true"></i>Реферальная ссылка</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body text-center ">
@@ -487,7 +487,7 @@
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
                   <div class="modal-header cyan">
-                      <h5 class="modal-title white-text" ><i class="fa fa-handshake-o mr-3 white-text" aria-hidden="true"></i>Выплата реферальных</h5>
+                      <h5 class="modal-title white-text" ><i class="fas fa-handshake mr-3 white-text" aria-hidden="true"></i>Выплата реферальных</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body text-center">
@@ -518,12 +518,12 @@
           <#--сигналы-->
         <div class="col-md-6 mb-4">
           <div class="card ">
-            <div class="card-header text-center "><i class="fa fa-bell faa-ring animated mr-3 pink-text" ></i>Сигналы</div>
+            <div class="card-header text-center "><i class="fas fa-bell faa-ring animated mr-3 pink-text" ></i>Сигналы</div>
             <div class="card-body pink lighten-5">
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-clock-o fa-5x" aria-hidden="true"></i></td>
+                  <td><i class="fas fa-clock fa-5x" aria-hidden="true"></i></td>
                   <td class="lead">
                   <#assign subscribeBotton="Продлить">
                   <#if user.subsribe??&&user.subsribe.endOfSignal??>
@@ -545,14 +545,14 @@
             <#--обучение-->
         <div class="col-md-6 mb-4">
           <div class="card ">
-            <div class="card-header text-center "><i class="fa fa-graduation-cap faa-tada animated mr-3 purple-text"></i>Обучение</div>
+            <div class="card-header text-center "><i class="fas fa-graduation-cap faa-tada animated mr-3 purple-text"></i>Обучение</div>
             <div class="card-body purple lighten-5">
               <table class="table">
                 <tbody>
                 <tr>
                   <td>
-                      <#if (user.trainingGroups?? && user.trainingGroups?size>0)><i class="fa fa-check-square fa-5x green-text" aria-hidden="true"></i></i>
-                      <#else><i class="fa fa-exclamation-triangle fa-5x orange-text" aria-hidden="true"></i></#if>
+                      <#if (user.trainingGroups?? && user.trainingGroups?size>0)><i class="fas fa-check-square fa-5x green-text" aria-hidden="true"></i></i>
+                      <#else><i class="fas fa-exclamation-triangle fa-5x orange-text" aria-hidden="true"></i></#if>
                   </td>
                   <td class="lead">
                     <#if (user.trainingGroups?? && user.trainingGroups?size>0)>
@@ -583,7 +583,7 @@
         <div class="row wow fadeIn">
             <div class="col-md-12 mb-4">
                 <div class="card"  >
-                    <div class="card-header text-center "><i class="fa fa-file text-info mr-3 " aria-hidden="true"></i>Ваши работы</div>
+                    <div class="card-header text-center "><i class="fas fa-file-signature text-info mr-3 " aria-hidden="true"></i>Ваши работы</div>
                     <div class="card-body blue lighten-5">
                         <#if (homeworkList?? && homeworkList?size >0)>
                             <table class="table table-hover">
@@ -609,7 +609,7 @@
                                         <form action="/lk/delete_homework" method="post">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="hidden" name="id" value="${homework.id}">
-                                            <a class="text red-text" href="#" onclick="this.parentNode.submit()" title="Удалить это задание" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                            <a class="text red-text" href="#" onclick="this.parentNode.submit()" title="Удалить это задание" data-toggle="tooltip" data-placement="bottom"><i class="far fa-clock" aria-hidden="true"></i></a>
                                         </form>
                                     </td>
                                 </tr>
@@ -639,7 +639,7 @@
         <div class="col-md-12 mb-4">
           <div class="card"  >
             <div class="card-header text-center ">
-              <i class="fa fa-user-circle text-info mr-3 " aria-hidden="true"></i>Ваш профиль
+              <i class="fas fa-user-circle text-info mr-3 " aria-hidden="true"></i>Ваш профиль
             </div>
             <div class="card-body blue lighten-5">
               <table class="table table-hover">
@@ -648,47 +648,47 @@
                     <th scope="row">Имя</th>
                     <td><#if user.userData??&&user.userData.firstName??>${user.userData.firstName}</#if></td>
                      <td>
-                         <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                         <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                         <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                         <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileFirstName"><i class="fas fa-cog" aria-hidden="true"></i></button>
                      </td>
                   </tr>
                   <tr>
                     <th scope="row">Фамилия</th>
                     <td><#if user.userData??&&user.userData.lastName??>${user.userData.lastName}</#if></td>
                     <td>
-                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fa fa-cog" aria-hidden="true"></i></button></td>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileLastName"><i class="fas fa-cog" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr>
-                    <th scope="row"><i class="fa fa-lock mr-1" aria-hidden="true"></i>Пароль</th>
+                    <th scope="row"><i class="fa fas fa-lock mr-1" aria-hidden="true"></i>Пароль</th>
                     <td>*******</td>
                     <td>
-                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fa fa-cog" aria-hidden="true"></i>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfilePassword"><i class="fas fa-cog" aria-hidden="true"></i>
                         </button></td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fas fa-envelope mr-1" aria-hidden="true"></i>email</th>
                     <td><#if user.userData.email??>${user.userData.email}</#if></td>
                     <td>
-                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#modalProfileMail"><i class="fas fa-cog" aria-hidden="true"></i></button>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row"><i class="fab fa-telegram text-primary mr-1" aria-hidden="true"></i> telegram</th>
                     <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>не настроен</#if></td>
                     <td>
-                        <a class="text text-info littleButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                        <a class="text text-info littleButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeTelegramUsername"><i class="fas fa-cog" aria-hidden="true"></i></button>
                     </td>
                   </tr>
                   <tr>
-                      <th scope="row"><i class="fa fa-credit-card text-primary mr-1" aria-hidden="true"></i> advcash</th>
+                      <th scope="row"><i class="fas fa-credit-card text-primary mr-1" aria-hidden="true"></i> advcash</th>
                       <td><#if user.userData.advcash??>${user.userData.advcash}<#else>не настроен</#if></td>
                       <td>
-                          <a class="text text-info littleButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                          <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                          <a class="text text-info littleButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                          <button type="button" class="btn btn-info btn-sm bigButton" data-toggle="modal" data-target="#changeAdvcash"><i class="fas fa-cog" aria-hidden="true"></i></button>
                       </td>
                   </tr>
                 </tbody>
@@ -708,7 +708,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-7 mt-4">
           <div class="card">
-            <div class="card-header text-center"><i class="fa fa-handshake-o mr-3 text-default" aria-hidden="true"></i>Рефералы</div>
+            <div class="card-header text-center"><i class="fas fa-handshake mr-3 text-default" aria-hidden="true"></i>Рефералы</div>
             <div class="card-body cyan lighten-5">
               <table class="table table-hover">
                 <tbody>
@@ -745,12 +745,12 @@
         <div class="col-md-1"></div>
         <div class="col-md-7">
           <div class="card">
-            <div class="card-header text-center"><i class="fa fa-money text-success mr-3" aria-hidden="true"></i>Бонусы</div>
+            <div class="card-header text-center"><i class="fas fa-hand-holding-usd text-success mr-3" aria-hidden="true"></i>Бонусы</div>
             <div class="card-body text-center green lighten-5">
               <table class="table">
                 <tbody>
                 <tr>
-                  <td><i class="fa fa-university fa-5x" aria-hidden="true"></i></td>
+                  <td><i class="fas fa-university fa-5x" aria-hidden="true"></i></td>
                   <td class="lead">На вашем счету
                   <#if user.getBonusWallet()??&&user.getBonusWallet().candyWrapers??>
                   ${user.getBonusWallet().candyWrapers}
