@@ -26,7 +26,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
-import project01.project01.enums.Global;
 import project01.project01.services.PasswordService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +128,7 @@ public class PrivatePageController {
                 model.put("succes","Пароль изменён");
                 request.getSession().removeAttribute("passwordChanged");
             }
-            model.put("botLink",Global.BOT_LINK.getText());
+            model.put("botLink",GlobalConfig.BOT_LINK);
             //если юзер перешел по реферальной ссылке
             if (session.getAttribute("invitedId")!=null){
                 try {
@@ -434,7 +433,7 @@ public class PrivatePageController {
             user.setGoogleId(authentication.getName());
             user.setRoles(new HashSet<Role>(Arrays.asList(new Role())));
             //create hash
-            String checkString = user.getId().toString()+user.getStartDate()+Global.COD_WORD.getText();
+            String checkString = user.getId().toString()+user.getStartDate()+GlobalConfig.CODOVOE_SLOVO;
             MessageDigest md = null;
             try {
                 md = MessageDigest.getInstance("SHA-256");

@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
-import project01.project01.enums.Global;
 import project01.project01.exceptions.DublicateUsersInDb;
 import project01.project01.enums.Purchase;
 import project01.project01.exceptions.NoUserInDbException;
@@ -117,7 +116,7 @@ public class WebhookController {
 
     private void sendEditMessageText(EditMessageText editMessageText) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(Global.BOT_URL.getText()+"/editMessageText", editMessageText,EditMessageText.class);
+        restTemplate.postForObject(GlobalConfig.BOT_API_URL+"/editMessageText", editMessageText,EditMessageText.class);
     }
 
     private SendMessage mainContext(User user, Message userMessage) {
@@ -171,7 +170,8 @@ public class WebhookController {
                             botMessage.setText(stringWithSignals);
                         }
                     } else {
-                        botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку.");
+                        botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку в <a href=\""+GlobalConfig.siteUrl + "/?uh=" + user.getHash()+"\">личном кабинете</a>.");
+                        botMessage.setParseMode("HTML");
                     }
                     break;
                 case TRAINING:
@@ -211,7 +211,7 @@ public class WebhookController {
                     textMessage = textMessage + "Количество ваших рефералов = " +  allReferals+ "\n"+
                                 "Произведено оплат на сумму ="+amountReferalsPayment + "$\n"+
                                 "Вам начислено "+usdBonus+"$\n";
-                    textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + Global.BOT_LINK.getText() + "?start=" + user.getId() + "\">ссылку</a>\n";
+                    textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + GlobalConfig.BOT_LINK + "?start=" + user.getId() + "\">ссылку</a>\n";
                     botMessage.setText(textMessage);
                     botMessage.setParseMode("HTML");
                     break;
@@ -228,10 +228,10 @@ public class WebhookController {
                         privatePageText = privatePageText + "Установить пароль, отправьте\n /pass <i>ваш пароль</i>\n";
                         privatePageText = privatePageText + "Доступна авторизация через <b>Google</b> аккаунт\n";
                         privatePageText = privatePageText + "Перейти на сайт в личный кабинет нужно по этой " +
-                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
+                                "<a href=\"" + GlobalConfig.siteUrl + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
                     } else {
                         privatePageText = "<b>Перейти на сайт в личный кабинет нужно по этой</b> " +
-                                "<a href=\"" + Global.WEBSITE_LINK.getText() + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
+                                "<a href=\"" + GlobalConfig.siteUrl + "/?uh=" + user.getHash() + "\">ссылке</a>\n\n";
                         if (user.getLogin() != null)
                             privatePageText = privatePageText + "Ваш логин " + user.getLogin() + "\n";
                         if (user.getPassword() == null)
@@ -243,7 +243,12 @@ public class WebhookController {
                     botMessage.setText(privatePageText);
                     botMessage.setParseMode("HTML");
                     sendMessage(botMessage);
-                    botMessage.setText("\nДля взаимодействия с вами , нам нужно знать ваш <b>@username</b> в телеграм, пожалуйста заполните его в профиле мессенджера (Настройки -> Имя пользователя / Settings->Username), затем нажмите кнопку обновить");
+                    if (user.getUserData().getTelegramNikcName()==null||user.getUserData().getTelegramNikcName().equals("@null")){
+                        privatePageText = "Ваш телеграм @username <b>не настроен</b>\n";
+                    }else {
+                        privatePageText= "Ваш телеграм @username = <b>"+user.getUserData().getTelegramNikcName()+"</b>\n";
+                    }
+                    botMessage.setText(privatePageText+"\nЧтобы изменить или установить ваш телеграм @username, заполните его в профиле мессенджера (Настройки -> Имя пользователя / Settings->Username), затем нажмите кнопку обновить");
                     botMessage.setReplyMarkup(createUpdateBottom());
                     break;
                 case START:
@@ -317,8 +322,6 @@ public class WebhookController {
         return answer;
     }
 
-
-
     private InlineKeyboardMarkup createUpdateBottom() {
         List<List<InlineKeyboardButton>> lines = new ArrayList<>();
         List<InlineKeyboardButton> line1 = new ArrayList<>();
@@ -327,8 +330,6 @@ public class WebhookController {
         return new InlineKeyboardMarkup(lines);
     }
 
-
-
     private KeyboardMarkup createMainKeyBoard() {
         List<List<KeyboardButton>> buttonList = new ArrayList<>();
         List<KeyboardButton> line1 = new ArrayList<>();
@@ -336,32 +337,33 @@ public class WebhookController {
         line1.add(new KeyboardButton(MainCommand.TRAINING.getText()));
         List<KeyboardButton> line2 = new ArrayList<>();
         line2.add(new KeyboardButton(MainCommand.REFERALS_PROG.getText()));
-        line2.add(new KeyboardButton(MainCommand.SUBSCRIPTIONS.getText()));
-        List<KeyboardButton> line3 = new ArrayList<>();
-        line3.add(new KeyboardButton(MainCommand.PRIVATE_PAGE.getText()));
+        line2.add(new KeyboardButton(MainCommand.PRIVATE_PAGE.getText()));
+       // line2.add(new KeyboardButton(MainCommand.SUBSCRIPTIONS.getText()));
+       // List<KeyboardButton> line3 = new ArrayList<>();
+       // line3.add(new KeyboardButton(MainCommand.PRIVATE_PAGE.getText()));
         buttonList.add(line1);
         buttonList.add(line2);
-        buttonList.add(line3);
+       // buttonList.add(line3);
         return new ReplyKeyboardMarkup(buttonList);
     }
 
     private void sendMessage(SendMessage sendMessage) {
         RestTemplate restTemplate = new RestTemplate();
         System.out.println("/sendMessage...");
-        restTemplate.postForObject(Global.BOT_URL.getText()+"/sendMessage", sendMessage,SendMessage.class);
+        restTemplate.postForObject(GlobalConfig.BOT_API_URL+"/sendMessage", sendMessage,SendMessage.class);
     }
 
     @PostConstruct
     public void init(){
 
-//        System.out.println("PostConstruct start");
-//        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-//        map.add("url","https://potvneskazut.ru:443/mybot");
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
-//        RestTemplate restTemplate = new RestTemplate();
-//        restTemplate.exchange("https://api.telegram.org/bot376651530:AAH-aBiEkS_tezghZxNLTEi1ypnuXdbl-5M/setWebhook", HttpMethod.POST, requestEntity, String.class);
-//        System.out.println("setwebhook");
+        System.out.println("PostConstruct start");
+        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("url","https://potvneskazut.ru:443/mybot");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+        RestTemplate restTemplate = new RestTemplate();
+      //  restTemplate.exchange(GlobalConfig.BOT_API_URL+"/setWebhook", HttpMethod.POST, requestEntity, String.class);
+        System.out.println("WebhookIsSet");
     }
 }

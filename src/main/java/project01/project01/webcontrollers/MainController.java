@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
-import project01.project01.enums.Global;
 import project01.project01.enums.Purchase;
 import project01.project01.telegram.WebhookController;
 
@@ -131,7 +131,7 @@ public class MainController {
 //            }
             model.put("service",purchase);
         }
-        model.put("closeLink",Global.BOT_LINK.getText());
+        model.put("closeLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("pay", model);
     }
 
@@ -147,7 +147,7 @@ public class MainController {
         User user = new User("admin");
         userRepository.save(user);
         user.setStartDate(LocalDateTime.now());
-        String checkString = user.getId().toString()+user.getStartDate()+Global.COD_WORD.getText();
+        String checkString = user.getId().toString()+user.getStartDate()+GlobalConfig.CODOVOE_SLOVO;
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("SHA-256");

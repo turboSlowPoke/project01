@@ -18,7 +18,6 @@ import project01.project01.entyties.BonusWallet;
 import project01.project01.entyties.Order;
 import project01.project01.entyties.TrainingGroup;
 import project01.project01.entyties.User;
-import project01.project01.enums.Global;
 import project01.project01.enums.Purchase;
 
 import javax.servlet.http.HttpServletRequest;
