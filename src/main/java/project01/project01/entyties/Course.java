@@ -13,6 +13,16 @@ public class Course {
     private String description;
     private BigDecimal amount;
 
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

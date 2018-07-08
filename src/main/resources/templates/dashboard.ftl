@@ -257,7 +257,7 @@
         <div class="modal-content">
           <!--Header-->
           <div class="modal-header btn-purple">
-            <p class="heading lead">Выберите период подписки на обучение</p>
+            <p class="heading lead">Выберите группу для записи</p>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
           </div>
 

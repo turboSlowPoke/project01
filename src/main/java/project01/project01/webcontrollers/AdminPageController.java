@@ -1,5 +1,6 @@
 package project01.project01.webcontrollers;
 
+import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.services.SignalsService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,9 +39,87 @@ public class AdminPageController {
     private SignalsService signalsService;
     @Autowired
     private PayOutOrderRepositotry payOutOrderRepositotry;
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @GetMapping("/admin")
+    public ModelAndView getMainPage(){
+        Map<String,Object> model =  new HashMap<>();
+        model.put("isMain",true);
+        model.put("countAllUsers",userRepository.count());
+        model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
+        model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
+        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+
+    }
+    @GetMapping("/admin/signals")
+    public ModelAndView getSignalsPage(HttpServletRequest request){
+        Map<String,Object> model = new HashMap<>();;
+        model.put("isSignals",true);
+        if (request.getSession(false).getAttribute("signalsSended")!=null){
+            model.put("signalsSended",(Integer)request.getSession(false).getAttribute("signalsSended"));
+            request.getSession(false).removeAttribute("signalsSended");
+        }
+        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+    }
+
+    @PostMapping("/admin/send_signal")
+    public RedirectView sendSignal(HttpServletRequest request,
+                                   @RequestParam String header,
+                                   @RequestParam String body){
+        Integer count = signalsService.sendSignal(header, body);
+        request.getSession(false).setAttribute("signalsSended",count);
+        return new RedirectView("/admin/signals") ;
+    }
+
+    @GetMapping("/admin/training")
+    public ModelAndView getTrainingPage(){
+        Map<String,Object> model = new HashMap<>();
+        model.put("isTraining",true);
+        model.put("trainingGroupList",trainingGroupRepository.findAll());
+        model.put("uncheckedHomeworkList", homeworkRepository.findAllByChekedFalse());
+        model.put("coursesList",courseRepository.findAll());
+        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+    }
+    @PostMapping("/admin/training/createCourse")
+    public RedirectView addTrainingCourse(@RequestParam String name,
+                                          @RequestParam String description,
+                                          @RequestParam String amount){
+        Course course = new Course();
+        course.setName(name);
+        course.setDescription(description);
+        course.setAmount(new BigDecimal(amount+".00"));
+        courseRepository.save(course);
+        log.info("Создан курс "+ course);
+        return new RedirectView("/admin/training");
+    }
+
+    @PostMapping("/admin/training/createGroup")
+    public RedirectView addTrainingGroup(@RequestParam String courseId,
+                                         @RequestParam String name,
+                                         @RequestParam String startSet,
+                                         @RequestParam String endSet){
+        TrainingGroup trainingGroup = new TrainingGroup();
+        trainingGroup.setName(name);
+        trainingGroup.setStartSet(LocalDate.parse(startSet));
+        trainingGroup.setEndSet(LocalDate.parse(endSet));
+        Optional<Course> course = courseRepository.findById(Integer.parseInt(courseId));
+        trainingGroup.setCourse(course.get());
+        trainingGroupRepository.save(trainingGroup);
+        log.info("Сохранена новая группа на обучение " + trainingGroup);
+        System.out.println("Сохранена новая группа на обучение " + trainingGroup);
+        return new RedirectView("/admin/training");
+    }
+    @GetMapping("/admin/training/delete_course/{courseId}")
+    public RedirectView deleteCourse(@PathVariable String courseId){
+        Optional<Course>course = courseRepository.findById(Integer.parseInt(courseId));
+        courseRepository.delete(course.get());
+        log.info("курс удален " +course.get());
+        return new RedirectView("/admin/training");
+    }
 
 
-    @RequestMapping("/admin")
+    @RequestMapping("/oldadmin")
     public ModelAndView admin(@RequestParam(required = false) String method,
                               @RequestParam(required = false) String header,
                               @RequestParam(required = false) String body,

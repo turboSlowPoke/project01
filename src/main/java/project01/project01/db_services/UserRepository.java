@@ -10,6 +10,7 @@ import project01.project01.entyties.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -24,4 +25,5 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     @Query("SELECT  u FROM User u JOIN u.subsribe s WHERE s.endOfSignal>:date")
     List<User> findUserForSendSignals(@Param("date") LocalDate date);
     long countByInvitedId(Integer invitedId);
+
 }
