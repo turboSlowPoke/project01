@@ -289,7 +289,7 @@
                 <form id="formSelectGroup">
                     <div class="form-group">
                         <label for="selectGroupList">Выберите группу</label>
-                        <select name="groupId" class="form-control" id="selectGroupList" onchange="selectGroupFunction()">
+                        <select  class="form-control" id="selectGroupList" onchange="selectGroupFunction()">
                             <#list trainingGroupList as group>
                                 <option value="${group.id}">
                                     <table>
@@ -306,9 +306,9 @@
                 </form>
                 <script>
                     function selectGroupFunction() {
-                        var form = document.getElementById("formSelectGroup");
                         var x = document.getElementById("selectGroupList").value;
-                        form.action="/admin/training/group/"+x;
+                        console.log(x);
+                        document.getElementById("formSelectGroup").action ="/admin/training/group/"+x;
                     }
                 </script>
             </div>
