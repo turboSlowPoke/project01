@@ -12,4 +12,5 @@ import java.util.List;
 public interface TrainingGroupRepository extends CrudRepository<TrainingGroup,Integer> {
     List<TrainingGroup> findTrainingGroupsByEndSetIsAfter (LocalDate date);
     List<TrainingGroup> findTrainingGroupsById(Integer id);
+    Integer countTrainingGroupsByCourseId(Integer id);
 }

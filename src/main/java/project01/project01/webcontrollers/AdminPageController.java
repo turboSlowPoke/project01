@@ -76,8 +76,8 @@ public class AdminPageController {
     public ModelAndView getTrainingPage(){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
+        model.put("isMainTraining",true);
         model.put("trainingGroupList",trainingGroupRepository.findAll());
-        model.put("uncheckedHomeworkList", homeworkRepository.findAllByChekedFalse());
         model.put("coursesList",courseRepository.findAll());
         return new ModelAndView("admin_dashboard_tepmlates/admin",model);
     }
@@ -113,12 +113,41 @@ public class AdminPageController {
     @GetMapping("/admin/training/delete_course/{courseId}")
     public RedirectView deleteCourse(@PathVariable String courseId){
         Optional<Course>course = courseRepository.findById(Integer.parseInt(courseId));
-        courseRepository.delete(course.get());
-        log.info("курс удален " +course.get());
+        course.ifPresent(c ->{
+            if (trainingGroupRepository.countTrainingGroupsByCourseId(c.getId())==0){
+                courseRepository.delete(c);
+                log.info("курс удален " +course.get());
+            }else {
+                log.warn("нельзя удалить курс, есть созданные группы " +c);
+            }
+        });
+        return new RedirectView("/admin/training");
+    }
+    @GetMapping("/admin/training/delete_group/{id}")
+    public RedirectView deleteTrainingGroup(@PathVariable String id){
+        Optional<TrainingGroup> group = trainingGroupRepository.findById(Integer.parseInt(id));
+        group.ifPresent(g ->{
+            if(g.getUsers().isEmpty()) {
+                trainingGroupRepository.delete(g);
+                log.info("Ужалена группа " + group);
+            }else {
+                log.warn("нельзя удалить группу с юзерами");
+            }
+        });
         return new RedirectView("/admin/training");
     }
 
+    @GetMapping("/admin/training/group")
+    public ModelAndView getTrainigGroup(@RequestParam(required = false) String groupId){
 
+        Map<String,Object> model = new HashMap<>();
+        model.put("isTraining",true);
+        model.put("isGroupTraining",true);
+        model.put("trainingGroupList",trainingGroupRepository.findAll());
+        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("/oldadmin")
     public ModelAndView admin(@RequestParam(required = false) String method,
                               @RequestParam(required = false) String header,
@@ -137,8 +166,8 @@ public class AdminPageController {
                 case "createTrainingGroup":
                     log.info("Создаем новую группу");
                     System.out.println("Создаем новую группу");
-                    TrainingGroup trainingGroup = createTrainingGroup(groupName,startSet,endSet);
-                    model.put("trainingGroup",trainingGroup);
+//                    TrainingGroup trainingGroup = createTrainingGroup(groupName,startSet,endSet);
+//                    model.put("trainingGroup",trainingGroup);
                     break;
             }
         }
@@ -150,22 +179,6 @@ public class AdminPageController {
         model.put("uncheckedHomeworkList", homeworkRepository.findAllByChekedFalse());
         model.put("payOutOrderList",payOutOrderRepositotry.findAllByCloseFalse());
         return new ModelAndView("admin",model);
-    }
-
-    private TrainingGroup createTrainingGroup(String groupName, String startSet, String endSet) {
-        TrainingGroup trainingGroup = new TrainingGroup();
-        trainingGroup.setName(groupName);
-        trainingGroup.setStartSet(LocalDate.parse(startSet));
-        trainingGroup.setEndSet(LocalDate.parse(endSet));
-        Course course = new Course();
-        course.setAmount(new BigDecimal("100"));
-        course.setName("СуперКурс");
-        course.setDescription("Это супер пупер курс пройдя который вы будете супер пупер");
-        trainingGroup.setCourse(course);
-        trainingGroupRepository.save(trainingGroup);
-        log.info("Сохранена новая группа на обучение " + trainingGroup);
-        System.out.println("Сохранена новая группа на обучение " + trainingGroup);
-        return trainingGroup;
     }
 
     @GetMapping("/admin/group/{groupid}")
