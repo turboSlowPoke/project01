@@ -60,7 +60,7 @@ public class WebhookController {
         //System.out.println("recive update " + update.getMessage().getText());
         if (update.getChannelPost()!=null) {
             System.out.println("channel post");
-            System.out.println("type="+update.getChannelPost().getChat().getType()+" text="+update.getChannelPost().getText());
+            System.out.println("chatId="+update.getChannelPost().getChat().getId()+" type="+update.getChannelPost().getChat().getType()+" text="+update.getChannelPost().getText());
         }else{
         if (update.getCallbackQuery()!=null){
               contextCallBackQuery(update.getCallbackQuery());
