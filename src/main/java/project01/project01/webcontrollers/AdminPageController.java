@@ -75,7 +75,7 @@ public class AdminPageController {
     public ModelAndView getTrainingPage(){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
-        model.put("isMainTraining",true);
+        model.put("isMainTrainingMenu",true);
         model.put("trainingGroupList",trainingGroupRepository.findAll());
         model.put("coursesList",courseRepository.findAll());
         return new ModelAndView("admin_dashboard_tepmlates/admin",model);
@@ -138,11 +138,19 @@ public class AdminPageController {
     public ModelAndView getTrainigGroupPage(@RequestParam(required = false) String groupId){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
-        model.put("isGroupTraining",true);
+        model.put("isGroupTrainingMenu",true);
         model.put("trainingGroupList",trainingGroupRepository.findAll());
         if (groupId!=null&&!groupId.isEmpty()){
             model.put("trainingGroup",trainingGroupRepository.findById(Integer.parseInt(groupId)).get());
         }
+        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+    }
+    @GetMapping("/admin/training/homeworks")
+    public ModelAndView getHomeworksPage(){
+        Map<String,Object> model = new HashMap<>();
+        model.put("isTraining",true);
+        model.put("isHomeworkTrainingMenu",true);
+        model.put("uncheckedHomeworkList",homeworkRepository.findAllByChekedFalse());
         return new ModelAndView("admin_dashboard_tepmlates/admin",model);
     }
 

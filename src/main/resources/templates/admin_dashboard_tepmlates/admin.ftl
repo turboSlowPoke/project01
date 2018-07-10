@@ -139,11 +139,12 @@
 </#if>
 <#--Обучение-->
 <#if isTraining??>
-    <a class="btn <#if isMainTraining??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training">Основное</a>
-    <a class="btn <#if isGroupTraining??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training/group">Группы</a>
+    <a class="btn <#if isMainTrainingMenu??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training">Основное</a>
+    <a class="btn <#if isGroupTrainingMenu??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training/group">Группы</a>
+    <a class="btn <#if isHomeworkTrainingMenu??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training/homeworks">Домашние задания</a>
     <hr class="my-2">
     <#--основное-->
-    <#if isMainTraining??>
+    <#if isMainTrainingMenu??>
     <#--Список групп-->
     <#if trainingGroupList?? && (trainingGroupList?size > 0)>
     <div class="container my-2">
@@ -282,7 +283,7 @@
     </div>
 </#if>
     <#--группы-->
-    <#if isGroupTraining??>
+    <#if isGroupTrainingMenu??>
     <div class="container">
         <#--Выбор группы-->
         <div class="row">
@@ -361,6 +362,42 @@
             </div>
         </#if>
     </div>
+    </#if>
+    <#--Домашние задания-->
+    <#if isHomeworkTrainingMenu??>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                     <#if uncheckedHomeworkList??>
+                         <table class="table">
+                             <thead>
+                             <h3>Непроверенные дз:</h3>
+                             <tr>
+                                 <th>#id</th>
+                                 <th>дата создания</th>
+                                 <th>название</th>
+                                 <th>группа</th>
+                                 <th>@telegram юзера</th>
+                                 <th>ссылка</th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                                   <#list uncheckedHomeworkList as homework>
+                                   <tr>
+                                       <td>${homework.id}</td>
+                                       <td>${homework.dateTimeOfCreation?date("yyyy-MM-dd")}</td>
+                                       <td><#if homework.name??>${homework.name}</#if></td>
+                                       <td><#if homework.user.userData.telegramNikcName??>${homework.user.userData.telegramNikcName}</#if></td>
+                                       <td><a href="/admin/homework/${homework.id}">открыть</a>
+                                       </td>
+                                   </tr>
+                                   </#list>
+                             </tbody>
+                         </table>
+                     </#if>
+                </div>
+            </div>
+        </div>
     </#if>
 
 </#if>
