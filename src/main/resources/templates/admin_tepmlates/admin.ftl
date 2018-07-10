@@ -2,19 +2,19 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>По ТВ не скажут</title>
-    <link rel="icon" href="/img/icon.png">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="/css/mdb.min.css" rel="stylesheet">
-    <!-- Your custom styles (optional) -->
-    <link href="/css/style.css" rel="stylesheet">
-</head>
+</head>  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>По ТВ не скажут</title>
+<link rel="icon" href="/img/icon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="/css/mdb.min.css" rel="stylesheet">
+<!-- Your custom styles (optional) -->
+<link href="/css/style.css" rel="stylesheet">
 
 <body>
 
@@ -387,9 +387,9 @@
                                        <td>${homework.id}</td>
                                        <td>${homework.dateTimeOfCreation?date("yyyy-MM-dd")}</td>
                                        <td><#if homework.name??>${homework.name}</#if></td>
+                                       <td>#${homework.trainingGroup.id} ${homework.trainingGroup.name}</td>
                                        <td><#if homework.user.userData.telegramNikcName??>${homework.user.userData.telegramNikcName}</#if></td>
-                                       <td><a href="/admin/homework/${homework.id}">открыть</a>
-                                       </td>
+                                       <td><a href="/admin/homework/${homework.id}" class="text text-primary">открыть</a></td>
                                    </tr>
                                    </#list>
                              </tbody>
@@ -399,15 +399,7 @@
             </div>
         </div>
     </#if>
-
 </#if>
-<#--Домашние работы-->
-<#if isHomeWorks??>
-
-</#if>
-
-
-
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -103,7 +103,7 @@
                                 <td><form action="/lk/delete_homework" method="post">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <input type="hidden" name="id" value="${homework.id}">
-                                    <a class="text red-text" href="#" onclick="this.parentNode.submit()" title="Удалить! Внимание удаление не отменить!" data-toggle="tooltip" data-placement="bottom"><i class="far fa-clock" aria-hidden="true"></i></a>
+                                    <a class="text red-text" href="#" onclick="this.parentNode.submit()" title="Удалить! Внимание удаление не отменить!" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-times-circle" aria-hidden="true"></i></a>
                                 </form></td>
                             </tr>
                         </table>

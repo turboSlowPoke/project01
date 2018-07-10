@@ -49,7 +49,7 @@ public class AdminPageController {
         model.put("countAllUsers",userRepository.count());
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
-        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+        return new ModelAndView("admin_tepmlates/admin",model);
 
     }
     @GetMapping("/admin/signals")
@@ -60,7 +60,7 @@ public class AdminPageController {
             model.put("signalsSended",(Integer)request.getSession(false).getAttribute("signalsSended"));
             request.getSession(false).removeAttribute("signalsSended");
         }
-        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+        return new ModelAndView("admin_tepmlates/admin",model);
     }
 
     @PostMapping("/admin/send_signal")
@@ -78,7 +78,7 @@ public class AdminPageController {
         model.put("isMainTrainingMenu",true);
         model.put("trainingGroupList",trainingGroupRepository.findAll());
         model.put("coursesList",courseRepository.findAll());
-        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+        return new ModelAndView("admin_tepmlates/admin",model);
     }
     @PostMapping("/admin/training/createCourse")
     public RedirectView addTrainingCourse(@RequestParam String name,
@@ -143,7 +143,7 @@ public class AdminPageController {
         if (groupId!=null&&!groupId.isEmpty()){
             model.put("trainingGroup",trainingGroupRepository.findById(Integer.parseInt(groupId)).get());
         }
-        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+        return new ModelAndView("admin_tepmlates/admin",model);
     }
     @GetMapping("/admin/training/homeworks")
     public ModelAndView getHomeworksPage(){
@@ -151,7 +151,7 @@ public class AdminPageController {
         model.put("isTraining",true);
         model.put("isHomeworkTrainingMenu",true);
         model.put("uncheckedHomeworkList",homeworkRepository.findAllByChekedFalse());
-        return new ModelAndView("admin_dashboard_tepmlates/admin",model);
+        return new ModelAndView("admin_tepmlates/admin",model);
     }
 
 
@@ -242,7 +242,7 @@ public class AdminPageController {
                 model.put("homework",homework);
             });
         }
-        return new ModelAndView("homework",model);
+        return new ModelAndView("admin_tepmlates/homework",model);
     }
 
     @GetMapping("/admin/unchecked_homeworks")
