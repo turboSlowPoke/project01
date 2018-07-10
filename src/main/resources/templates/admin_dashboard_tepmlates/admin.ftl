@@ -86,9 +86,9 @@
 <a class="btn <#if isMain??>btn-outline-primary<#else>btn-primary</#if>" href="/admin">Статистика</a>
 <a class="btn <#if isSignals??>btn-outline-primary<#else>btn-primary</#if>" href="/admin/signals">Сигналы</a>
 <a class="btn <#if isTraining??>btn-outline-primary<#else>btn-primary</#if>" href="/admin/training">Обучение</a>
-<a class="btn btn-primary" href="/lk">Рефералка</a>
-<a class="btn btn-primary" href="/lk">Контент</a>
-<hr class="my-5">
+<a class="btn btn-primary" href="#">Рефералка</a>
+<a class="btn btn-primary" href="#">Контент</a>
+<hr class="my-2">
 
 <#--Статистика-->
 <#if isMain??>
@@ -141,7 +141,7 @@
 <#if isTraining??>
     <a class="btn <#if isMainTraining??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training">Основное</a>
     <a class="btn <#if isGroupTraining??>btn-outline-info<#else>btn-info</#if> btn-sm" href="/admin/training/group">Группы</a>
-    <hr class="my-3">
+    <hr class="my-2">
     <#--основное-->
     <#if isMainTraining??>
     <#--Список групп-->
@@ -171,7 +171,7 @@
                                     <td><#if group.users??>${group.users?size}</#if></td>
                                     <th>
                                         <#if (group.users?? && group.users?size>0)>
-                                            <a href="/admin/group/${group.id}" class="text text-success">подробнее</a>
+                                            <a href="/admin/training/group?groupId=${group.id}" class="text text-success">открыть</a>
                                         <#else>
                                         <a href="/admin/training/delete_group/${group.id}" class="text text-danger">Удалить</a>
                                         </#if>
@@ -284,19 +284,22 @@
     <#--группы-->
     <#if isGroupTraining??>
     <div class="container">
+        <#--Выбор группы-->
         <div class="row">
             <div class="col-md-12">
-                <form id="formSelectGroup">
+                <form action="/admin/training/group">
                     <div class="form-group">
                         <label for="selectGroupList">Выберите группу</label>
-                        <select  class="form-control" id="selectGroupList" onchange="selectGroupFunction()">
+                        <select  name="groupId" class="form-control" id="selectGroupList">
                             <#list trainingGroupList as group>
                                 <option value="${group.id}">
                                     <table>
-                                        <td>#${group.id}</td>
-                                        <td class="text text-success">${group.startSet} - ${group.endSet}</td>
-                                        <td class="text text-info"><#if group.name??>${group.name}</#if></td>
-                                        <td class="text text-primary"><#if group.users??>${group.users?size}</#if></td>
+                                        <tr>
+                                            <td>#${group.id} | </td>
+                                            <td class="text text-success">${group.startSet} - ${group.endSet} | </td>
+                                            <td class="text text-info"><#if group.name??>${group.name}</#if> | </td>
+                                            <td class="text text-primary"><#if group.users??>${group.users?size}</#if></td>
+                                        </tr>
                                     </table>
                                 </option>
                             </#list>
@@ -304,15 +307,59 @@
                     </div>
                     <button type="submit" class="btn btn-info">Открыть</button>
                 </form>
-                <script>
-                    function selectGroupFunction() {
-                        var x = document.getElementById("selectGroupList").value;
-                        console.log(x);
-                        document.getElementById("formSelectGroup").action ="/admin/training/group/"+x;
-                    }
-                </script>
             </div>
         </div>
+        <#--Отображение юзеров группы-->
+        <#if trainingGroup??>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Группа #${trainingGroup.id}</h3>
+                            <table class="table table-responsive">
+                                <tr>
+                                    <td>период набора</td>
+                                    <td>название</td>
+                                    <td>количество юзеров</td>
+                                </tr>
+                                <tr><td class="text text-success">${trainingGroup.startSet} - ${trainingGroup.endSet}</td>
+                                    <td class="text text-info"><#if trainingGroup.name??>${trainingGroup.name}</#if></td>
+                                    <td class="text text-primary"><#if trainingGroup.users??>${trainingGroup.users?size}</#if></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="card-body">
+                            <p class="lead">Студенты:</p>
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th class="w-25">Имя</th>
+                                    <th>почта</th>
+                                    <th>@telegram</th>
+                                </tr>
+                                </thead>
+                                <#if trainingGroup.users??>
+                                 <tbody>
+                                  <#list trainingGroup.users as user>
+                                  <tr>
+                                      <td>${user.id}</td>
+                                      <td>
+                                          <#if user.userData.firstName??>${user.userData.firstName} </#if>
+                                          <#if user.userData.lastName??>${user.userData.lastName} </#if>
+                                      </td>
+                                      <td><#if user.userData.email??>${user.userData.email}</#if></td>
+                                      <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>@---</#if></td>
+                                  </tr>
+                                  </#list>
+                                 </tbody>
+                                </#if>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </#if>
     </div>
     </#if>
 

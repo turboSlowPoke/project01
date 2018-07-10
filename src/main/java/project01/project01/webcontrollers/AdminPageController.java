@@ -71,7 +71,6 @@ public class AdminPageController {
         request.getSession(false).setAttribute("signalsSended",count);
         return new RedirectView("/admin/signals") ;
     }
-
     @GetMapping("/admin/training")
     public ModelAndView getTrainingPage(){
         Map<String,Object> model = new HashMap<>();
@@ -93,7 +92,6 @@ public class AdminPageController {
         log.info("Создан курс "+ course);
         return new RedirectView("/admin/training");
     }
-
     @PostMapping("/admin/training/createGroup")
     public RedirectView addTrainingGroup(@RequestParam String courseId,
                                          @RequestParam String name,
@@ -136,16 +134,18 @@ public class AdminPageController {
         });
         return new RedirectView("/admin/training");
     }
-
     @GetMapping("/admin/training/group")
-    public ModelAndView getTrainigGroup(@RequestParam(required = false) String groupId){
-
+    public ModelAndView getTrainigGroupPage(@RequestParam(required = false) String groupId){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
         model.put("isGroupTraining",true);
         model.put("trainingGroupList",trainingGroupRepository.findAll());
+        if (groupId!=null&&!groupId.isEmpty()){
+            model.put("trainingGroup",trainingGroupRepository.findById(Integer.parseInt(groupId)).get());
+        }
         return new ModelAndView("admin_dashboard_tepmlates/admin",model);
     }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("/oldadmin")

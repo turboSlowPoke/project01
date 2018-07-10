@@ -19,6 +19,7 @@ import project01.project01.entyties.*;
 import project01.project01.exceptions.DublicateUsersInDb;
 import project01.project01.enums.Purchase;
 import project01.project01.exceptions.NoUserInDbException;
+import project01.project01.services.SignalsService;
 import project01.project01.services.UserService;
 import project01.project01.telegram.commands.MainCommand;
 import project01.project01.telegram.rx_objects.CallbackQuery;
@@ -45,6 +46,8 @@ public class WebhookController {
     private OrderRepository orderRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SignalsService signalsService;
     public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
         this.userRepository = userRepository;
         this.signalRepository = signalRepository;
@@ -151,7 +154,11 @@ public class WebhookController {
                     botMessage=null;
                 }
             }
-        } else {
+        }else if (userMessage.getText().startsWith("#admin/signal")){
+            Integer countUsers = signalsService.sendSignal(null,userMessage.getText().substring(13));
+            botMessage.setText("Отправлено "+countUsers+" сигналов");
+        }
+        else {
             MainCommand command = MainCommand.getTYPE(text);
             switch (command) {
                 case SIGNALS:
