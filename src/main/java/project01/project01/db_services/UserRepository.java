@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public interface UserRepository extends CrudRepository<User,Integer> {
     List<User> findUserById(Integer id);
     Optional<User> findUserByLogin(String login);
-    List<User> findUserByTelegramChatId(Integer id);
+    List<User> findUserByTelegramChatId(Long id);
     List<User> findUserByGoogleId(String googleAuthId);
     List<User> findUserByHash(String hash);
     @Query("SELECT  u FROM User u JOIN u.subsribe s WHERE s.endOfSignal>:date")

@@ -59,7 +59,8 @@ public class WebhookController {
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
         //System.out.println("recive update " + update.getMessage().getText());
         if (update.getChannelPost()!=null) {
-            System.out.println("channelpost, chatid="+update.getChannelPost().getChat().getId()+" text="+update.getChannelPost().getText());
+            System.out.println("channel post");
+            System.out.println("type="+update.getChannelPost().getChat().getType()+" text="+update.getChannelPost().getText());
         }else{
         if (update.getCallbackQuery()!=null){
               contextCallBackQuery(update.getCallbackQuery());
@@ -69,7 +70,7 @@ public class WebhookController {
             System.out.println("text:"+update.getMessage().getText() +"chatid:" + update.getMessage().getChat().getId());
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
-            Integer chatId = userMessage.getChat().getId();
+            Long chatId = userMessage.getChat().getId();
             List<User> users = userRepository.findUserByTelegramChatId(chatId);
             User user = null;
             if (users!=null&&!users.isEmpty())
@@ -91,7 +92,7 @@ public class WebhookController {
         System.out.println("CallBackContext");
         String id = callbackQuery.getId();
         String data = callbackQuery.getData();
-        Integer chatId = callbackQuery.getMessage().getChat().getId();
+        Long chatId = callbackQuery.getMessage().getChat().getId();
         if (data.equals("Обновить username")){
             System.out.println("search user...");
             List<User> users = userRepository.findUserByTelegramChatId(chatId);
@@ -312,7 +313,7 @@ public class WebhookController {
                 }else {
                     textFoParentUser = textFoParentUser + "@никнейм не указан.\n";
                 }
-                sendMessage(new SendMessage(user.getInvitedId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
+                sendMessage(new SendMessage(user.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
                 answer.setText("<b>Добро пожаловать</b>");
             } catch (NoUserInDbException e) {
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");

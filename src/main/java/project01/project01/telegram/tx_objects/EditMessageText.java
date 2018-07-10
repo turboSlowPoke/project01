@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EditMessageText extends ResponseForTelegram {
     @JsonProperty("chat_id")
-    private Integer chatId;
+    private Long chatId;
     @JsonProperty("message_id")
     private Integer messageId;
     @JsonProperty("inline_message_id")
@@ -22,17 +22,17 @@ public class EditMessageText extends ResponseForTelegram {
     public EditMessageText() {
     }
 
-    public EditMessageText(Integer chatId, Integer messageId, String text) {
+    public EditMessageText(Long chatId, Integer messageId, String text) {
         this.chatId = chatId;
         this.messageId = messageId;
         this.text = text;
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 

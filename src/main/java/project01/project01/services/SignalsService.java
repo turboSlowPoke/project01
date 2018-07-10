@@ -49,7 +49,7 @@ public class SignalsService {
 
     public void sendMessageForUser(User user, String text){
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(user.getId());
+        sendMessage.setChatId(user.getTelegramChatId());
         sendMessage.setText(text);
         try {
             sendMessage(sendMessage);

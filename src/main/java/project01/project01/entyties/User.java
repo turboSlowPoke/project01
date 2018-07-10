@@ -13,7 +13,7 @@ public class User {
     private String login;
     private String password;
     @Column(unique = true)
-    private Integer telegramChatId;
+    private Long telegramChatId;
     @OneToOne(cascade = CascadeType.ALL)
     private UserData userData;
     @OneToOne(cascade = CascadeType.ALL)
@@ -39,7 +39,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer telegramChatId) {
+    public User(Long telegramChatId) {
         this.telegramChatId=telegramChatId;
         this.startDate = LocalDateTime.now();
     }
@@ -83,11 +83,11 @@ public class User {
         this.password = password;
     }
 
-    public Integer getTelegramChatId() {
+    public Long getTelegramChatId() {
         return telegramChatId;
     }
 
-    public void setTelegramChatId(Integer telegramChatId) {
+    public void setTelegramChatId(Long telegramChatId) {
         this.telegramChatId = telegramChatId;
     }
 

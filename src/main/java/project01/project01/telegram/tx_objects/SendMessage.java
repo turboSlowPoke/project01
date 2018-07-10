@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SendMessage extends ResponseForTelegram {
     @JsonProperty("chat_id") @NotNull
-    private Integer chatId;
+    private Long chatId;
     @NotNull
     private String text;
     @JsonProperty("parse_mode")
@@ -25,7 +25,7 @@ public class SendMessage extends ResponseForTelegram {
     public SendMessage() {
     }
 
-    public SendMessage(@NotNull Integer chatId, @NotNull String text) {
+    public SendMessage(@NotNull Long chatId, @NotNull String text) {
         this.chatId = chatId;
         this.text = text;
     }
@@ -38,11 +38,11 @@ public class SendMessage extends ResponseForTelegram {
                 '}';
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 
