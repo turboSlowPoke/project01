@@ -58,7 +58,9 @@ public class WebhookController {
     @RequestMapping("/mybot")
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
         //System.out.println("recive update " + update.getMessage().getText());
-        System.out.println("пришел update");
+        if (update.getChannelPost()!=null) {
+            System.out.println("channelpost, chatid="+update.getChannelPost().getChat().getId()+" text="+update.getChannelPost().getText());
+        }else{
         if (update.getCallbackQuery()!=null){
               contextCallBackQuery(update.getCallbackQuery());
         }
@@ -80,6 +82,7 @@ public class WebhookController {
             if (botMessage!=null)
              sendMessage(botMessage);
             //return botMessage;
+        }
         }
         return null;
     }
