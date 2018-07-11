@@ -156,25 +156,30 @@ public class AdminPageController {
         return new ModelAndView("admin_tepmlates/admin",model);
     }
     @GetMapping("/admin/content")
-    public ModelAndView getContentPage(@RequestParam(required = false) String youtube){
+    public ModelAndView getContentPage(){
         Map<String,Object> model = new HashMap<>();;
         model.put("isContent",true);
-        if (youtube!=null&&!youtube.isEmpty()){
-            Optional<LinksForWebPages> links= linksForWebPagesRepository.findById(1);
-            if (!links.isPresent()){
-                LinksForWebPages linksForWebPages = new LinksForWebPages();
-                linksForWebPages.setId(1);
-                linksForWebPages.setYoutube(youtube);
-                linksForWebPagesRepository.save(linksForWebPages);
-                model.put("linksForWebPages",linksForWebPages);
-            }else {
-                model.put("linksForWebPages",links.get());
-            }
-            log.info("Изменена ссылка на youtube");
-        }
+        Optional<LinksForWebPages> links= linksForWebPagesRepository.findById(1);
+        links.ifPresent(l -> { model.put("linksForWebPages",l); });
         return new ModelAndView("admin_tepmlates/admin",model);
     }
-
+    @PostMapping("/admin/content")
+    public RedirectView setYoutubeLinc(@RequestParam String youtube){
+        Optional<LinksForWebPages> links= linksForWebPagesRepository.findById(1);
+        if (!links.isPresent()){
+            LinksForWebPages linksForWebPages = new LinksForWebPages();
+            linksForWebPages.setId(1);
+            linksForWebPages.setYoutube(youtube);
+            linksForWebPagesRepository.save(linksForWebPages);
+        }else {
+            links.ifPresent(l -> {
+                l.setYoutube(youtube);
+                linksForWebPagesRepository.save(l);
+            });
+        }
+        log.info("Изменена ссылка на youtube");
+        return new RedirectView("/admin/content");
+    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("/oldadmin")

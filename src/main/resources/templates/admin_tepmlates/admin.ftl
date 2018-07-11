@@ -410,12 +410,13 @@
                     Ссылка для youtube  на главной странице
                 </div>
                 <div class="card-body">
-                    Текущая ссылка:
+                    <p>Текущая ссылка:</p>
                     <#if linksForWebPages?? && linksForWebPages.youtube??>
                         ${linksForWebPages.youtube}
                     </#if>
                     <hr class="my-3">
-                    <form action="/admin/content">
+                    <form action="/admin/content" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="form-group">
                             <label>Установить новую ссылку</label>
                             <input type="text" required class="form-control" name="youtube">
