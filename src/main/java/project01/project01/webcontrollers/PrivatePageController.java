@@ -80,8 +80,7 @@ public class PrivatePageController {
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
 //        }).collect(Collectors.to)
-        String userIdFromTelegramLink = (String) session.getAttribute("userIdFromTelegramLink");
-
+        String userIdFromTelegramLink = (String) session.getAttribute("userHashFromTelegramLink");
         Integer userId=null;
         if (session.getAttribute("userId")==null) {
             User user = null;

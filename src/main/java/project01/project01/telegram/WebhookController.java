@@ -62,13 +62,12 @@ public class WebhookController {
             System.out.println("channel post");
             System.out.println("chatId="+update.getChannelPost().getChat().getId()+" type="+update.getChannelPost().getChat().getType()+" text="+update.getChannelPost().getText());
             System.out.println("Math.abs" + Math.abs(update.getChannelPost().getChat().getId()));
-            sendMessage(new SendMessage(update.getChannelPost().getChat().getId(),"я бот"));
+            //sendMessage(new SendMessage(update.getChannelPost().getChat().getId(),"я бот"));
         }else{
         if (update.getCallbackQuery()!=null){
               contextCallBackQuery(update.getCallbackQuery());
         }
         else {
-
             System.out.println("text:"+update.getMessage().getText() +"chatid:" + update.getMessage().getChat().getId());
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
