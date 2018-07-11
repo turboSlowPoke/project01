@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/">Главная <span class="sr-only">(current)</span> </a>
+                        <a class="nav-link waves-effect" href="/">Главная </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect" href="/about">О нас</a>
@@ -87,7 +87,7 @@
 <a class="btn <#if isSignals??>btn-outline-primary<#else>btn-primary</#if>" href="/admin/signals">Сигналы</a>
 <a class="btn <#if isTraining??>btn-outline-primary<#else>btn-primary</#if>" href="/admin/training">Обучение</a>
 <a class="btn btn-primary" href="#">Рефералка</a>
-<a class="btn btn-primary" href="#">Контент</a>
+<a class="btn  <#if isContent??>btn-outline-primary<#else>btn-primary</#if>" href="/admin/content">Контент</a>
 <hr class="my-2">
 
 <#--Статистика-->
@@ -400,6 +400,35 @@
         </div>
     </#if>
 </#if>
+
+<#if isContent??>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Ссылка для youtube  на главной странице
+                </div>
+                <div class="card-body">
+                    Текущая ссылка:
+                    <#if linksForWebPages?? && linksForWebPages.youtube??>
+                        ${linksForWebPages.youtube}
+                    </#if>
+                    <hr class="my-3">
+                    <form action="/admin/content">
+                        <div class="form-group">
+                            <label>Установить новую ссылку</label>
+                            <input type="text" required class="form-control" name="youtube">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Установить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</#if>
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

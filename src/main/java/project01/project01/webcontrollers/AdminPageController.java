@@ -41,6 +41,8 @@ public class AdminPageController {
     private PayOutOrderRepositotry payOutOrderRepositotry;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private LinksForWebPagesRepository linksForWebPagesRepository;
 
     @GetMapping("/admin")
     public ModelAndView getMainPage(){
@@ -151,6 +153,25 @@ public class AdminPageController {
         model.put("isTraining",true);
         model.put("isHomeworkTrainingMenu",true);
         model.put("uncheckedHomeworkList",homeworkRepository.findAllByChekedFalse());
+        return new ModelAndView("admin_tepmlates/admin",model);
+    }
+    @GetMapping("/admin/content")
+    public ModelAndView getContentPage(@RequestParam(required = false) String youtube){
+        Map<String,Object> model = new HashMap<>();;
+        model.put("isContent",true);
+        if (youtube!=null&&!youtube.isEmpty()){
+            Optional<LinksForWebPages> links= linksForWebPagesRepository.findById(1);
+            if (!links.isPresent()){
+                LinksForWebPages linksForWebPages = new LinksForWebPages();
+                linksForWebPages.setId(1);
+                linksForWebPages.setYoutube(youtube);
+                linksForWebPagesRepository.save(linksForWebPages);
+                model.put("linksForWebPages",linksForWebPages);
+            }else {
+                model.put("linksForWebPages",links.get());
+            }
+            log.info("Изменена ссылка на youtube");
+        }
         return new ModelAndView("admin_tepmlates/admin",model);
     }
 

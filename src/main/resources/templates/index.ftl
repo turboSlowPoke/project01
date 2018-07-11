@@ -131,7 +131,11 @@
           <!--Grid column-->
           <div class="col-md-6 mb-4">
             <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/cXTThxoywNQ" allowfullscreen=""></iframe>
+            <#if (linksForWebPages?? && linksForWebPages.youtube??)>
+                ${linksForWebPages.youtube}
+            <#else>
+                <iframe class="embed-responsive-item" allowfullscreensrc="https://www.youtube.com/embed/cXTThxoywNQ"></iframe>
+            </#if>
             </div>
           </div>
           <!--Grid column-->

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import project01.project01.config.GlobalConfig;
+import project01.project01.db_services.LinksForWebPagesRepository;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
 import project01.project01.entyties.*;
@@ -29,12 +30,13 @@ import java.util.*;
 @Controller
 public class MainController {
     private static final Logger log = LoggerFactory.getLogger(WebhookController.class);
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
-    public MainController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private LinksForWebPagesRepository linksForWebPagesRepository;
+
 
     @GetMapping("/")
     public ModelAndView index(HttpServletRequest request,
@@ -54,7 +56,11 @@ public class MainController {
                 model.put("user",user);
             });
         }
-        return new ModelAndView("/index", model);
+        Optional<LinksForWebPages> linksForWebPages = linksForWebPagesRepository.findById(1);
+        linksForWebPages.ifPresent(l -> {
+            model.put("linksForWebPages",l);
+        });
+        return new ModelAndView("index", model);
     }
 
     @GetMapping("/faq")
