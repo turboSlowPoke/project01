@@ -19,7 +19,7 @@
 <body>
 
 <header>
-    <nav class="navbar fixed-top navbar-expand-lg navAboutPage navbar-dark scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navAboutPage navbar-dark scrolling-navbar">
         <div class="container-fluid">
             <a class="navbar-brand waves-effect" href="/#">
                 <strong>

@@ -47,7 +47,7 @@
           Также вы можете войти через Google:
           <a class="btn btn-outline-red btn-sm" href="/oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
           Получить логин пароль в телеграм:
-          <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+          <a class="btn btn-outline-blue btn-sm" href="https://t.me/potvneskazutbot" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
         </form>
       </div>
       <div class="modal-bottom">
@@ -157,7 +157,7 @@
                   </strong>
               </p>
             <!-- CTA -->
-            <a href="#" class="btn btn-grey btn-md" data-toggle="modal" data-placement="bottom" data-target="#signInModal">присоединиться <i class="fas fa-sign-in-alt pl-2" aria-hidden="true"></i></a>
+            <a href="#" class="btn btn-grey btn-md wow fadeIn" data-toggle="modal" data-placement="bottom" data-target="#signInModal">присоединиться <i class="fas fa-sign-in-alt pl-2" aria-hidden="true"></i></a>
           </div>
           <!--Grid column-->
         </div>
@@ -166,88 +166,74 @@
       <!--Section: Main info-->
       <hr class="my-5">
       <!--Section: Not enough-->
-      <section class="wow">
-        <h3 class="h3 text-center mb-5 ">Цены</h3>
-        <div class="py-5 bg-secondary wow ">
-          <div class="container">
-            <div class="row wow fadeIn">
-              <div class="p-3 align-self-center col-md-6">
-                <div class="card">
-                  <div class="card-header wow">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-md-3">
-                          <img class="img-fluid " src="img/img_for_sales.jpg">
+        <section class="wow fadeIn">
+            <h3 class="h3 text-center mb-5 ">Цены</h3>
+            <div class="px-0 px-md-5 px-lg-5 px-xl-5 py-3 py-md-5 py-lg-5 py-xl-5 bg-secondary">
+                <div class="container price">
+                    <div class="row wow fadeIn">
+                        <div class="col-md-6 ">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <h5 class="font-weight-bold">Сигналы</h5>
+                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла"</h5>
+                                    <img class="card-img w-50" src="img/img_for_sales.jpg">
+                                    <p class="lead font-weight-bold">Стоимость $200</p>
+                                </div>
+                                <div class="card-body">
+                                    <small>бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</small>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="btn btn-dark wow" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-9">
-                          <h3>Сигналы</h3>
+                        <div class="col-md-6 mt-3 mt-sm-3 mt-md-0 mt-lg-0 mt-xl-0">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <h5 class="font-weight-bold">Обучающий курс</h5>
+                                    <h5 class="font-weight-normal">"Заработок на криптовалюте без вложений"</h5>
+                                    <img class="card-img w-50 " src="img/img_for_sales.jpg">
+                                    <p class="lead font-weight-bold">Стоимость $200</p>
+                                </div>
+                                <div class="card-body">
+                                    <small>Курс посвящен заработку на рекламных компаниях (баунти-программах) и аирдропах. Очень много практики и минимум скучной теории</small>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="btn btn-dark wow fadeIn" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                  <div class="card-block p-5">
-                    <p>Наши супер сигналы бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
-                      бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
-                    <hr>
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal"><b>$10</b>&nbsp; купить</a>
-                  </div>
                 </div>
-              </div>
-              <div class="p-3 align-self-center col-md-6">
-                <div class="card">
-                  <div class="card-header align-content-center">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-md-3">
-                          <img class="img-fluid " src="img/img_for_sales.jpg">
-                        </div>
-                        <div class="col-md-9">
-                          <h3>Обучение</h3>
-                        </div>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="card-block p-5">
-                    <p>Наш супер курс  бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла
-                      бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</p>
-                    <hr>
-                    <a href="#" class="btn btn-dark" data-toggle="modal" data-placement="bottom" data-target="#signInModal"><b>$20&nbsp;</b> купить</a>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
       <!--Section: Not enough-->
       <hr class="mb-5">
       <!--Section: More-->
-      <section class="wow">
+      <section class="wow fadeIn">
         <h2 class="my-5 h3 text-center">Я в соцсетях:</h2>
           <div class="container">
-              <div class="row">
+              <div class="row wow fadeIn">
                   <div class="col-md-1"></div>
                   <div class="col-md-4">
                       <div class="row">
                           <div class="col-2">
-                              <i class="fab fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i>
+                              <a href="https://vk.com/potvneskazut"><i class="fab fa-vk fa-2x mb-1 blue-text" aria-hidden="true"></i></a>
                           </div>
                           <div class="col-10 mb-2">
-                              <h5 class="feature-title font-bold mb-1">Группа вконтакте</h5>
+                              <a href="https://vk.com/potvneskazut" class="text black-text"><h5 class="feature-title font-bold mb-1">Группа вконтакте</h5></a>
                               <p class="grey-text mt-2">Ежедневный новостной дайджест и конкурсы с приятными призами. </p>
                           </div>
                       </div>
                   </div>
                   <div class="col-md-2"></div>
                   <div class="col-md-4">
-                      <div class="row">
+                      <div class="row wow fadeIn">
                           <div class="col-2">
-                              <i class="fab fa-youtube fa-2x mb-1 red-text" aria-hidden="true"></i>
+                              <a href="https://www.youtube.com/channel/UCZNqVOAdOpUfbv4PLePXebQ"><i class="fab fa-youtube fa-2x mb-1 red-text" aria-hidden="true"></i></a>
                           </div>
                           <div class="col-10 mb-2">
-                              <h5 class="feature-title font-bold mb-1">Канал на youtube</h5>
+                              <a href="https://www.youtube.com/channel/UCZNqVOAdOpUfbv4PLePXebQ" class="tex black-text"><h5 class="feature-title font-bold mb-1">Канал на youtube</h5></a>
                               <p class="grey-text mt-2">Все о криптовалютах и биткоине, а так же обзоры перспективных альткоинов.</p>
                           </div>
                       </div>
@@ -257,29 +243,44 @@
               <div class="row">
                   <div class="col-md-1"></div>
                   <div class="col-md-4">
-                      <div class="row">
+                      <div class="row wow fadeIn">
                           <div class="col-2">
-                              <i class="fab fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i>
+                              <a href="https://t.me/potvneskazut"><i class="fab fa-telegram fa-2x mb-1 indigo-text" aria-hidden="true"></i></a>
                           </div>
                           <div class="col-10 mb-2">
-                              <h5 class="feature-title font-bold mb-1">Канал в телеграм</h5>
+                              <a href="https://t.me/potvneskazut" class="text black-text"><h5 class="feature-title font-bold mb-1">Канал в телеграм</h5></a>
                               <p class="grey-text mt-2">Бесплатные айрдропы, легкие деньги без вложений. </p>
                           </div>
                       </div>
                   </div>
                   <div class="col-md-2"></div>
                   <div class="col-md-4">
-                      <div class="row">
+                      <div class="row wow fadeIn">
                           <div class="col-2">
-                              <i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i>
+                              <a href="https://www.instagram.com/kyzminpotv/"><i class="fab fa-instagram fa-2x mb-1 blue-grey-text" aria-hidden="true"></i></a>
                           </div>
                           <div class="col-10 mb-2">
-                              <h5 class="feature-title font-bold mb-1">Я в инстаграм</h5>
+                              <a href="https://www.instagram.com/kyzminpotv/" class="text black-text"><h5 class="feature-title font-bold mb-1">Я в инстаграм</h5></a>
                               <p class="grey-text mt-2">Немного обо мне и моей жизни</p>
                           </div>
                       </div>
                   </div>
                   <div class="col-md-1"></div>
+              </div>
+              <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                      <div class="row wow fadeIn">
+                          <div class="col-2">
+                              <a href="https://viuly.io/channel/95347"> <i class="fab fa-vine fa-2x mb-1 blue-text" aria-hidden="true"></i> </a>
+                          </div>
+                          <div class="col-10 mb-2">
+                              <h5 class="feature-title font-bold mb-1"><a class="text black-text" href="https://viuly.io/channel/95347">Канал в viuly</a></h5>
+                              <p class="grey-text mt-2">Все о криптовалютах и биткоине, а так же обзоры перспективных альткоинов. </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-7"></div>
               </div>
           </div>
       </section>
@@ -299,18 +300,11 @@
         <hr class="my-4">
         <!-- Social icons -->
         <div class="pb-4 footerMiddleSide">
-            <a href="#">
-                <i class="fab fa-vk mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-youtube mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-telegram mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-instagram mr-3"></i>
-            </a>
+            <a href="https://vk.com/potvneskazut"><i class="fab fa-vk mr-3"></i></a>
+            <a href="https://www.youtube.com/channel/UCZNqVOAdOpUfbv4PLePXebQ"><i class="fab fa-youtube mr-3"></i></a>
+            <a href="https://t.me/potvneskazut"><i class="fab fa-telegram mr-3"></i></a>
+            <a href="https://www.instagram.com/kyzminpotv/"><i class="fab fa-instagram mr-3"></i></a>
+            <a href="https://viuly.io/channel/95347"><i class="fab fa-vine"></i></a>
         </div>
     </div>
 

@@ -144,18 +144,11 @@
         <!--/.Call to action-->
         <!-- Social icons -->
         <div class="pb-4 footerMiddleSide text-white">
-            <a href="#" class="text-white">
-                <i class="fab fa-vk mr-3"></i>
-            </a>
-            <a href="#" class="text-white">
-                <i class="fab fa-youtube mr-3"></i>
-            </a>
-            <a href="#" class="text-white">
-                <i class="fab fa-telegram mr-3"></i>
-            </a>
-            <a href="#" class="text-white">
-                <i class="fab fa-instagram mr-3"></i>
-            </a>
+            <a href="https://vk.com/potvneskazut"><i class="fab fa-vk mr-3"></i></a>
+            <a href="https://www.youtube.com/channel/UCZNqVOAdOpUfbv4PLePXebQ"><i class="fab fa-youtube mr-3"></i></a>
+            <a href="https://t.me/potvneskazut"><i class="fab fa-telegram mr-3"></i></a>
+            <a href="https://www.instagram.com/kyzminpotv/"><i class="fab fa-instagram mr-3"></i></a>
+            <a href="https://viuly.io/channel/95347"><i class="fab fa-vine"></i></a>
         </div>
     </div>
 

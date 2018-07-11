@@ -47,7 +47,7 @@
                     Вы можете войти через Google:
                     <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
                     Получить логин пароль в телеграм:
-                    <a class="btn btn-outline-blue btn-sm" href="#" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+                    <a class="btn btn-outline-blue btn-sm" href="https://t.me/potvneskazutbot" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
                 </form>
             </div>
             <div class="modal-bottom">
@@ -187,18 +187,10 @@
         <hr class="my-4">
         <!-- Social icons -->
         <div class="pb-4 footerMiddleSide">
-            <a href="#">
-                <i class="fab fa-vk mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-youtube mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-telegram mr-3"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-instagram mr-3"></i>
-            </a>
+            <a href="https://vk.com/potvneskazut">                 <i class="fab fa-vk mr-3"></i>             </a>
+            <a href="https://www.youtube.com/channel/UCZNqVOAdOpUfbv4PLePXebQ">                 <i class="fab fa-youtube mr-3"></i>             </a>
+            <a href="https://t.me/potvneskazut"><i class="fab fa-telegram mr-3"></i></a>
+            <a href="https://www.instagram.com/kyzminpotv/"><i class="fab fa-instagram mr-3"></i></a><a href="https://viuly.io/channel/95347"><i class="fab fa-vine"></i></a>
         </div>
     </div>
 

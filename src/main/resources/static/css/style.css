@@ -41,6 +41,7 @@ body,
   }
 }
 @media (min-width: 1023px) {
+
   .imgForLittleScreen,.imgForBigScreen{
     display: none;
   }
