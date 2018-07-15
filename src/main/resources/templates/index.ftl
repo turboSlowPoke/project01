@@ -175,11 +175,11 @@
             <div class="px-0 px-md-5 px-lg-5 px-xl-5 py-3 py-md-5 py-lg-5 py-xl-5 bg-secondary">
                 <div class="container price">
                     <div class="row wow fadeIn">
-                        <div class="col-md-6 ">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ">
                             <div class="card text-center">
                                 <div class="card-header">
                                     <h5 class="font-weight-bold">Сигналы</h5>
-                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла"</h5>
+                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла  бла бла бла  бла бла бла"</h5>
                                     <img class="card-img w-50" src="img/img_for_sales.jpg">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
@@ -191,7 +191,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mt-3 mt-sm-3 mt-md-0 mt-lg-0 mt-xl-0">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-sm-3 mt-md-0 mt-lg-0 mt-xl-0 ">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <h5 class="font-weight-bold">Услуга</h5>
+                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла  бла бла бла  бла бла бла"</h5>
+                                    <img class="card-img w-50" src="img/img_for_sales.jpg">
+                                    <p class="lead font-weight-bold">Стоимость $200</p>
+                                </div>
+                                <div class="card-body">
+                                    <small>бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</small>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="btn btn-dark wow" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-3 mt-sm-3 mt-md-3 mt-lg-0 mt-xl-0">
                             <div class="card text-center">
                                 <div class="card-header">
                                     <h5 class="font-weight-bold">Обучающий курс</h5>

@@ -32,6 +32,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -72,14 +73,11 @@ public class WebhookController {
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
             Long chatId = userMessage.getChat().getId();
-            List<User> users = userRepository.findUserByTelegramChatId(chatId);
-            User user = null;
-            if (users!=null&&!users.isEmpty())
-                 user = users.get(0);
-            if (user==null){
-                botMessage = startContext(userMessage);
+            Optional<User> optionalUser = userRepository.findUserByTelegramChatId(chatId);
+            if (optionalUser.isPresent()) {
+                botMessage = mainContext(optionalUser.get(), userMessage);
             }else {
-                botMessage = mainContext(user, userMessage);
+                botMessage = startContext(userMessage);
             }
             if (botMessage!=null)
              sendMessage(botMessage);
@@ -96,9 +94,9 @@ public class WebhookController {
         Long chatId = callbackQuery.getMessage().getChat().getId();
         if (data.equals("Обновить username")){
             System.out.println("search user...");
-            List<User> users = userRepository.findUserByTelegramChatId(chatId);
-            if (users!=null&&!users.isEmpty()){
-                User user = users.get(0);
+           Optional<User> optionalUser = userRepository.findUserByTelegramChatId(chatId);
+            if (optionalUser.isPresent()){
+                User user = optionalUser.get();
                 user.getUserData().setTelegramNikcName("@"+callbackQuery.getMessage().getChat().getUserName());
                 if (!user.getUserData().getTelegramNikcName().equals("@null")){
                     userRepository.save(user);
@@ -135,9 +133,9 @@ public class WebhookController {
         SendMessage botMessage = new SendMessage(userMessage.getChat().getId(),"Неизвестная команда");
         if (userMessage.getText().startsWith("/start ")&&text.substring(7).length()==64){
             System.out.println("Обновление юзера");
-            List<User> users = userRepository.findUserByHash(text.substring(7));
-            if (users!=null&&!users.isEmpty()){
-                User tempUser = users.get(0);
+            Optional<User> optionalUser = userRepository.findUserByHash(text.substring(7));
+            if (optionalUser.isPresent()){
+                User tempUser = optionalUser.get();
                 if (!tempUser.getHash().equals(user.getHash())
                         &&tempUser.getTelegramChatId()==null){
                     System.out.println("Удаляем пользователя "+user);
@@ -158,6 +156,7 @@ public class WebhookController {
                     System.out.println("Сохранён");
                     log.info("Обновлен юзер " +tempUser);
                     botMessage.setText("Ваши данные были обновлены");
+                    botMessage.setReplyMarkup(createMainKeyBoard());
                 }else {
                     botMessage=null;
                 }
@@ -173,17 +172,14 @@ public class WebhookController {
                     if (user.getSubsribe() != null &&
                             user.getSubsribe().getEndOfSignal() != null &&
                             user.getSubsribe().getEndOfSignal().isAfter(LocalDate.now())) {
-                        List<Signal> signals = signalRepository.findSignalByDateTimeAfter(LocalDateTime.now().minusDays(7));
-                        if (signals != null && signals.size() > 0) {
-                            String stringWithSignals = "";
-                            for (Signal signal : signals) {
-                                stringWithSignals = stringWithSignals +
-                                        signal.getDateTime().toLocalDate().toString() + "\n " +
-                                        signal.getHeader() + "\n " +
-                                        signal.getBody() + "\n ";
-                            }
-                            botMessage.setText(stringWithSignals);
-                        }
+                        sendMessage(new SendMessage(user.getTelegramChatId(),"Сигналы за последние 24 часа:"));
+                        List<Signal> signals = signalRepository.findSignalByDateTimeAfter(LocalDateTime.now().minusDays(1));
+                        signals.forEach(signal -> {
+                            sendMessage(new SendMessage(user.getTelegramChatId(),
+                                    ""+signal.getDateTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))+"\n"
+                                            +signal.getBody()+"\n-------------"));
+                        });
+                        botMessage.setText("========");
                     } else {
                         botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку в <a href=\""+GlobalConfig.siteUrl + "/?uh=" + user.getHash()+"\">личном кабинете</a>.");
                         botMessage.setParseMode("HTML");
@@ -226,7 +222,7 @@ public class WebhookController {
                     textMessage = textMessage + "Количество ваших рефералов = " +  allReferals+ "\n"+
                                 "Произведено оплат на сумму ="+amountReferalsPayment + "$\n"+
                                 "Вам начислено "+usdBonus+"$\n";
-                    textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + GlobalConfig.BOT_LINK + "?start=" + user.getId() + "\">ссылку</a>\n";
+                    textMessage = textMessage + "Чтобы пригласить реферала, отправьте ему эту <a href=\"" + GlobalConfig.BOT_LINK + "?start=ref" + user.getId() + "\">ссылку</a>\n";
                     botMessage.setText(textMessage);
                     botMessage.setParseMode("HTML");
                     break;
@@ -303,18 +299,21 @@ public class WebhookController {
         }else if(text.startsWith("/start ref")){
             try {
                 user = userService.createNewUserByInviteLinkForTelegram(incomingMessage);
-                String textFoParentUser = "У вас добавился реферал: ";
-                if (user.getUserData().getFirstName()!=null){
-                    textFoParentUser= textFoParentUser+user.getUserData().getFirstName()+", ";
-                }else {
-                    textFoParentUser= textFoParentUser+"имя не указано, ";
-                }
-                if (user.getUserData().getTelegramNikcName()!=null&&!user.getUserData().getTelegramNikcName().equals("@null")){
-                    textFoParentUser = textFoParentUser + user.getUserData().getTelegramNikcName()+".\n";
-                }else {
-                    textFoParentUser = textFoParentUser + "@никнейм не указан.\n";
-                }
-                sendMessage(new SendMessage(user.getTelegramChatId(),"У вас добавился реферал: "+user.getUserData().getFirstName() + ", @"+user.getUserData().getTelegramNikcName()));
+                Optional<User> parentUser = userRepository.findById(user.getInvitedId());
+                parentUser.ifPresent(u -> {
+                    String textFoParentUser = "У вас добавился реферал: ";
+                    if (user.getUserData().getFirstName()!=null){
+                        textFoParentUser= textFoParentUser+user.getUserData().getFirstName()+", ";
+                    }else {
+                        textFoParentUser= textFoParentUser+"имя не указано, ";
+                    }
+                    if (user.getUserData().getTelegramNikcName()!=null&&!user.getUserData().getTelegramNikcName().equals("@null")){
+                        textFoParentUser = textFoParentUser + user.getUserData().getTelegramNikcName()+".\n";
+                    }else {
+                        textFoParentUser = textFoParentUser + "@никнейм не указан.\n";
+                    }
+                    sendMessage(new SendMessage(u.getTelegramChatId(),textFoParentUser));
+                });
                 answer.setText("<b>Добро пожаловать</b>");
             } catch (NoUserInDbException e) {
                 answer.setText("<b>Добро пожаловать!</b>\n <b>Внимание</b>, в  ссылке, по которой вы перешли, ошибка в id пригласителя.");

@@ -26,11 +26,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
-import project01.project01.services.PasswordService;
+import project01.project01.services.ValidationService;
+import project01.project01.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
+import javax.validation.constraints.Email;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -62,11 +63,13 @@ public class PrivatePageController {
     @Autowired
     private UserDataRepository userDataRepository;
     @Autowired
-    private PasswordService passwordService;
+    private ValidationService validationService;
     @Autowired
     private HomeworkRepository homeworkRepository;
     @Autowired
     private PayOutOrderRepositotry payOutOrderRepositotry;
+    @Autowired
+    private UserService userService;
 
     public PrivatePageController( ) {
     }
@@ -81,6 +84,7 @@ public class PrivatePageController {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
 //        }).collect(Collectors.to)
         String userIdFromTelegramLink = (String) session.getAttribute("userHashFromTelegramLink");
+        log.info("userIdFromTelegramLink="+userIdFromTelegramLink);
         Integer userId=null;
         if (session.getAttribute("userId")==null) {
             User user = null;
@@ -94,7 +98,7 @@ public class PrivatePageController {
                         if (userIdFromTelegramLink==null) {
                             user = createNewUserWithGoogleAuth(authentication);
                         }else {
-                            user = addGoogleIdToUser(authentication,userIdFromTelegramLink);
+                            user = userService.addGoogleIdToUser(authentication,userIdFromTelegramLink);
                         }
                     }else {
                         user=users.get(0);
@@ -305,7 +309,7 @@ public class PrivatePageController {
                                    @RequestParam(required = false) String lastName,
                                    @RequestParam(required = false) String password1,
                                    @RequestParam(required = false) String password2,
-                                   @RequestParam(required = false) String email,
+                                   @Email @RequestParam(required = false) String email,
                                    @RequestParam(required = false) String advcash){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -324,7 +328,7 @@ public class PrivatePageController {
             }
             if (password1!=null&&password2!=null&&
                     password1.equals(password2)&&
-                    passwordService.checkPassword(password1)){
+                    validationService.checkPassword(password1)){
                 user.setPassword(new BCryptPasswordEncoder().encode(password1));
                 userRepository.save(user);
                 System.out.println("Поменял пароль юзер" + user);
@@ -373,6 +377,7 @@ public class PrivatePageController {
     }
 
     private User addGoogleIdToUser(Authentication authentication, String userIdFromTelegramLink) {
+        log.info("Пытаемся добавить гугл данные к телеграм юзеру ");
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient("google", authentication.getName());
         String userInfoEndpointUri = authorizedClient.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUri();
