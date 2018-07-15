@@ -79,7 +79,7 @@
 
 </main>
 
-<footer class="page-footer text-center font-small mt-4 wow fadeIn fixedFooterForBigScreen">
+<footer class="page-footer text-center font-small mt-4 wow fadeIn fixed-bottom">
     <!--Call to action-->
     <div class="footerUpSide">
         <!--/.Call to action-->

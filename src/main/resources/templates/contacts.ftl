@@ -135,7 +135,7 @@
             </tr>
             <tr>
               <td><i class="fab fa-telegram-plane text-info mr-1"></i>Телеграм</td>
-              <td><a class="pl-3 text-info mr-1" href="https://t.me/potvneskazut">@username</a></td>
+              <td><a class="pl-3 text-info mr-1" href="https://t.me/potvneskazut">@potvneskazut</a></td>
             </tr>
             <tr>
               <td><i class="fab fa-vk text blue-text mr-1"></i>Группа вконтакте</td>
