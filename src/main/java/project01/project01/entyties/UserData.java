@@ -4,15 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Entity
 public class UserData {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Email
     private String email;
+    @Size(min = 5,max = 100,message = "Telegram @username mast be between 5 and 100 characters")
     private String telegramNikcName;
+    @Size(min = 1,max = 100,message = "First name mast be between 1 and 100 characters")
     private String firstName;
+    @Size(min = 1,max = 100,message = "Last name mast be between 1 and 100 characters")
     private String lastName;
+    @Size(min = 1,max = 100,message = "Advcash wallet mast be between 12 and 20 characters")
     private String advcash;
 
     @Override

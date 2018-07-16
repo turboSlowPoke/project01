@@ -1,5 +1,7 @@
 package project01.project01.entyties;
 
+import project01.project01.validators.PasswordConstraint;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

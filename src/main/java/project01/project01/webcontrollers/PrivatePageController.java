@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +29,12 @@ import project01.project01.db_services.*;
 import project01.project01.entyties.*;
 import project01.project01.services.ValidationService;
 import project01.project01.services.UserService;
+import project01.project01.validators.PasswordConstraint;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -305,14 +308,20 @@ public class PrivatePageController {
 
     @PostMapping("/lk")
     public RedirectView uploadFile(HttpServletRequest request,
-                                   @RequestParam(required = false) String firstName,
-                                   @RequestParam(required = false) String lastName,
-                                   @RequestParam(required = false) String password1,
-                                   @RequestParam(required = false) String password2,
-                                   @Email @RequestParam(required = false) String email,
-                                   @RequestParam(required = false) String advcash){
+                                   @RequestParam(required = false) @PasswordConstraint String firstName,
+                                   @RequestParam(required = false)  String lastName,
+                                   @RequestParam(required = false)  String password1,
+                                   @RequestParam(required = false)  String password2,
+                                   @Email @RequestParam(required = false)  String email,
+                                   @RequestParam(required = false) String advcash,
+                                   BindingResult result){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
+        if (result.hasErrors()){
+            result.getModel().forEach((key,value) -> {
+                log.info(key,value);
+            });
+        }
         optionalUser.ifPresent(user -> {
             if (firstName!=null) {
                 user.getUserData().setFirstName(firstName);
