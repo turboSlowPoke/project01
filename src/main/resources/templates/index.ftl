@@ -173,14 +173,15 @@
         <section class="wow fadeIn">
             <h3 class="h3 text-center mb-5 ">Цены</h3>
             <div class="px-0 px-md-5 px-lg-5 px-xl-5 py-3 py-md-5 py-lg-5 py-xl-5 bg-secondary">
-                <div class="container price">
+                <div class="container ">
                     <div class="row wow fadeIn">
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ">
-                            <div class="card text-center">
+                            <div class="card text-center ">
                                 <div class="card-header">
-                                    <h5 class="font-weight-bold">Сигналы</h5>
-                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла  бла бла бла  бла бла бла"</h5>
-                                    <img class="card-img w-50" src="img/img_for_sales.jpg">
+                                    <div class="price_caption">
+                                        <h5 class="font-weight-bold">Подписка на криптовалютные сигналы</h5>
+                                    </div>
+                                    <img class="card-img w-50" src="img/SIGNALS.png">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
                                 <div class="card-body">
@@ -191,12 +192,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-sm-3 mt-md-0 mt-lg-0 mt-xl-0 ">
-                            <div class="card text-center">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-3 mt-sm-3 mt-md-0 mt-lg-0 mt-xl-0">
+                            <div class="card text-center ">
                                 <div class="card-header">
-                                    <h5 class="font-weight-bold">Услуга</h5>
-                                    <h5 class="font-weight-normal">" бла бла бла бла бла бла бла бла бла  бла бла бла  бла бла бла"</h5>
-                                    <img class="card-img w-50" src="img/img_for_sales.jpg">
+                                    <div class="price_caption">
+                                        <h5 class="font-weight-bold">Таблица отборных баунти-проектов</h5>
+                                    </div>
+                                    <img class="card-img w-50" src="img/TABLE.png">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
                                 <div class="card-body">
@@ -208,11 +210,13 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-3 mt-sm-3 mt-md-3 mt-lg-0 mt-xl-0">
-                            <div class="card text-center">
+                            <div class="card text-center ">
                                 <div class="card-header">
-                                    <h5 class="font-weight-bold">Обучающий курс</h5>
-                                    <h5 class="font-weight-normal">"Заработок на криптовалюте без вложений"</h5>
-                                    <img class="card-img w-50 " src="img/img_for_sales.jpg">
+                                    <div class="price_caption">
+                                        <h5 class="font-weight-bold">Обучающий курс</h5>
+                                        <p class="font-weight-bold">"Заработок на криптовалюте без вложений"</p>
+                                    </div>
+                                    <img class="card-img w-50 " src="img/BOUNTY.png">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
                                 <div class="card-body">

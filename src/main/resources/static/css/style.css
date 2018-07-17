@@ -33,6 +33,9 @@ body,
     height: 350px;
     max-width: 100%;
   }
+  .price_caption{
+    height: 150px;
+  }
   .fixedFooterForBigScreen{
     position: fixed;
     left: 0;
@@ -41,7 +44,6 @@ body,
   }
 }
 @media (min-width: 1023px) {
-
   .imgForLittleScreen,.imgForBigScreen{
     display: none;
   }
@@ -53,6 +55,9 @@ body,
   .imgForVeryBigScreen{
     height:  400px;
     max-width: 100%;
+  }
+  .price_caption{
+    height: 100px;
   }
   .fixedFooterForBigScreen{
     position: fixed;
