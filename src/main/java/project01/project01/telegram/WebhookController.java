@@ -161,8 +161,8 @@ public class WebhookController {
                     botMessage=null;
                 }
             }
-        }else if (userMessage.getText()!=null&&userMessage.getText().startsWith("#admin/signal")){
-            Integer countUsers = signalsService.sendSignal(null,userMessage.getText().substring(13));
+        }else if (text!=null&&text.startsWith("#admin/signal")){
+            Integer countUsers = signalsService.sendSignal(null,text.substring(13));
             botMessage.setReplyMarkup(createMainKeyBoard());
             botMessage.setText("Отправлено "+countUsers+" сигналов");
         }
