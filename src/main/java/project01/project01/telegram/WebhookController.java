@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import project01.project01.enums.Purchase;
 import project01.project01.exceptions.NoUserInDbException;
 import project01.project01.services.SignalsService;
 import project01.project01.services.UserService;
+import project01.project01.services.ValidationService;
 import project01.project01.telegram.commands.MainCommand;
 import project01.project01.telegram.rx_objects.CallbackQuery;
 import project01.project01.telegram.tx_objects.*;
@@ -38,9 +40,12 @@ import java.util.*;
 @RestController
 public class WebhookController {
     private static final Logger log = LoggerFactory.getLogger(WebhookController.class);
-    private final UserRepository userRepository;
-    private final SignalRepository signalRepository;
-    private final TrainingGroupRepository trainingRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private  SignalRepository signalRepository;
+    @Autowired
+    private  TrainingGroupRepository trainingRepository;
     @Autowired
     private  UserDataRepository userDataRepository;
     @Autowired
@@ -49,12 +54,9 @@ public class WebhookController {
     private UserService userService;
     @Autowired
     private SignalsService signalsService;
-    public WebhookController(UserRepository userRepository, SignalRepository signalRepository, TrainingGroupRepository trainingRepository) {
-        this.userRepository = userRepository;
-        this.signalRepository = signalRepository;
-        this.trainingRepository = trainingRepository;
+    @Autowired
+    private ValidationService validationService;
 
-    }
 
     @RequestMapping("/mybot")
     public ResponseForTelegram getUpdate(@RequestBody  Update update) throws DublicateUsersInDb {
@@ -64,11 +66,11 @@ public class WebhookController {
             System.out.println("chatId="+update.getChannelPost().getChat().getId()+" type="+update.getChannelPost().getChat().getType()+" text="+update.getChannelPost().getText());
             System.out.println("Math.abs" + Math.abs(update.getChannelPost().getChat().getId()));
             //sendMessage(new SendMessage(update.getChannelPost().getChat().getId(),"я бот"));
-        }else{
-        if (update.getCallbackQuery()!=null){
-              contextCallBackQuery(update.getCallbackQuery());
         }
-        else {
+        else if (update.getCallbackQuery()!=null){
+            contextCallBackQuery(update.getCallbackQuery());
+        }
+        else if (update.getMessage()!=null&&update.getMessage().getText()!=null){
             System.out.println("text:"+update.getMessage().getText() +"chatid:" + update.getMessage().getChat().getId());
             SendMessage botMessage = null;
             Message userMessage = update.getMessage();
@@ -82,7 +84,6 @@ public class WebhookController {
             if (botMessage!=null)
              sendMessage(botMessage);
             //return botMessage;
-        }
         }
         return null;
     }
@@ -130,7 +131,7 @@ public class WebhookController {
 
     private SendMessage mainContext(User user, Message userMessage) {
         String text = userMessage.getText();
-        SendMessage botMessage = new SendMessage(userMessage.getChat().getId(),"Неизвестная команда");
+        SendMessage botMessage = new SendMessage(userMessage.getChat().getId(),"Неизвестная команда. Если у вас не отображается меню, попробуйте отправить /start");
         if (userMessage.getText().startsWith("/start ")&&text.substring(7).length()==64){
             System.out.println("Обновление юзера");
             Optional<User> optionalUser = userRepository.findUserByHash(text.substring(7));
@@ -161,10 +162,34 @@ public class WebhookController {
                     botMessage=null;
                 }
             }
-        }else if (text!=null&&text.startsWith("#admin/signal")){
+        }
+        else if (text!=null&&text.startsWith("#admin/signal")){
             Integer countUsers = signalsService.sendSignal(null,text.substring(13));
             botMessage.setReplyMarkup(createMainKeyBoard());
             botMessage.setText("Отправлено "+countUsers+" сигналов");
+        }
+        else if (text.startsWith("/login")){
+            String login = text.substring(6).trim();
+            if (validationService.checkLogin(login)&&!userRepository.findUserByLogin(login).isPresent()){
+                user.setLogin(login);
+                userRepository.save(user);
+                botMessage.setText("Выполнено! Ваш логин: " +user.getLogin());
+            }else if (validationService.checkLogin(login)&&userRepository.findUserByLogin(login).isPresent()){
+                botMessage.setText("Этот логин занят, придумайте другой");
+            }else {
+                botMessage.setText("Вы ввели не корректный логин. Минимальная длина 4 символа");
+            }
+        }
+        else if (text.startsWith("/pass")&&!text.startsWith("/password")){
+            String password = text.substring(5).trim();
+            if (validationService.checkPassword(password)){
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                user.setPassword(passwordEncoder.encode(password));
+                userRepository.save(user);
+                botMessage.setText("Пароль установлен.");
+            }else {
+                botMessage.setText("Некорректный пароль. Минимальная длина 8 символов");
+            }
         }
         else {
             MainCommand command = MainCommand.getTYPE(text);

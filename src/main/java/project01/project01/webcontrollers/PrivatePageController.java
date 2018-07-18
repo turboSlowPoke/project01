@@ -308,20 +308,14 @@ public class PrivatePageController {
 
     @PostMapping("/lk")
     public RedirectView uploadFile(HttpServletRequest request,
-                                   @RequestParam(required = false) @PasswordConstraint String firstName,
+                                   @RequestParam(required = false)  String firstName,
                                    @RequestParam(required = false)  String lastName,
                                    @RequestParam(required = false)  String password1,
                                    @RequestParam(required = false)  String password2,
                                    @Email @RequestParam(required = false)  String email,
-                                   @RequestParam(required = false) String advcash,
-                                   BindingResult result){
+                                   @RequestParam(required = false) String advcash){
         Integer userId = (Integer) request.getSession(false).getAttribute("userId");
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (result.hasErrors()){
-            result.getModel().forEach((key,value) -> {
-                log.info(key,value);
-            });
-        }
         optionalUser.ifPresent(user -> {
             if (firstName!=null) {
                 user.getUserData().setFirstName(firstName);

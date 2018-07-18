@@ -25,5 +25,4 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     @Query("SELECT  u FROM User u JOIN u.subsribe s WHERE s.endOfSignal>:date")
     List<User> findUserForSendSignals(@Param("date") LocalDate date);
     long countByInvitedId(Integer invitedId);
-
 }
