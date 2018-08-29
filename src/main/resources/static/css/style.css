@@ -8,6 +8,10 @@ body,
   background: #060000;
 }
 
+.price_body{
+    height: 150px;
+  }
+
 @media (max-width: 776px){
   .imgForBigScreen,.imgForVeryBigScreen{
     display: none;

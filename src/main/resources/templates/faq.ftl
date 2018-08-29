@@ -72,7 +72,7 @@
                     <a class="nav-link waves-effect " href="/">Главная </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect " href="/about">О нас</a>
+                    <a class="nav-link waves-effect " href="/about">Обо мне</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/contacts">Контакты</a>
@@ -132,38 +132,66 @@
               <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Вопрос 1</h5>
+                    <h4 class="mb-1">Как зарегистрироваться на сайте?</h4>
                   </div>
-                  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                  <small>Donec id elit non mi porta.</small>
+                  <p class="mb-1">
+                    <ul>
+                    <li>
+                        Вы можете использовать один из ваших аккаунтов google для быстрой регистрации
+                    </li>
+                    <li>
+                        так же Вы можете получить логин и пароль в нашем телеграм боте по ссылке https://t.me/potvneskazutbot
+                    </li>
+                    </ul>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Вопрос 2</h5>
+                    <h4 class="mb-1">Не переходит в телеграм бот с сайта. Что делать?</h4>
                   </div>
-                  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                  <small class="text-muted">Donec id elit non mi porta.</small>
+
+                  <p class="mb-1">Как многие знают - телеграм блокируется роскомнадзором. Для того чтобы обойти блокировку необходимо сделать пару простых действий.
+                    <ol>
+                    <li>добавить приложение TouchVPN в Chrome (https://chrome.google.com/webstore/detail/touch-vpn/bihmplhobchoageeokmgbdihknkjbknd?hl=ru)</li>
+                    <li>после установки - нажать на иконку приложения в правом верхнем углу</li>
+                    <li>в окне приложения необходимо вызвать дополнительные параметры нажатием трех полосок <i class="fas fa-bars"></i></li>
+                    <li>выбираем параметр auto-protect websites</li>
+                    <li> в поле url вводим данные ссылки
+                        <ul>
+                            <li>telegram.org</li>
+                            <li>t.me</li>
+                            <li>web.telegram.com</li>
+                        </ul>
+                        и по каждой ссылке нажимаем кнопку <b>Add</b>, чтобы наши ссылки добавились в список исключения. После этого данные ссылки блокироваться не будут. Вы так же можете таким образом добавить другие нужные вам сайты, которые блокирует роскомнадзор.</li>
+                    </ol>
+                  </p>
+
                 </a>
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Вопрос 3</h5>
+                    <h4 class="mb-1">Что входит в Сигнал Бот?</h4>
                   </div>
-                  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                  <small class="text-muted">Donec id elit non mi porta.</small>
+                  <p class="mb-1">Данный бот включает в себя подписки на самые топовые источники, в том числе зарубежные, общей суммой в 0,3 BTC в год. Список будет пополняться, если мы найдем еще подходящие источники. Для вас эта сумма получается в разы дешевле, и неизменной.
+                      <br>
+                      Предлагаем вам несколько видов подписки:
+                      <ul>
+                        <li>1 месяц = 50$</li>
+                        <li>3 месяца = 100$</li>
+                        <li>6 месяцев = 150$</li>
+                      </ul>
+                    Абсолютно каждый игрок рынка должен иметь достоверные источники получения информации, и данный бот может им стать для вас.</p>
                 </a>
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Вопрос 4</h5>
+                    <h4 class="mb-1">Что входит в таблицу Баунти?</h4>
                   </div>
-                  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                  <small class="text-muted">Donec id elit non mi porta.</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Вопрос 5</h5>
-                  </div>
-                  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                  <small class="text-muted">Donec id elit non mi porta.</small>
+                  <p class="mb-1">В данную таблицу мы собрали для вас информацию о самых перспективных баунти-компаниях. Которая постоянно обновляется и включает в себя:
+                      <ul>
+                        <li>Условия для участия</li>
+                        <li>Форма отчета</li>
+                        <li>Начало и окончание баунти-компании</li>
+                      </ul>
+                    Используя данную таблицу вы экономите очень много нервов и времени, т. к. весь поиск и отбор мы сделали за вас <i class="fas fa-smile"></i>
+                    </p>
                 </a>
               </div>
             </div>

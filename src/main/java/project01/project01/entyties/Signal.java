@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "signals")
 public class Signal {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

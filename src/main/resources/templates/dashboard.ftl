@@ -37,7 +37,7 @@
               <a class="nav-link waves-effect" href="/">Главная  </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link waves-effect" href="/about">О нас</a>
+              <a class="nav-link waves-effect" href="/about">Обо мне</a>
             </li>
             <li class="nav-item">
               <a class="nav-link waves-effect" href="/contacts">Контакты</a>
@@ -222,19 +222,19 @@
                   <div class="form-check">
                   <label class="form-check-label lead">
                     <input class="form-check-input" type="radio" name="purchase" value="signals01" checked>
-                    Один месяц
+                    1 месяц
                   </label>
                 </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
                       <input class="form-check-input" type="radio" name="purchase" value="signals02">
-                      Два месяца
+                      3 месяца
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="purchase" value="signals03" >
-                      Три месяца
+                      <input class="form-check-input" type="radio" name="purchase" value="signals03">
+                      6 месяцев
                     </label>
                   </div>
                 </td>

@@ -42,8 +42,9 @@ dependencies {
 
 
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
-	compile("com.h2database:h2")
+//	compile("com.h2database:h2")
 //	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
 
 
 

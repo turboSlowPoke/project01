@@ -30,7 +30,7 @@
                         <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/">Главная <span class="sr-only">(current)</span> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link waves-effect" href="/about">О нас</a>
+                        <a class="nav-link waves-effect" href="/about">Обо мне</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect" href="/contacts">Контакты</a>

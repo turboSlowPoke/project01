@@ -72,7 +72,7 @@
                     <a class="nav-link waves-effect active grey darken-3 rounded rounded-2" href="/">Главная <span class="sr-only">(current)</span> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-effect" href="/about">О нас</a>
+                    <a class="nav-link waves-effect" href="/about">Обо мне</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="/contacts">Контакты</a>
@@ -145,14 +145,14 @@
               <strong>
                   Весь мир помешался на криптовалютах, а ты до сих пор не знаешь с какой стороны к ним подойти?
                   Боишься, что начинать уже поздно и твои деньги улетят в трубу?
-                  <hr>
+                  <hr style="color:blue">
                   Меня зовут Кирилл Кузьмин и я могу научить тебя как заработать свои первые токены без рисков и вложений.
                   На моем канале ты найдешь много полезной и интересной информации о мире криптовалют.
                   Развиваться в этой сфере я начал еще в 19 лет, а в 20 уже заработал свой первый миллион, с удовольствием делюсь полученными знаниями и опытом с желающими увеличить свой доход.
               </strong>
               </p>
               <!-- Main heading -->
-              <hr>
+              <hr style="color:blue">
               <p>
                   <strong>
                       Новости, обзоры монет, платформ и все виды заработка на Blokchain, о которых не скажут по ТВ!<br>
@@ -179,13 +179,14 @@
                             <div class="card text-center ">
                                 <div class="card-header">
                                     <div class="price_caption">
-                                        <h5 class="font-weight-bold">Подписка на криптовалютные сигналы</h5>
+                                        <h5 class="font-weight-bold">Сигнал Бот</h5>
+                                        <p class="font-weight-bold">"Криптовалютные сигналы из топовых каналов"</p>
                                     </div>
                                     <img class="card-img w-50" src="img/SIGNALS.png">
-                                    <p class="lead font-weight-bold">Стоимость $200</p>
+                                    <p class="lead font-weight-bold">Стоимость $50</p>
                                 </div>
-                                <div class="card-body">
-                                    <small>бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</small>
+                                <div class="card-body price_body">
+                                    <small>Данный бот включает в себя подписки на самые топовые зарубежные источники, которые мы тестировали для вас.<br></small>
                                 </div>
                                 <div class="card-footer">
                                     <a href="#" class="btn btn-dark wow" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
@@ -196,13 +197,14 @@
                             <div class="card text-center ">
                                 <div class="card-header">
                                     <div class="price_caption">
-                                        <h5 class="font-weight-bold">Таблица отборных баунти-проектов</h5>
+                                        <h5 class="font-weight-bold">Таблица Bounty</h5>
+                                         <p class="font-weight-bold">"Самые отборные проекты баунти"</p>
                                     </div>
                                     <img class="card-img w-50" src="img/TABLE.png">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
-                                <div class="card-body">
-                                    <small>бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла</small>
+                                <div class="card-body price_body">
+                                    <small>В данную таблицу мы собрали для вас информацию о самых перспективных баунти-компаниях.<br></small>
                                 </div>
                                 <div class="card-footer">
                                     <a href="#" class="btn btn-dark wow" data-toggle="modal" data-placement="bottom" data-target="#signInModal">купить</a>
@@ -219,7 +221,7 @@
                                     <img class="card-img w-50 " src="img/BOUNTY.png">
                                     <p class="lead font-weight-bold">Стоимость $200</p>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body price_body">
                                     <small>Курс посвящен заработку на рекламных компаниях (баунти-программах) и аирдропах. Очень много практики и минимум скучной теории</small>
                                 </div>
                                 <div class="card-footer">

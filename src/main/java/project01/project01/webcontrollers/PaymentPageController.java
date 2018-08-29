@@ -56,16 +56,16 @@ public class PaymentPageController {
             order.setPurch(purch.getText());
             switch (purch){
                 case SIGNALS01:
-                    order.setAmount(new BigDecimal("10"));
+                    order.setAmount(new BigDecimal(GlobalConfig.SIGNALS_1));
                     break;
                 case SIGNALS02:
-                    order.setAmount(new BigDecimal("20"));
+                    order.setAmount(new BigDecimal(GlobalConfig.SIGNALS_2));
                     break;
                 case SIGNALS03:
-                    order.setAmount(new BigDecimal("30"));
+                    order.setAmount(new BigDecimal(GlobalConfig.SIGNALS_3));
                     break;
                 case TRAINING:
-                    order.setAmount(new BigDecimal("100"));
+                    order.setAmount(new BigDecimal(GlobalConfig.TRAINING));
                     Optional<TrainingGroup> trainingGroup = trainingGroupRepository.findById(Integer.parseInt(trainingGroupId));
                     trainingGroup.ifPresent(gr -> {
                         order.setTrGroupid(gr.getId());
@@ -164,17 +164,17 @@ public class PaymentPageController {
                             break;
                         case SIGNALS02:
                             if (user.getSubsribe().getEndOfSignal()!=null)
-                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(2));
+                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(3));
                             else
-                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(2));
+                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(3));
                             System.out.println("Продлена подписка на сигналы для юзера " +user);
                             log.info("Продлена подписка на сигналы для юзера " +user);
                             break;
                         case SIGNALS03:
                             if (user.getSubsribe().getEndOfSignal()!=null)
-                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(3));
+                                user.getSubsribe().setEndOfSignal(user.getSubsribe().getEndOfSignal().plusMonths(6));
                             else
-                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(3));
+                                user.getSubsribe().setEndOfSignal(LocalDate.now().plusMonths(6));
                             System.out.println("Продлена подписка на сигналы для юзера " +user);
                             log.info("Продлена подписка на сигналы для юзера " +user);
                             break;

@@ -13,4 +13,10 @@ public class GlobalConfig {
     public static final String BOT_API_URL = "https://api.telegram.org/bot593356702:AAHwriFMli5LN2EAbJTV77saFC1RPNNbDq0";
     public static final String BOT_LINK="http://t.me/potvneskazutbot";
     public static final String CODOVOE_SLOVO="C0d0v0eSl0v0";
+
+    public static final String SIGNALS_1 ="50";
+    public static final String SIGNALS_2 ="100";
+    public static final String SIGNALS_3 ="150";
+    public static final String TRAINING ="200";
+
 }

@@ -4,7 +4,7 @@ public enum Purchase {
     SIGNALS01("signals01"),
     SIGNALS02("signals02"),
     SIGNALS03("signals03"),
-    TRAINING("training"),
+    TRAINING("TRAINING"),
     //mainmenu
 
 
