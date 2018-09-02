@@ -105,7 +105,7 @@
                   </div>
                       <div class="modal-body text-center green lighten-5">
                           Присоедитесь к нашему боту в telegram <i class="fab fa-telegram" aria-hidden="true"></i>
-                          , перейдя по <a href="${botLink}?start=${userHash}"> ссылке </a>.
+                          , перейдя по <a href="${botLink}?start=${userHash}" target="_blank"> ссылке </a>.
                       </div>
                       <div class="modal-footer text-center">
                           <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
@@ -116,7 +116,7 @@
           </div>
       </div>
       </#if>
-      <#if paidOrder??>
+      <#if paidOrder?? || failPaidOrder??>
       <div class="modal fade" id="paidOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
               <div class="modal-content">
@@ -125,7 +125,8 @@
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true" class="white-text">×</span> </button>
                   </div>
                   <div class="modal-body text-center green lighten-5">
-                      Ваш заказ ${paidOrder.comment} успешно оплачен.
+                      <#if paidOrder??> Ваш заказ "${paidOrder.comment}"  успешно оплачен</#if>
+                      <#if failPaidOrder??> Ваш заказ "${failPaidOrder.comment}"  <b>не был оплачен</b> </#if>.
                   </div>
                   <div class="modal-footer text-center">
                       <a role="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Закрыть</a>
@@ -214,28 +215,22 @@
           <form class="form-group" action="/payment" method="post">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="modal-body text-center">
-            <table class="table">
+            <table class="table text-center">
               <tbody>
               <tr>
                 <td><i class="fas fa-bell faa-ring animated pink-text fa-5x" ></i></td>
-                <td class="lead">
+                <td class="lead text-left">
                   <div class="form-check">
-                  <label class="form-check-label lead">
-                    <input class="form-check-input" type="radio" name="purchase" value="signals01" checked>
+                    <input class="form-check-input" type="radio" name="purchase" value="${SIGNALS01}" checked>
                     1 месяц
-                  </label>
-                </div>
+                    </div>
                   <div class="form-check">
-                    <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="purchase" value="signals02">
+                      <input class="form-check-input" type="radio" name="purchase" value="${SIGNALS02}">
                       3 месяца
-                    </label>
                   </div>
                   <div class="form-check">
-                    <label class="form-check-label lead">
-                      <input class="form-check-input" type="radio" name="purchase" value="signals03">
+                      <input class="form-check-input" type="radio" name="purchase" value="${SIGNALS03}">
                       6 месяцев
-                    </label>
                   </div>
                 </td>
               </tr>
@@ -861,7 +856,7 @@
               $('#botLinkModal').modal('show');
           });
       </script>
-<#elseif paidOrder??>
+<#elseif paidOrder?? || failPaidOrder??>
         <script type="text/javascript">
             $(window).on('load',function(){
                 $('#paidOrderModal').modal('show');

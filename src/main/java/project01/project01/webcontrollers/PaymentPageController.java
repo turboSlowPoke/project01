@@ -3,9 +3,12 @@ package project01.project01.webcontrollers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -14,13 +17,11 @@ import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.OrderRepository;
 import project01.project01.db_services.TrainingGroupRepository;
 import project01.project01.db_services.UserRepository;
-import project01.project01.entyties.BonusWallet;
-import project01.project01.entyties.Order;
-import project01.project01.entyties.TrainingGroup;
-import project01.project01.entyties.User;
+import project01.project01.entyties.*;
 import project01.project01.enums.Purchase;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -42,12 +43,13 @@ public class PaymentPageController {
     private OrderRepository orderRepository;
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
-
+    @Transactional
     @PostMapping("/payment")
     public ModelAndView payment(HttpServletRequest request,
                                 @RequestParam String purchase,
                                 @RequestParam(required = false) String trainingGroupId){
         Map<String,Object> model = new HashMap<>();
+        log.info("purchase="+purchase);
         Purchase purch = Purchase.getTYPE(purchase);
         if (purch!=Purchase.FAIL){
             Order order = new Order();
@@ -103,35 +105,67 @@ public class PaymentPageController {
             model.put("hash",hash);
             model.put("order",order);
         }
+        model.put("acAccountEmail",AdvcashCongig.acAccountEmail);
+        model.put("acSciName",AdvcashCongig.acSciName);
+        model.put("acCurrency",AdvcashCongig.acCurrency);
         Optional<User> optionalUser = userRepository.findById((Integer)request.getSession(false).getAttribute("userId"));
         optionalUser.ifPresent(user -> {
             model.put("user",user);
         });
         return new ModelAndView("pay",model);
     }
-
-    @PostMapping("/status")
-    public RedirectView status(RedirectAttributes redirectAttributes,
-                               HttpServletRequest request,
-                               @RequestParam("ac_start_date")String acStartDate,
-                               @RequestParam("ac_sci_name") String sciName,
-                               @RequestParam("ac_src_wallet") String acSrcWallet,
-                               @RequestParam("ac_dest_wallet") String acDstWallet,
-                               @RequestParam("ac_order_id") String orderId,
-                               @RequestParam("ac_amount") String amount,
-                               @RequestParam("ac_merchant_currency") String currency,
-                               //@RequestParam("ac_hash") String hash,
-                               @RequestParam("ac_transaction_status") String status
-                               ){
+    @Transactional
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/status_payment_p0tv")
+    public void status(HttpServletRequest request,
+                       @RequestParam("ac_transfer")String acTransfer,
+                       @RequestParam("ac_start_date")String acStartDate,
+                       @RequestParam("ac_src_wallet") String acSrcWallet,
+                       @RequestParam("ac_dest_wallet") String acDstWallet,
+                       @RequestParam("ac_order_id") String orderId,
+                       @RequestParam("ac_amount") String amount,
+                       @RequestParam("ac_merchant_currency") String currency,
+                       @RequestParam("ac_hash") String acHash,
+                       @RequestParam("ac_transaction_status") String status){
         log.info("пришло подтверждение оплаты для заказа " +orderId);
-        System.out.println("пришло подтверждение оплаты для заказа " + orderId);
-        //User user = (User) request.getSession(false).getAttribute("user");
-        Optional<User> optionalUser = userRepository.findById((Integer) request.getSession(false).getAttribute("userId"));
-        optionalUser.ifPresent(user -> {
-            if (status.equals("COMPLETED")){
+        if (status.equals("COMPLETED")){
                 //считаем и сравниваем хеш
+//ac_transfer:
+// ac_start_date:
+// ac_sci_name:
+// ac_src_wallet:
+// ac_dest_wallet:
+// ac_order_id:
+// ac_amount:
+// ac_merchant_currency:
+// SCI's password
+                String string =acTransfer+":"+
+                        acStartDate+":"+
+                        AdvcashCongig.acSciName+":"+
+                        acSrcWallet+":"+
+                        acDstWallet+":"+
+                        orderId+":"+
+                        amount+":"+
+                        currency+":"+
+                        AdvcashCongig.secret;
+                MessageDigest md = null;
+                try {
+                    md = MessageDigest.getInstance("SHA-256");
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                md.update(string.getBytes(StandardCharsets.UTF_8));
+                byte[] digest = md.digest();
+                String myhash = String.format("%064x", new BigInteger( 1, digest ) );
+                if (!myhash.equals(acHash)){
+                    log.warn("не сошлись хеши для заказа "+orderId);
+                    throw new RuntimeException();
+                }
                 Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(orderId));
                 optionalOrder.ifPresent(order -> {
+                    User user = order.getUser();
+                    if (user.getSubsribe()==null)
+                        user.setSubsribe(new Subscribe());
                     order.setPaid(true);
                     orderRepository.save(order);
                     Purchase purchase = Purchase.getTYPE(order.getPurch());
@@ -139,14 +173,12 @@ public class PaymentPageController {
                         case TRAINING:
                             Optional<TrainingGroup> group = trainingGroupRepository.findById(order.getTrGroupid());
                             group.ifPresent(gr -> {
-//                                Optional<User> userOptional = userRepository.findById(user.getId());
-//                                userOptional.ifPresent(u-> {
+
                                     if (user.getTrainingGroups()==null)
                                         user.setTrainingGroups(new ArrayList<TrainingGroup>());
                                     user.getTrainingGroups().add(gr);
                                     userRepository.save(user);
                                     request.getSession(false).setAttribute("user",user);
-//                                });
                                 if (gr.getUsers()==null)
                                     gr.setUsers(new ArrayList<User>());
                                 gr.getUsers().add(user);
@@ -214,10 +246,19 @@ public class PaymentPageController {
                     }
                 });
 
-            }
+        }
 
-        });
+    }
+    @GetMapping("/succes_payment")
+    public RedirectView succesPay(RedirectAttributes redirectAttributes,
+                                  @RequestParam("ac_order_id") String orderId){
         redirectAttributes.addAttribute("paidOrder",orderId);
+        return new RedirectView("/lk");
+    }
+    @GetMapping("/fail_payment")
+    public RedirectView failPay(RedirectAttributes redirectAttributes,
+                                  @RequestParam("ac_order_id") String orderId){
+        redirectAttributes.addAttribute("failPaidOrder",orderId);
         return new RedirectView("/lk");
     }
 }

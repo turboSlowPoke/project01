@@ -28,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/mybot","/admin/**");
+        http.csrf().ignoringAntMatchers("/mybot","/admin/**","/status_payment_p0tv");
         http.authorizeRequests()
                     .antMatchers("/",
                             "/faq",
@@ -44,7 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/font/roboto/*",
                             "login/oauth2/code/google",
                             "/logout",
-                            "/status").permitAll()
+                            "/status_payment_p0tv",
+                            "/succes_payment",
+                            "/fail_payment").permitAll()
                    // .anyRequest().permitAll()
                     .antMatchers("/admin/**","/homeworkfiles/**").hasRole("ADMIN")
                     .anyRequest().authenticated()

@@ -47,7 +47,7 @@
                     Вы можете войти через Google:
                     <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
                     Получить логин пароль в телеграм:
-                    <a class="btn btn-outline-blue btn-sm" href="https://t.me/potvneskazutbot" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+                    <a class="btn btn-outline-blue btn-sm" href="${botLink}" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
                 </form>
             </div>
             <div class="modal-bottom">
@@ -130,43 +130,41 @@
             </div>
             <div class="card-body">
               <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div  class="border border-1 p-1 mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h4 class="mb-1">Как зарегистрироваться на сайте?</h4>
                   </div>
-                  <p class="mb-1">
                     <ul>
                     <li>
                         Вы можете использовать один из ваших аккаунтов google для быстрой регистрации
                     </li>
                     <li>
-                        так же Вы можете получить логин и пароль в нашем телеграм боте по ссылке https://t.me/potvneskazutbot
+                        так же Вы можете получить логин и пароль в нашем телеграм боте по ссылке <a href="${botLink}" target="_blank">${botLink}</a>
                     </li>
                     </ul>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                </div>
+                <div class="border border-1 p-1 mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h4 class="mb-1">Не переходит в телеграм бот с сайта. Что делать?</h4>
                   </div>
 
                   <p class="mb-1">Как многие знают - телеграм блокируется роскомнадзором. Для того чтобы обойти блокировку необходимо сделать пару простых действий.
                     <ol>
-                    <li>добавить приложение TouchVPN в Chrome (https://chrome.google.com/webstore/detail/touch-vpn/bihmplhobchoageeokmgbdihknkjbknd?hl=ru)</li>
+                    <li>добавить приложение <a href="https://chrome.google.com/webstore/detail/touch-vpn/bihmplhobchoageeokmgbdihknkjbknd?hl=ru" target="_blank">TouchVPN</a> в Chrome</li>
                     <li>после установки - нажать на иконку приложения в правом верхнем углу</li>
                     <li>в окне приложения необходимо вызвать дополнительные параметры нажатием трех полосок <i class="fas fa-bars"></i></li>
-                    <li>выбираем параметр auto-protect websites</li>
-                    <li> в поле url вводим данные ссылки
+                    <li>выбираем параметр <b>auto-protect websites</b></li>
+                    <li> в поле <b>url</b> вводим данные ссылки
                         <ul>
                             <li>telegram.org</li>
                             <li>t.me</li>
                             <li>web.telegram.com</li>
                         </ul>
-                        и по каждой ссылке нажимаем кнопку <b>Add</b>, чтобы наши ссылки добавились в список исключения. После этого данные ссылки блокироваться не будут. Вы так же можете таким образом добавить другие нужные вам сайты, которые блокирует роскомнадзор.</li>
+                        и для каждой ссылки нажимаем кнопку <b>Add</b>, чтобы наши ссылки добавились в список исключения. После этого данные ссылки блокироваться не будут. Вы так же можете таким образом добавить другие нужные вам сайты, которые блокирует роскомнадзор.</li>
                     </ol>
                   </p>
-
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                </div>
+                <div  class="border border-1 p-1 mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h4 class="mb-1">Что входит в Сигнал Бот?</h4>
                   </div>
@@ -179,8 +177,8 @@
                         <li>6 месяцев = 150$</li>
                       </ul>
                     Абсолютно каждый игрок рынка должен иметь достоверные источники получения информации, и данный бот может им стать для вас.</p>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                </div>
+                <div  class="border border-1 p-1 mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h4 class="mb-1">Что входит в таблицу Баунти?</h4>
                   </div>
@@ -191,8 +189,8 @@
                         <li>Начало и окончание баунти-компании</li>
                       </ul>
                     Используя данную таблицу вы экономите очень много нервов и времени, т. к. весь поиск и отбор мы сделали за вас <i class="fas fa-smile"></i>
-                    </p>
-                </a>
+                    </div>
+                </div>
               </div>
             </div>
           </div>

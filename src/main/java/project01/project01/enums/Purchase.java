@@ -1,7 +1,7 @@
 package project01.project01.enums;
 
 public enum Purchase {
-    SIGNALS01("signals01"),
+    SIGNALS01("Сигналы 1 месяц"),
     SIGNALS02("signals02"),
     SIGNALS03("signals03"),
     TRAINING("TRAINING"),

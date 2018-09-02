@@ -13,14 +13,12 @@ import project01.project01.entyties.*;
 import project01.project01.services.SignalsService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class AdminPageController {
@@ -73,16 +71,26 @@ public class AdminPageController {
         request.getSession(false).setAttribute("signalsSended",count);
         return new RedirectView("/admin/signals") ;
     }
-    @GetMapping("/admin/TRAINING")
+
+    @Transactional
+    @GetMapping("/admin/training")
     public ModelAndView getTrainingPage(){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
         model.put("isMainTrainingMenu",true);
-        model.put("trainingGroupList",trainingGroupRepository.findAll());
+        List<TrainingGroup> trainingGroupList = new ArrayList<>();
+
+
+        trainingGroupRepository.findAll().forEach(trainingGroup -> {
+            trainingGroupList.add(trainingGroup);
+           List<User> userList= trainingGroup.getUsers();
+           System.out.println(userList.size());
+        });
+        model.put("trainingGroupList",trainingGroupList);
         model.put("coursesList",courseRepository.findAll());
         return new ModelAndView("admin_tepmlates/admin",model);
     }
-    @PostMapping("/admin/TRAINING/createCourse")
+    @PostMapping("/admin/training/createCourse")
     public RedirectView addTrainingCourse(@RequestParam String name,
                                           @RequestParam String description,
                                           @RequestParam String amount){
@@ -92,9 +100,10 @@ public class AdminPageController {
         course.setAmount(new BigDecimal(amount+".00"));
         courseRepository.save(course);
         log.info("Создан курс "+ course);
-        return new RedirectView("/admin/TRAINING");
+        return new RedirectView("/admin/training");
     }
-    @PostMapping("/admin/TRAINING/createGroup")
+    @Transactional
+    @PostMapping("/admin/training/createGroup")
     public RedirectView addTrainingGroup(@RequestParam String courseId,
                                          @RequestParam String name,
                                          @RequestParam String startSet,
@@ -108,9 +117,9 @@ public class AdminPageController {
         trainingGroupRepository.save(trainingGroup);
         log.info("Сохранена новая группа на обучение " + trainingGroup);
         System.out.println("Сохранена новая группа на обучение " + trainingGroup);
-        return new RedirectView("/admin/TRAINING");
+        return new RedirectView("/admin/training");
     }
-    @GetMapping("/admin/TRAINING/delete_course/{courseId}")
+    @GetMapping("/admin/training/delete_course/{courseId}")
     public RedirectView deleteCourse(@PathVariable String courseId){
         Optional<Course>course = courseRepository.findById(Integer.parseInt(courseId));
         course.ifPresent(c ->{
@@ -121,9 +130,9 @@ public class AdminPageController {
                 log.warn("нельзя удалить курс, есть созданные группы " +c);
             }
         });
-        return new RedirectView("/admin/TRAINING");
+        return new RedirectView("/admin/training");
     }
-    @GetMapping("/admin/TRAINING/delete_group/{id}")
+    @GetMapping("/admin/training/delete_group/{id}")
     public RedirectView deleteTrainingGroup(@PathVariable String id){
         Optional<TrainingGroup> group = trainingGroupRepository.findById(Integer.parseInt(id));
         group.ifPresent(g ->{
@@ -134,9 +143,9 @@ public class AdminPageController {
                 log.warn("нельзя удалить группу с юзерами");
             }
         });
-        return new RedirectView("/admin/TRAINING");
+        return new RedirectView("/admin/training");
     }
-    @GetMapping("/admin/TRAINING/group")
+    @GetMapping("/admin/training/group")
     public ModelAndView getTrainigGroupPage(@RequestParam(required = false) String groupId){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);
@@ -147,7 +156,7 @@ public class AdminPageController {
         }
         return new ModelAndView("admin_tepmlates/admin",model);
     }
-    @GetMapping("/admin/TRAINING/homeworks")
+    @GetMapping("/admin/training/homeworks")
     public ModelAndView getHomeworksPage(){
         Map<String,Object> model = new HashMap<>();
         model.put("isTraining",true);

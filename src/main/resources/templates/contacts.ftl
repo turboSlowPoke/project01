@@ -47,7 +47,7 @@
                     Вы можете войти через Google:
                     <a class="btn btn-outline-red btn-sm" href="oauth2/authorization/google" title="Авторизоваться через Google" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a><br>
                     Получить логин пароль в телеграм:
-                    <a class="btn btn-outline-blue btn-sm" href="https://t.me/potvneskazutbot" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+                    <a class="btn btn-outline-blue btn-sm" href="${botLink}" title="Получить логин пароль у нашего бота" data-toggle="tooltip" data-placement="bottom"><i class="fab fa-telegram" aria-hidden="true"></i></a>
                 </form>
             </div>
             <div class="modal-bottom">

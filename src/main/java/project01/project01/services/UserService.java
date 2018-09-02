@@ -23,6 +23,7 @@ import project01.project01.entyties.UserData;
 import project01.project01.exceptions.NoUserInDbException;
 import project01.project01.telegram.rx_objects.Message;
 
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -90,6 +91,8 @@ public class UserService {
             userRepository.save(u);
             log.info("Сохранён новый юзер: "+u);
         });
+        if (optionalUser.isPresent())
+            user=optionalUser.get();
         return user;
     }
 

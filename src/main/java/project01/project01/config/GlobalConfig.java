@@ -10,8 +10,8 @@ public class GlobalConfig {
     public static final BigDecimal bonusProcentForPayment = new BigDecimal("0.10");
     public static final BigDecimal bonusProcentForReferal = new BigDecimal("0.10");
     public static final String CodWord = "C0d0v0eSl0v0";
-    public static final String BOT_API_URL = "https://api.telegram.org/bot593356702:AAHwriFMli5LN2EAbJTV77saFC1RPNNbDq0";
-    public static final String BOT_LINK="http://t.me/potvneskazutbot";
+    public static final String BOT_API_URL = "https://api.telegram.org/bot653179705:AAHdEivXVAZU2yMpjGKgd5hBJaHKzIbw5ak";
+    public static final String BOT_LINK="http://t.me/signals_potv_bot";
     public static final String CODOVOE_SLOVO="C0d0v0eSl0v0";
 
     public static final String SIGNALS_1 ="50";

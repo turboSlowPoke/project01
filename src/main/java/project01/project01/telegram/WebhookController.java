@@ -389,7 +389,6 @@ public class WebhookController {
 
     private void sendMessage(SendMessage sendMessage) {
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("/sendMessage...");
         restTemplate.postForObject(GlobalConfig.BOT_API_URL+"/sendMessage", sendMessage,SendMessage.class);
     }
 

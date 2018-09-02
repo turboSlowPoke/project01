@@ -60,6 +60,7 @@ public class MainController {
         linksForWebPages.ifPresent(l -> {
             model.put("linksForWebPages",l);
         });
+        model.put("botLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("index", model);
     }
 
@@ -72,6 +73,7 @@ public class MainController {
                 model.put("user",user);
             });
         }
+        model.put("botLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("faq",model);
 
     }
@@ -84,6 +86,7 @@ public class MainController {
                 model.put("user",user);
             });
         }
+        model.put("botLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("about",model);
 
     }
@@ -96,6 +99,7 @@ public class MainController {
                 model.put("user",user);
             });
         }
+        model.put("botLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("contacts",model);
 
     }
@@ -112,32 +116,9 @@ public class MainController {
         Purchase paidServices = Purchase.getTYPE(service);
         String purchase=null;
         if (paidServices!=Purchase.FAIL) {
-//            switch (paidServices){
-//                case SIGNALS01:
-//                    purchase=Global.SIGNALS01.getText();
-//                    break;
-//                case SIGNALS02:
-//                    purchase=Global.SIGNALS02.getText();
-//                    break;
-//                case SIGNALS03:
-//                    purchase=Global.SIGNALS03.getText();
-//                    break;
-//                case TRAINING:
-//                    purchase=Global.TRAINING.getText();
-//                    break;
-//                case TRAINING02:
-//                    purchase=Global.TRAINING02.getText();
-//                    break;
-//                case TRAINING03:
-//                    purchase=Global.TRAINING03.getText();
-//                    break;
-//                default:
-//                    purchase="fail";
-//
-//            }
             model.put("service",purchase);
         }
-        model.put("closeLink",GlobalConfig.BOT_LINK);
+        model.put("botLink",GlobalConfig.BOT_LINK);
         return new ModelAndView("pay", model);
     }
 
@@ -148,36 +129,33 @@ public class MainController {
         return new ModelAndView("login","error",error);
     }
 
-    @PostConstruct
-    public void addUser(){
-        User user = new User("admin");
-        userRepository.save(user);
-        user.setStartDate(LocalDateTime.now());
-        String checkString = user.getId().toString()+user.getStartDate()+GlobalConfig.CODOVOE_SLOVO;
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(checkString.getBytes(StandardCharsets.UTF_8));
-        byte[] digest = md.digest();
-        String hash = String.format("%064x", new BigInteger( 1, digest ) );
-        user.setHash(hash);
-        UserData userData = new UserData();
-        userData.setFirstName("суперимя");
-        userData.setLastName("суперфамилия");
-        user.setUserData(userData);
-        String password = new BCryptPasswordEncoder().encode("MegaAdmin");
-        user.setPassword(password);
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role("ADMIN"));
-        user.setRoles(roles);
-        Subscribe subscribe = new Subscribe();
-        subscribe.setEndOfSignal(LocalDate.now().plusMonths(1));
-        user.setSubsribe(subscribe);
-        userRepository.save(user);
-        System.out.println("юзер " +user +" добавлен");
-    }
+//    @PostConstruct
+//    public void addUser(){
+//        User user = new User("admin");
+//        userRepository.save(user);
+//        user.setStartDate(LocalDateTime.now());
+//        String checkString = user.getId().toString()+user.getStartDate()+GlobalConfig.CODOVOE_SLOVO;
+//        MessageDigest md = null;
+//        try {
+//            md = MessageDigest.getInstance("SHA-256");
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        md.update(checkString.getBytes(StandardCharsets.UTF_8));
+//        byte[] digest = md.digest();
+//        String hash = String.format("%064x", new BigInteger( 1, digest ) );
+//        user.setHash(hash);
+//        UserData userData = new UserData();
+//        userData.setFirstName("суперимя");
+//        userData.setLastName("суперфамилия");
+//        user.setUserData(userData);
+//        String password = new BCryptPasswordEncoder().encode("MegaAdmin");
+//        user.setPassword(password);
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(new Role("ADMIN"));
+//        user.setRoles(roles);
+//        userRepository.save(user);
+//        System.out.println("юзер " +user +" добавлен");
+//    }
 
 }

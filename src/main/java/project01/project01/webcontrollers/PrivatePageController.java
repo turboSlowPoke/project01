@@ -27,6 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.config.GlobalConfig;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
+import project01.project01.enums.Purchase;
 import project01.project01.services.ValidationService;
 import project01.project01.services.UserService;
 import project01.project01.validators.PasswordConstraint;
@@ -81,13 +82,13 @@ public class PrivatePageController {
     @GetMapping("/lk")
     public ModelAndView lk(HttpServletRequest request,
                            Authentication authentication,
-                           @RequestParam(required = false) String paidOrder) {
+                           @RequestParam(required = false) String paidOrder,
+                           @RequestParam(required = false) String failPaidOrder) {
         HttpSession session = request.getSession(false);
 //        authentication.getAuthorities().stream().map(res -> {
 //            String key1 =  ((GrantedAuthority) res).getAuthority().
 //        }).collect(Collectors.to)
         String userIdFromTelegramLink = (String) session.getAttribute("userHashFromTelegramLink");
-        log.info("userIdFromTelegramLink="+userIdFromTelegramLink);
         Integer userId=null;
         if (session.getAttribute("userId")==null) {
             User user = null;
@@ -172,7 +173,18 @@ public class PrivatePageController {
                 model.put("paidOrder",order);
             });
         }
+        if (failPaidOrder!=null&&!failPaidOrder.isEmpty()){
+            Optional<Order> optionalOrder = orderRepository.findById(Integer.parseInt(failPaidOrder));
+            optionalOrder.ifPresent(order -> {
+                model.put("failPaidOrder",order);
+            });
+        }
+
         model.put("siteURL",GlobalConfig.siteUrl);
+        model.put("SIGNALS01", Purchase.SIGNALS01.getText());
+        model.put("SIGNALS02", Purchase.SIGNALS02.getText());
+        model.put("SIGNALS03", Purchase.SIGNALS03.getText());
+
         return new ModelAndView("dashboard", model);
 
     }
