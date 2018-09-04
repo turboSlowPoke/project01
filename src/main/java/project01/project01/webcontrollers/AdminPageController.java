@@ -60,6 +60,7 @@ public class AdminPageController {
             model.put("signalsSended",(Integer)request.getSession(false).getAttribute("signalsSended"));
             request.getSession(false).removeAttribute("signalsSended");
         }
+        model.put("usersWithActiveSignals",userRepository.findUserForSendSignals(LocalDate.now()));
         return new ModelAndView("admin_tepmlates/admin",model);
     }
 

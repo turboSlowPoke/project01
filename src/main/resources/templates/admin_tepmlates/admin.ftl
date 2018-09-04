@@ -135,6 +135,37 @@
             </div>
         </div>
     </div>
+    <#if usersWithActiveSignals??>
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Список активных подписчиков</div>
+                <div class="card-body">
+                    <table class="table border">
+                        <thead>
+                        <th>id</th>
+                        <th>@telegram</th>
+                        <th>email</th>
+                        <th>имя</th>
+                        <th>конец подписки</th>
+                        </thead>
+                        <tbody>
+                            <#list usersWithActiveSignals as user>
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>-</#if></td>
+                                    <td><#if user.userData.email??>${user.userData.email}<#else>-</#if></td>
+                                    <td><#if user.userData.firstName??>${user.userData.firstName}</#if> <#if user.userData.lastName??>${user.userData.lastName}</#if></td>
+                                    <td>${user.subsribe.endOfSignal}</td>
+                                </tr>
+                            </#list>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </#if>
 </div>
 </#if>
 <#--Обучение-->
