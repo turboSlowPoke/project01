@@ -93,7 +93,7 @@
 <#--Статистика-->
 <#if isMain??>
 <div class="container">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md12">
             <div class="card">
                 <div class="card-header"> Статистика</div>
@@ -105,12 +105,43 @@
             </div>
         </div>
     </div>
+    <#if lastUsers??>
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">50 новых юзеров</div>
+                <div class="card-body">
+                    <table class="table border">
+                        <thead>
+                        <th>id</th>
+                        <th>@telegram</th>
+                        <th>email</th>
+                        <th>имя</th>
+                        <th>конец подписки</th>
+                        </thead>
+                        <tbody>
+                            <#list lastUsers as user>
+                            <tr>
+                                <td>${user.id}</td>
+                                <td><#if user.userData.telegramNikcName??>${user.userData.telegramNikcName}<#else>-</#if></td>
+                                <td><#if user.userData.email??>${user.userData.email}<#else>-</#if></td>
+                                <td><#if user.userData.firstName??>${user.userData.firstName}</#if> <#if user.userData.lastName??>${user.userData.lastName}</#if></td>
+                                <td><#if user.subsribe??&&user.subsribe.endOfSignal??>${user.subsribe.endOfSignal}</#if></td>
+                            </tr>
+                            </#list>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </#if>
 </div>
 </#if>
 <#--Сигналы-->
 <#if isSignals??>
 <div class="container">
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -131,6 +162,27 @@
                             <button type="submit">Отправить</button>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="card-header">Продлить подписку</div>
+                <div class="card-body">
+                    <#if userNotFound??><h5 class="text-center text-danger">${userNotFound}</h5></#if>
+                    <form  action="/admin/add_subscription">
+                        <div class="form-group">
+                            <label for="selectEndDate">Выбрать дату конца подписки</label>
+                            <input type="date" class="form-control" id="selectEndDate" name="end_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">id юзера(числовой параметр из его рефки)</label>
+                            <input type="number" class="form-control" id="exampleFormControlInput1" name="user_id">
+                        </div>
+                        <button type="submit"  class="btn btn-primary">Добавить</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -462,9 +514,17 @@
 </#if>
 
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    $('#user_search_form').submit(function (event) {
+        event.preventDefault();
+        console.log($(this).serialize());
+        $.getJSON("/admin/search_user?"+$(this).serialize(),function (data) {
+            console.log("data:"+data);
+        })
+    })
+</script>
 </body>
-
 </html>

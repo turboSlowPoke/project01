@@ -201,7 +201,7 @@
                                          <p class="font-weight-bold">"Самые отборные проекты баунти"</p>
                                     </div>
                                     <img class="card-img w-50" src="img/TABLE.png">
-                                    <p class="lead font-weight-bold">Стоимость $200</p>
+                                    <p class="lead font-weight-bold">Стоимость $50</p>
                                 </div>
                                 <div class="card-body price_body">
                                     <small>В данную таблицу мы собрали для вас информацию о самых перспективных баунти-компаниях.<br></small>

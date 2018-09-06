@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import project01.project01.db_services.*;
 import project01.project01.entyties.*;
+import project01.project01.exceptions.NoUserInDbException;
 import project01.project01.services.SignalsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,11 +51,12 @@ public class AdminPageController {
         model.put("countAllUsers",userRepository.count());
         model.put("countActiveSubscribe",subscribeRepository.countAllByEndOfSignalAfter(LocalDate.now()));
         model.put("countUsersWithTraining",subscribeRepository.countAllByTrainingIsActiveTrue());
+        model.put("lastUsers",userRepository.findTop50ByOrderByStartDateDesc());
         return new ModelAndView("admin_tepmlates/admin",model);
 
     }
     @GetMapping("/admin/signals")
-    public ModelAndView getSignalsPage(HttpServletRequest request){
+    public ModelAndView getSignalsPage(HttpServletRequest request,@ModelAttribute("userNotFound") String userNotFound){
         Map<String,Object> model = new HashMap<>();;
         model.put("isSignals",true);
         if (request.getSession(false).getAttribute("signalsSended")!=null){
@@ -61,6 +64,7 @@ public class AdminPageController {
             request.getSession(false).removeAttribute("signalsSended");
         }
         model.put("usersWithActiveSignals",userRepository.findUserForSendSignals(LocalDate.now()));
+        model.put("userNotFound",userNotFound);
         return new ModelAndView("admin_tepmlates/admin",model);
     }
 
@@ -191,6 +195,27 @@ public class AdminPageController {
         return new RedirectView("/admin/content");
     }
 
+    @GetMapping("/admin/add_subscription")
+    public RedirectView addSubscription(RedirectAttributes redirectAttributes,
+                                        @RequestParam("end_date") String endDate,
+                                        @RequestParam("user_id") String userId){
+        log.info("Запрос на проление подписочки ");
+        try {
+            Optional<User>optionalUser = userRepository.findById(Integer.parseInt(userId));
+            if (!optionalUser.isPresent())
+                throw new NoUserInDbException();
+            optionalUser.ifPresent(user -> {
+                user.getSubsribe().setEndOfSignal(LocalDate.parse(endDate));
+                userRepository.save(user);
+                log.info("Продлена подписочка для "+user);
+            });
+        }catch (Exception e){
+            log.info("Юзера нет");
+            redirectAttributes.addFlashAttribute("userNotFound","Юзер не найден");
+        }
+        return new RedirectView("/admin/signals");
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping("/oldadmin")
     public ModelAndView admin(@RequestParam(required = false) String method,
@@ -315,7 +340,4 @@ public class AdminPageController {
 
         return new RedirectView("/admin/pay_out_orders");
     }
-
-
-
 }
