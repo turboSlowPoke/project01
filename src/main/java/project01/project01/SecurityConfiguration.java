@@ -46,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/logout",
                             "/status_payment_p0tv",
                             "/succes_payment",
-                            "/fail_payment").permitAll()
+                            "/fail_payment",
+                            "/google96a0eb326ee3d377.html").permitAll()
                    // .anyRequest().permitAll()
                     .antMatchers("/admin/**","/homeworkfiles/**").hasRole("ADMIN")
                     .anyRequest().authenticated()

@@ -129,6 +129,7 @@ public class MainController {
         return new ModelAndView("login","error",error);
     }
 
+
 //    @PostConstruct
 //    public void addUser(){
 //        User user = new User("admin");
