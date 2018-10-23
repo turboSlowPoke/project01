@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 public class Order {
     @Id @GeneratedValue
-    private Integer id;
+    private int id;
     private LocalDateTime dateTime;
     private BigDecimal amount;
     private String comment;
@@ -29,11 +29,11 @@ public class Order {
                 '}';
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

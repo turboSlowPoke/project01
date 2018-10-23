@@ -101,7 +101,6 @@ public class PaymentPageController {
             md.update(string.getBytes(StandardCharsets.UTF_8));
             byte[] digest = md.digest();
             String hash = String.format("%064x", new BigInteger( 1, digest ) );
-
             model.put("hash",hash);
             model.put("order",order);
         }

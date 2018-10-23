@@ -91,7 +91,7 @@
                                       <input type="hidden" name="ac_sci_name" value="${acSciName}" />
                                       <input type="hidden" name="ac_amount" value="${order.amount}" />
                                       <input type="hidden" name="ac_currency" value="${acCurrency}" />
-                                      <input type="hidden" name="ac_order_id" value="${order.id}" />
+                                      <input type="hidden" id='acid' name="ac_order_id" value="${order.id}" />
                                       <input type="hidden" name="ac_sign" value="${hash}" />
                                       <!-- Optional Fields -->
                                       <input type="hidden" name="ac_comments" value="${order.comment}" />
@@ -140,6 +140,15 @@
     // Animations initialization
     new WOW().init();
   </script>
+   <script type="text/javascript">
+    $(document).ready(function() {
+    var temp = ''+document.getElementById('acid').value;
+       console.log(temp);
+       console.log(temp.replace(/\s/g,''));
+       document.getElementById('acid').value=temp.replace(/\s/g,'');
+
+    });
+      </script>
 </body>
 
 </html>
