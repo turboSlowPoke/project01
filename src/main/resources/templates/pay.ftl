@@ -143,8 +143,6 @@
    <script type="text/javascript">
     $(document).ready(function() {
     var temp = ''+document.getElementById('acid').value;
-       console.log(temp);
-       console.log(temp.replace(/\s/g,''));
        document.getElementById('acid').value=temp.replace(/\s/g,'');
 
     });

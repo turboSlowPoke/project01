@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="https://wallet.advcash.com/sci/">
+    <input type="hidden" name="ac_account_email" value="potvneskazut@yandex.ru" />
+    <input type="hidden" name="ac_sci_name" value="potvneskazut.ru" />
+    <input type="text" name="ac_amount" value="1.00" />
+    <input type="text" name="ac_currency" value="USD" />
+    <input type="text" name="ac_order_id" value="123456789" />
+    <input type="text" name="ac_sign" value="1156e1e389e100045c5252263ccd03bae39f4141a118ab19063450118733ed03" />
+    <!-- Optional Fields -->
+    <input type="hidden" name="ac_success_url" value="https://potvneskazut.ru/succes_payment" />
+    <input type="hidden" name="ac_success_url_method" value="GET" />
+    <input type="hidden" name="ac_fail_url" value="https://potvneskazut.ru/fail_payment" />
+    <input type="hidden" name="ac_fail_url_method" value="GET" />
+    <input type="hidden" name="ac_status_url" value="https://potvneskazut.ru/status_payment_p0tv" />
+    <input type="hidden" name="ac_status_url_method" value="POST" />
+    <input type="text" name="ac_comments" value="Comment" />
+    <input type="submit" />
+</form>
+</body>
+</html>

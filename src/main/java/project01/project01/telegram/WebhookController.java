@@ -3,10 +3,8 @@ package project01.project01.telegram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
@@ -30,7 +28,6 @@ import project01.project01.telegram.rx_objects.Message;
 import project01.project01.telegram.rx_objects.Update;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,6 +53,16 @@ public class WebhookController {
     private SignalsService signalsService;
     @Autowired
     private ValidationService validationService;
+
+    private final InlineKeyboardMarkup trialSignalsBottom = createInlineBottom("Пробные 3 дня");
+
+    private InlineKeyboardMarkup createInlineBottom(String textInBottom) {
+        List<List<InlineKeyboardButton>> lines = new ArrayList<>();
+        List<InlineKeyboardButton> line1 = new ArrayList<>();
+        line1.add(new InlineKeyboardButton(textInBottom));
+        lines.add(line1);
+        return new InlineKeyboardMarkup(lines);
+    }
 
 
     @RequestMapping("/mybot")
@@ -119,7 +126,20 @@ public class WebhookController {
                    // return editMessageText;
                 }
             }
-
+        }else if (data.equals("Пробные 3 дня")){
+            Optional<User> optionalUser = userRepository.findUserByTelegramChatId(chatId);
+            optionalUser.ifPresent(user ->{
+               if (user.getSubsribe().getEndOfSignal()==null){
+                   user.getSubsribe().setEndOfSignal(LocalDate.now().plusDays(4));
+                   userRepository.save(user);
+                   log.info("Продлена подписка для "+user);
+                   EditMessageText editMessageText = new EditMessageText(
+                           callbackQuery.getMessage().getChat().getId(),
+                           callbackQuery.getMessage().getId(),
+                           "Подписка активирована");
+                   sendEditMessageText(editMessageText);
+               }
+            });
         }
         return null;
     }
@@ -208,6 +228,9 @@ public class WebhookController {
                         botMessage.setText("========");
                     } else {
                         botMessage.setText("Здесь будут отображаться актуальные сигналы. Вам нужно оформить подписку в <a href=\""+GlobalConfig.siteUrl + "/?uh=" + user.getHash()+"\">личном кабинете</a>.");
+                        if (user.getSubsribe().getEndOfSignal()==null){
+                           botMessage.setReplyMarkup(trialSignalsBottom);
+                        }
                         botMessage.setParseMode("HTML");
                     }
                     break;
